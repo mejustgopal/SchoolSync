@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import { Analytics } from '@vercel/analytics/react';
 import Homepage from './pages/Homepage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -14,6 +15,7 @@ const App = () => {
 
   return (
     <Router>
+      <Analytics />
       {currentRole === null &&
         <Routes>
           <Route path="/" element={<Homepage />} />
