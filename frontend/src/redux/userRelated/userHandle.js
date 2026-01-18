@@ -13,7 +13,7 @@ import {
     getError,
 } from './userSlice';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/$/, "");
+const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
 
 export const loginUser = (fields, role) => async (dispatch) => {
     dispatch(authRequest());

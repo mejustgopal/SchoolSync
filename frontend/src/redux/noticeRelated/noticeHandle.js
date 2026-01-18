@@ -6,7 +6,7 @@ import {
     getError
 } from './noticeSlice';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/$/, "");
+const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
 
 export const getAllNotices = (id, address) => async (dispatch) => {
     dispatch(getRequest());

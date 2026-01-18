@@ -7,7 +7,7 @@ import {
     stuffDone
 } from './studentSlice';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/$/, "");
+const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
 
 export const getAllStudents = (id) => async (dispatch) => {
     dispatch(getRequest());

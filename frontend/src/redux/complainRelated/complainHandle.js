@@ -6,7 +6,7 @@ import {
     getError
 } from './complainSlice';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/$/, "");
+const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
 
 export const getAllComplains = (id, address) => async (dispatch) => {
     dispatch(getRequest());

@@ -12,7 +12,7 @@ import {
     getSubDetailsRequest
 } from './sclassSlice';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/$/, "");
+const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
 
 export const getAllSclasses = (id, address) => async (dispatch) => {
     dispatch(getRequest());
