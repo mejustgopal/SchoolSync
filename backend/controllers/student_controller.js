@@ -135,6 +135,8 @@ const updateStudent = async (req, res) => {
         let result = await Student.findByIdAndUpdate(req.params.id,
             { $set: req.body },
             { new: true })
+            .populate("school", "schoolName")
+            .populate("sclassName", "sclassName"); // Populate to ensure frontend updates correctly
 
         result.password = undefined;
         res.send(result)

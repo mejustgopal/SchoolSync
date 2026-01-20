@@ -18,8 +18,10 @@ const StudentSubjects = () => {
     const { userDetails, currentUser, loading, response, error } = useSelector((state) => state.user);
 
     useEffect(() => {
-        dispatch(getUserDetails(currentUser._id, "Student"));
-    }, [dispatch, currentUser._id])
+        if (currentUser?._id) {
+            dispatch(getUserDetails(currentUser._id, "Student"));
+        }
+    }, [dispatch, currentUser?._id])
 
     if (response) { console.log(response) }
     else if (error) { console.log(error) }
@@ -34,10 +36,10 @@ const StudentSubjects = () => {
     }, [userDetails])
 
     useEffect(() => {
-        if (subjectMarks === []) {
+        if (subjectMarks.length === 0 && currentUser?.sclassName?._id) {
             dispatch(getSubjectList(currentUser.sclassName._id, "ClassSubjects"));
         }
-    }, [subjectMarks, dispatch, currentUser.sclassName._id]);
+    }, [subjectMarks, dispatch, currentUser?.sclassName?._id]);
 
     const handleSectionChange = (event, newSection) => {
         setSelectedSection(newSection);

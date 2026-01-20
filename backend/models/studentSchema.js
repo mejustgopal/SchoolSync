@@ -23,6 +23,24 @@ const studentSchema = new mongoose.Schema({
         ref: 'admin',
         required: true,
     },
+    dob: {
+        type: Date
+    },
+    gender: {
+        type: String
+    },
+    email: {
+        type: String
+    },
+    phone: {
+        type: String
+    },
+    address: {
+        type: String
+    },
+    emergencyContact: {
+        type: String
+    },
     role: {
         type: String,
         default: "Student"

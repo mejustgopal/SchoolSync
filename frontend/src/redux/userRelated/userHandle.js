@@ -96,7 +96,7 @@ export const updateUser = (fields, id, address) => async (dispatch) => {
             dispatch(authSuccess(result.data));
         }
         else {
-            dispatch(doneSuccess(result.data));
+            dispatch(authSuccess(result.data)); // Dispatch authSuccess to update currentUser in Redux
         }
     } catch (error) {
         dispatch(getError(error));
