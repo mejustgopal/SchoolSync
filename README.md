@@ -80,6 +80,7 @@ The School Management System is a web-based application built using the MERN (Mo
 - **Attendance Tracking:** Mark and track student attendance.
 - **Performance Assessment:** Give marks and feedback; visualize data with charts.
 - **Communication:** Messaging system for teachers and students.
+- **Student Profile:** Students can view and update their personal details (DOB, Gender, Contact Info).
 
 ## Technologies Used
 
@@ -134,6 +135,12 @@ The School Management System is a web-based application built using the MERN (Mo
 - `sclassName`: ObjectId (Ref: **Sclass**)
 - `school`: ObjectId (Ref: **Admin**)
 - `role`: String (Default: "Student")
+- `dob`: Date
+- `gender`: String
+- `email`: String (optional updateable field)
+- `phone`: String
+- `address`: String
+- `emergencyContact`: String
 - `attendance`: Array of objects { date, status, subName }
 - `examResult`: Array of objects { subName, marksObtained }
 
