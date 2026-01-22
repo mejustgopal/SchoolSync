@@ -14,7 +14,9 @@ export const getAllTeachers = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/Teachers/${id}`);
+        const result = await axios.get(`${BASE_URL}/Teachers/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -29,7 +31,9 @@ export const getTeacherDetails = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/Teacher/${id}`);
+        const result = await axios.get(`${BASE_URL}/Teacher/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data) {
             dispatch(doneSuccess(result.data));
         }
@@ -43,7 +47,10 @@ export const updateTeachSubject = (teacherId, teachSubject) => async (dispatch) 
 
     try {
         await axios.put(`${BASE_URL}/TeacherSubject`, { teacherId, teachSubject }, {
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         });
         dispatch(postDone());
     } catch (error) {

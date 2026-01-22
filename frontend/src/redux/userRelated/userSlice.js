@@ -34,6 +34,9 @@ const userSlice = createSlice({
             state.currentUser = action.payload;
             state.currentRole = action.payload.role;
             localStorage.setItem('user', JSON.stringify(action.payload));
+            if (action.payload.token) {
+                localStorage.setItem('token', action.payload.token);
+            }
             state.response = null;
             state.error = null;
         },
@@ -47,6 +50,7 @@ const userSlice = createSlice({
         },
         authLogout: (state) => {
             localStorage.removeItem('user');
+            localStorage.removeItem('token');
             state.currentUser = null;
             state.status = 'idle';
             state.error = null;

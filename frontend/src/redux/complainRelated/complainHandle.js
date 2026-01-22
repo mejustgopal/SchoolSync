@@ -12,7 +12,9 @@ export const getAllComplains = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}List/${id}`);
+        const result = await axios.get(`${BASE_URL}/${address}List/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {

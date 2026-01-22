@@ -61,7 +61,9 @@ export const getUserDetails = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`${BASE_URL}/${address}/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data) {
             dispatch(doneSuccess(result.data));
         }
@@ -74,7 +76,9 @@ export const deleteUser = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.delete(`${BASE_URL}/${address}/${id}`);
+        const result = await axios.delete(`${BASE_URL}/${address}/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -90,7 +94,10 @@ export const updateUser = (fields, id, address) => async (dispatch) => {
 
     try {
         const result = await axios.put(`${BASE_URL}/${address}/${id}`, fields, {
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         });
         if (result.data.schoolName) {
             dispatch(authSuccess(result.data));
@@ -108,7 +115,10 @@ export const addStuff = (fields, address) => async (dispatch) => {
 
     try {
         const result = await axios.post(`${BASE_URL}/${address}Create`, fields, {
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         });
 
         if (result.data.message) {

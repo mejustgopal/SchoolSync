@@ -13,7 +13,9 @@ export const getAllStudents = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/Students/${id}`);
+        const result = await axios.get(`${BASE_URL}/Students/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -29,7 +31,10 @@ export const updateStudentFields = (id, fields, address) => async (dispatch) => 
 
     try {
         const result = await axios.put(`${BASE_URL}/${address}/${id}`, fields, {
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
@@ -45,7 +50,9 @@ export const removeStuff = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.put(`${BASE_URL}/${address}/${id}`);
+        const result = await axios.put(`${BASE_URL}/${address}/${id}`, {}, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {

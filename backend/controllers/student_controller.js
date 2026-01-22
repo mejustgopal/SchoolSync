@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
 
@@ -26,7 +27,8 @@ const studentRegister = async (req, res) => {
             let result = await student.save();
 
             result.password = undefined;
-            res.send(result);
+            const token = jwt.sign({ _id: result._id, role: 'Student' }, process.env.SECRET_KEY, { expiresIn: '1d' });
+            res.send({ ...result._doc, token });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -44,7 +46,9 @@ const studentLogIn = async (req, res) => {
                 student.password = undefined;
                 student.examResult = undefined;
                 student.attendance = undefined;
-                res.send(student);
+                student.attendance = undefined;
+                const token = jwt.sign({ _id: student._id, role: 'Student' }, process.env.SECRET_KEY, { expiresIn: '1d' });
+                res.send({ ...student._doc, token });
             } else {
                 res.send({ message: "Invalid password" });
             }

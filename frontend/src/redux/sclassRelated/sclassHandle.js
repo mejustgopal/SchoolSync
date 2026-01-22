@@ -18,7 +18,9 @@ export const getAllSclasses = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}List/${id}`);
+        const result = await axios.get(`${BASE_URL}/${address}List/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailedTwo(result.data.message));
         } else {
@@ -33,7 +35,9 @@ export const getClassStudents = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/Sclass/Students/${id}`);
+        const result = await axios.get(`${BASE_URL}/Sclass/Students/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailedTwo(result.data.message));
         } else {
@@ -48,7 +52,9 @@ export const getClassDetails = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`${BASE_URL}/${address}/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data) {
             dispatch(detailsSuccess(result.data));
         }
@@ -61,7 +67,9 @@ export const getSubjectList = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`${BASE_URL}/${address}/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -76,7 +84,9 @@ export const getTeacherFreeClassSubjects = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/FreeSubjectList/${id}`);
+        const result = await axios.get(`${BASE_URL}/FreeSubjectList/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -91,7 +101,9 @@ export const getSubjectDetails = (id, address) => async (dispatch) => {
     dispatch(getSubDetailsRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`${BASE_URL}/${address}/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         if (result.data) {
             dispatch(getSubDetailsSuccess(result.data));
         }
