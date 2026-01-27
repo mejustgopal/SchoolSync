@@ -10,6 +10,7 @@ import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import { StyledTableCell, StyledTableRow } from '../../components/styles';
+import { ROLE_CONSTANTS } from '../../constants';
 
 const StudentSubjects = () => {
 
@@ -19,7 +20,7 @@ const StudentSubjects = () => {
 
     useEffect(() => {
         if (currentUser?._id) {
-            dispatch(getUserDetails(currentUser._id, "Student"));
+            dispatch(getUserDetails(currentUser._id, ROLE_CONSTANTS.STUDENT));
         }
     }, [dispatch, currentUser?._id])
 

@@ -5,6 +5,7 @@ import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
 import { useNavigate } from 'react-router-dom';
 import { PurpleButton } from '../../../components/buttonStyles';
 import TableTemplate from '../../../components/TableTemplate';
+import { ROLE_CONSTANTS } from '../../../constants';
 
 const ChooseClass = ({ situation }) => {
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ const ChooseClass = ({ situation }) => {
     }
 
     const navigateHandler = (classID) => {
-        if (situation === "Teacher") {
+        if (situation === ROLE_CONSTANTS.TEACHER) {
             navigate("/Admin/teachers/choosesubject/" + classID)
         }
         else if (situation === "Subject") {

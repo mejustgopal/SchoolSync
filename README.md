@@ -81,6 +81,8 @@ The School Management System is a web-based application built using the MERN (Mo
 - **Performance Assessment:** Give marks and feedback; visualize data with charts.
 - **Communication:** Messaging system for teachers and students.
 - **Student Profile:** Students can view and update their personal details (DOB, Gender, Contact Info).
+- **Attendance System:** Dynamic session tracking (no hard limits) and reliable percentage calculations.
+- **Data Safety:** Hardcoded roles replaced with constants to prevent errors; strict delete protections.
 
 ## Technologies Used
 

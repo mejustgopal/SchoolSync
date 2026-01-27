@@ -45,3 +45,9 @@ This frontend is configured to be easily deployed on **Vercel** or **Netlify**.
 -   `src/pages`: Contains all the page components (Admin, Teacher, Student views).
 -   `src/redux`: Contains Redux slices and thunks for state management.
 -   `src/components`: Reusable UI components.
+-   `src/constants.js`: Centralized role definitions (`ROLE_CONSTANTS`).
+
+## Recent Refactors
+-   **Role Constants**: Replaced hardcoded strings ("Admin", "Student", "Teacher") with `ROLE_CONSTANTS` across the app for better maintainability.
+-   **Redux Optimization**: Fixed non-serializable value errors in Redux actions.
+-   **Dashboard cleanup**: Reactivated Admin Profile and improved error handling in forms.

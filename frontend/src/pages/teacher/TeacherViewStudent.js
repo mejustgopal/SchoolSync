@@ -8,6 +8,7 @@ import { calculateOverallAttendancePercentage, calculateSubjectAttendancePercent
 import CustomPieChart from '../../components/CustomPieChart'
 import { PurpleButton } from '../../components/buttonStyles';
 import { StyledTableCell, StyledTableRow } from '../../components/styles';
+import { ROLE_CONSTANTS } from '../../constants';
 
 const TeacherViewStudent = () => {
 
@@ -15,8 +16,8 @@ const TeacherViewStudent = () => {
     const params = useParams()
     const dispatch = useDispatch();
     const { currentUser, userDetails, response, loading, error } = useSelector((state) => state.user);
-
-    const address = "Student"
+ 
+    const address = ROLE_CONSTANTS.STUDENT
     const studentID = params.id
     const teachSubject = currentUser.teachSubject?.subName
     const teachSubjectID = currentUser.teachSubject?._id

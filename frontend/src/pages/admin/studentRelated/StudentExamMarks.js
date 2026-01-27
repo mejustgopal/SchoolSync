@@ -7,6 +7,7 @@ import { updateStudentFields } from '../../../redux/studentRelated/studentHandle
 
 import Popup from '../../../components/Popup';
 import { BlueButton } from '../../../components/buttonStyles';
+import { ROLE_CONSTANTS } from '../../../constants';
 import {
     Box, InputLabel,
     MenuItem, Select,
@@ -31,21 +32,21 @@ const StudentExamMarks = ({ situation }) => {
     const [loader, setLoader] = useState(false)
 
     useEffect(() => {
-        if (situation === "Student") {
+        if (situation === ROLE_CONSTANTS.STUDENT) {
             setStudentID(params.id);
             const stdID = params.id
-            dispatch(getUserDetails(stdID, "Student"));
+            dispatch(getUserDetails(stdID, ROLE_CONSTANTS.STUDENT));
         }
         else if (situation === "Subject") {
             const { studentID, subjectID } = params
             setStudentID(studentID);
-            dispatch(getUserDetails(studentID, "Student"));
+            dispatch(getUserDetails(studentID, ROLE_CONSTANTS.STUDENT));
             setChosenSubName(subjectID);
         }
     }, [situation]);
 
     useEffect(() => {
-        if (userDetails && userDetails.sclassName && situation === "Student") {
+        if (userDetails && userDetails.sclassName && situation === ROLE_CONSTANTS.STUDENT) {
             dispatch(getSubjectList(userDetails.sclassName._id, "ClassSubjects"));
         }
     }, [dispatch, userDetails]);
@@ -122,7 +123,7 @@ const StudentExamMarks = ({ situation }) => {
                             <form onSubmit={submitHandler}>
                                 <Stack spacing={3}>
                                     {
-                                        situation === "Student" &&
+                                        situation === ROLE_CONSTANTS.STUDENT &&
                                         <FormControl fullWidth>
                                             <InputLabel id="demo-simple-select-label">
                                                 Select Subject

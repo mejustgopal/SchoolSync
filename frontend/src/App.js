@@ -8,6 +8,7 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import LoginPage from './pages/LoginPage';
 import AdminRegisterPage from './pages/admin/AdminRegisterPage';
 import ChooseUser from './pages/ChooseUser';
+import { ROLE_CONSTANTS } from './constants';
 
 const App = () => {
   const { currentRole } = useSelector(state => state.user);
@@ -19,28 +20,28 @@ const App = () => {
           <Route path="/" element={<Homepage />} />
           <Route path="/choose" element={<ChooseUser />} />
 
-          <Route path="/Adminlogin" element={<LoginPage role="Admin" />} />
-          <Route path="/Studentlogin" element={<LoginPage role="Student" />} />
-          <Route path="/Teacherlogin" element={<LoginPage role="Teacher" />} />
+          <Route path="/Adminlogin" element={<LoginPage role={ROLE_CONSTANTS.ADMIN} />} />
+          <Route path="/Studentlogin" element={<LoginPage role={ROLE_CONSTANTS.STUDENT} />} />
+          <Route path="/Teacherlogin" element={<LoginPage role={ROLE_CONSTANTS.TEACHER} />} />
 
           <Route path="/Adminregister" element={<AdminRegisterPage />} />
 
           <Route path='*' element={<Navigate to="/" />} />
         </Routes>}
 
-      {currentRole === "Admin" &&
+      {currentRole === ROLE_CONSTANTS.ADMIN &&
         <>
           <AdminDashboard />
         </>
       }
 
-      {currentRole === "Student" &&
+      {currentRole === ROLE_CONSTANTS.STUDENT &&
         <>
           <StudentDashboard />
         </>
       }
 
-      {currentRole === "Teacher" &&
+      {currentRole === ROLE_CONSTANTS.TEACHER &&
         <>
           <TeacherDashboard />
         </>

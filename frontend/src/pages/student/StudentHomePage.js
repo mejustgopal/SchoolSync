@@ -10,6 +10,7 @@ import CountUp from 'react-countup';
 import Subject from "../../assets/subjects.svg";
 import Assignment from "../../assets/assignment.svg";
 import { getSubjectList } from '../../redux/sclassRelated/sclassHandle';
+import { ROLE_CONSTANTS } from '../../constants';
 
 const StudentHomePage = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const StudentHomePage = () => {
 
     useEffect(() => {
         if (currentUser?._id && classID) {
-            dispatch(getUserDetails(currentUser._id, "Student"));
+            dispatch(getUserDetails(currentUser._id, ROLE_CONSTANTS.STUDENT));
             dispatch(getSubjectList(classID, "ClassSubjects"));
         }
     }, [dispatch, currentUser?._id, classID]);

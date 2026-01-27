@@ -13,6 +13,7 @@ import { BlueButton, GreenButton } from '../../../components/buttonStyles';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import Popup from '../../../components/Popup';
+import { ROLE_CONSTANTS } from '../../../constants';
 
 const ShowTeachers = () => {
     const [page, setPage] = useState(0);
@@ -45,14 +46,9 @@ const ShowTeachers = () => {
     }
 
     const deleteHandler = (deleteID, address) => {
-        console.log(deleteID);
-        console.log(address);
-        setMessage("Sorry the delete function has been disabled for now.")
-        setShowPopup(true)
-
-        // dispatch(deleteUser(deleteID, address)).then(() => {
-        //     dispatch(getAllTeachers(currentUser._id));
-        // });
+        dispatch(deleteUser(deleteID, address)).then(() => {
+            dispatch(getAllTeachers(currentUser._id));
+        });
     };
 
     const columns = [
@@ -133,7 +129,7 @@ const ShowTeachers = () => {
                                             );
                                         })}
                                         <StyledTableCell align="center">
-                                            <IconButton onClick={() => deleteHandler(row.id, "Teacher")}>
+                                            <IconButton onClick={() => deleteHandler(row.id, ROLE_CONSTANTS.TEACHER)}>
                                                 <PersonRemoveIcon color="error" />
                                             </IconButton>
                                             <BlueButton variant="contained"

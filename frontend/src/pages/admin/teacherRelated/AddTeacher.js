@@ -6,6 +6,7 @@ import Popup from '../../../components/Popup';
 import { registerUser } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { CircularProgress } from '@mui/material';
+import { ROLE_CONSTANTS } from '../../../constants';
 
 const AddTeacher = () => {
   const params = useParams()
@@ -28,8 +29,8 @@ const AddTeacher = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
   const [loader, setLoader] = useState(false)
-
-  const role = "Teacher"
+ 
+  const role = ROLE_CONSTANTS.TEACHER
   const school = subjectDetails && subjectDetails.school
   const teachSubject = subjectDetails && subjectDetails._id
   const teachSclass = subjectDetails && subjectDetails.sclassName && subjectDetails.sclassName._id

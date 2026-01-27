@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/userRelated/userHandle';
 import Popup from '../components/Popup';
+import { ROLE_CONSTANTS } from '../constants';
 
 const ChooseUser = () => {
   const dispatch = useDispatch()
@@ -26,27 +27,27 @@ const ChooseUser = () => {
   const [message, setMessage] = useState("");
 
   const navigateHandler = (user) => {
-    if (user === "Admin") {
+    if (user === ROLE_CONSTANTS.ADMIN) {
       navigate('/Adminlogin');
     }
 
-    else if (user === "Student") {
+    else if (user === ROLE_CONSTANTS.STUDENT) {
       navigate('/Studentlogin');
     }
 
-    else if (user === "Teacher") {
+    else if (user === ROLE_CONSTANTS.TEACHER) {
       navigate('/Teacherlogin');
     }
   }
 
   useEffect(() => {
     if (status === 'success' || currentUser !== null) {
-      if (currentRole === 'Admin') {
+      if (currentRole === ROLE_CONSTANTS.ADMIN) {
         navigate('/Admin/dashboard');
       }
-      else if (currentRole === 'Student') {
+      else if (currentRole === ROLE_CONSTANTS.STUDENT) {
         navigate('/Student/dashboard');
-      } else if (currentRole === 'Teacher') {
+      } else if (currentRole === ROLE_CONSTANTS.TEACHER) {
         navigate('/Teacher/dashboard');
       }
     }
@@ -62,7 +63,7 @@ const ChooseUser = () => {
       <Container>
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} sm={6} md={4}>
-            <div onClick={() => navigateHandler("Admin")}>
+            <div onClick={() => navigateHandler(ROLE_CONSTANTS.ADMIN)}>
               <StyledPaper elevation={3}>
                 <Box mb={2}>
                   <AccountCircle fontSize="large" />
@@ -76,7 +77,7 @@ const ChooseUser = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <StyledPaper elevation={3}>
-              <div onClick={() => navigateHandler("Student")}>
+              <div onClick={() => navigateHandler(ROLE_CONSTANTS.STUDENT)}>
                 <Box mb={2}>
                   <School fontSize="large" />
                 </Box>
@@ -89,7 +90,7 @@ const ChooseUser = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <StyledPaper elevation={3}>
-              <div onClick={() => navigateHandler("Teacher")}>
+              <div onClick={() => navigateHandler(ROLE_CONSTANTS.TEACHER)}>
                 <Box mb={2}>
                   <Group fontSize="large" />
                 </Box>

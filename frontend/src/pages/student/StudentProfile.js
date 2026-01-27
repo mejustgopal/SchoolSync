@@ -4,6 +4,7 @@ import { Card, CardContent, Typography, Grid, Box, Avatar, Container, Paper, But
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser } from '../../redux/userRelated/userHandle';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { ROLE_CONSTANTS } from '../../constants';
 
 const StudentProfile = () => {
   const { currentUser, response, error } = useSelector((state) => state.user);
@@ -56,7 +57,7 @@ const StudentProfile = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(updateUser(formData, currentUser._id, "Student"));
+    dispatch(updateUser(formData, currentUser._id, ROLE_CONSTANTS.STUDENT));
     setOpen(false);
   };
 

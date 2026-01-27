@@ -10,6 +10,7 @@ import { LightPurpleButton } from '../../components/buttonStyles';
 import { registerUser } from '../../redux/userRelated/userHandle';
 import styled from 'styled-components';
 import Popup from '../../components/Popup';
+import { ROLE_CONSTANTS } from '../../constants';
 
 const defaultTheme = createTheme();
 
@@ -18,7 +19,7 @@ const AdminRegisterPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);;
+    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);
 
     const [toggle, setToggle] = useState(false)
     const [loader, setLoader] = useState(false)
@@ -29,7 +30,7 @@ const AdminRegisterPage = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [adminNameError, setAdminNameError] = useState(false);
     const [schoolNameError, setSchoolNameError] = useState(false);
-    const role = "Admin"
+    const role = ROLE_CONSTANTS.ADMIN
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -61,7 +62,7 @@ const AdminRegisterPage = () => {
     };
 
     useEffect(() => {
-        if (status === 'success' || (currentUser !== null && currentRole === 'Admin')) {
+        if (status === 'success' || (currentUser !== null && currentRole === ROLE_CONSTANTS.ADMIN)) {
             navigate('/Admin/dashboard');
         }
         else if (status === 'failed') {

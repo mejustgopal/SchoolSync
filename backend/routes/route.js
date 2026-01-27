@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/authMiddleware.js');
 
-// const { adminRegister, adminLogIn, deleteAdmin, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
+
 
 const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
 
@@ -31,9 +31,7 @@ router.post('/AdminReg', adminRegister);
 router.post('/AdminLogin', adminLogIn);
 
 router.get("/Admin/:id", authMiddleware, getAdminDetail)
-// router.delete("/Admin/:id", deleteAdmin)
 
-// router.put("/Admin/:id", updateAdmin)
 
 // Student
 

@@ -6,6 +6,7 @@ import { getTeacherFreeClassSubjects } from '../../../redux/sclassRelated/sclass
 import { updateTeachSubject } from '../../../redux/teacherRelated/teacherHandle';
 import { GreenButton, PurpleButton } from '../../../components/buttonStyles';
 import { StyledTableCell, StyledTableRow } from '../../../components/styles';
+import { ROLE_CONSTANTS } from '../../../constants';
 
 const ChooseSubject = ({ situation }) => {
     const params = useParams();
@@ -24,7 +25,7 @@ const ChooseSubject = ({ situation }) => {
             const classID = params.id
             dispatch(getTeacherFreeClassSubjects(classID));
         }
-        else if (situation === "Teacher") {
+        else if (situation === ROLE_CONSTANTS.TEACHER) {
             const { classID, teacherID } = params
             setClassID(classID);
             setTeacherID(teacherID);

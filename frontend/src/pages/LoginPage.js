@@ -9,6 +9,7 @@ import { LightPurpleButton } from '../components/buttonStyles';
 import styled from 'styled-components';
 import { loginUser } from '../redux/userRelated/userHandle';
 import Popup from '../components/Popup';
+import { ROLE_CONSTANTS } from '../constants';
 
 const defaultTheme = createTheme();
 
@@ -32,7 +33,7 @@ const LoginPage = ({ role }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (role === "Student") {
+        if (role === ROLE_CONSTANTS.STUDENT) {
             const rollNum = event.target.rollNumber.value;
             const studentName = event.target.studentName.value;
             const password = event.target.password.value;
@@ -76,12 +77,12 @@ const LoginPage = ({ role }) => {
 
     useEffect(() => {
         if (status === 'success' || currentUser !== null) {
-            if (currentRole === 'Admin') {
+            if (currentRole === ROLE_CONSTANTS.ADMIN) {
                 navigate('/Admin/dashboard');
             }
-            else if (currentRole === 'Student') {
+            else if (currentRole === ROLE_CONSTANTS.STUDENT) {
                 navigate('/Student/dashboard');
-            } else if (currentRole === 'Teacher') {
+            } else if (currentRole === ROLE_CONSTANTS.TEACHER) {
                 navigate('/Teacher/dashboard');
             }
         }
@@ -118,7 +119,7 @@ const LoginPage = ({ role }) => {
                             Welcome back! Please enter your details
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
-                            {role === "Student" ? (
+                            {role === ROLE_CONSTANTS.STUDENT ? (
                                 <>
                                     <TextField
                                         margin="normal"
@@ -209,7 +210,7 @@ const LoginPage = ({ role }) => {
                                     : "Login"}
                             </LightPurpleButton>
 
-                            {role === "Admin" &&
+                            {role === ROLE_CONSTANTS.ADMIN &&
                                 <Grid container>
                                     <Grid>
                                         Don't have an account?

@@ -6,6 +6,7 @@ import Popup from '../../../components/Popup';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
 import { CircularProgress } from '@mui/material';
+import { ROLE_CONSTANTS } from '../../../constants';
 
 const AddStudent = ({ situation }) => {
     const dispatch = useDispatch()
@@ -23,7 +24,7 @@ const AddStudent = ({ situation }) => {
     const [sclassName, setSclassName] = useState('')
 
     const adminID = currentUser._id
-    const role = "Student"
+    const role = ROLE_CONSTANTS.STUDENT
     const attendance = []
 
     useEffect(() => {
@@ -96,7 +97,7 @@ const AddStudent = ({ situation }) => {
                         autoComplete="name" required />
 
                     {
-                        situation === "Student" &&
+                        situation === ROLE_CONSTANTS.STUDENT &&
                         <>
                             <label>Class</label>
                             <select

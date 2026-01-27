@@ -41,6 +41,7 @@ import AddClass from './classRelated/AddClass';
 import ClassDetails from './classRelated/ClassDetails';
 import ShowClasses from './classRelated/ShowClasses';
 import AccountMenu from '../../components/AccountMenu';
+import { ROLE_CONSTANTS } from '../../constants';
 
 const AdminDashboard = () => {
     const [open, setOpen] = useState(false);
@@ -120,18 +121,18 @@ const AdminDashboard = () => {
                         <Route path="/Admin/class/addstudents/:id" element={<AddStudent situation="Class" />} />
 
                         {/* Student */}
-                        <Route path="/Admin/addstudents" element={<AddStudent situation="Student" />} />
+                        <Route path="/Admin/addstudents" element={<AddStudent situation={ROLE_CONSTANTS.STUDENT} />} />
                         <Route path="/Admin/students" element={<ShowStudents />} />
                         <Route path="/Admin/students/student/:id" element={<ViewStudent />} />
-                        <Route path="/Admin/students/student/attendance/:id" element={<StudentAttendance situation="Student" />} />
-                        <Route path="/Admin/students/student/marks/:id" element={<StudentExamMarks situation="Student" />} />
+                        <Route path="/Admin/students/student/attendance/:id" element={<StudentAttendance situation={ROLE_CONSTANTS.STUDENT} />} />
+                        <Route path="/Admin/students/student/marks/:id" element={<StudentExamMarks situation={ROLE_CONSTANTS.STUDENT} />} />
 
                         {/* Teacher */}
                         <Route path="/Admin/teachers" element={<ShowTeachers />} />
                         <Route path="/Admin/teachers/teacher/:id" element={<TeacherDetails />} />
-                        <Route path="/Admin/teachers/chooseclass" element={<ChooseClass situation="Teacher" />} />
+                        <Route path="/Admin/teachers/chooseclass" element={<ChooseClass situation={ROLE_CONSTANTS.TEACHER} />} />
                         <Route path="/Admin/teachers/choosesubject/:id" element={<ChooseSubject situation="Norm" />} />
-                        <Route path="/Admin/teachers/choosesubject/:classID/:teacherID" element={<ChooseSubject situation="Teacher" />} />
+                        <Route path="/Admin/teachers/choosesubject/:classID/:teacherID" element={<ChooseSubject situation={ROLE_CONSTANTS.TEACHER} />} />
                         <Route path="/Admin/teachers/addteacher/:id" element={<AddTeacher />} />
 
                         <Route path="/logout" element={<Logout />} />

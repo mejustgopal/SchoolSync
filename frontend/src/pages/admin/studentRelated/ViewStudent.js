@@ -19,6 +19,7 @@ import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import Popup from '../../../components/Popup';
+import { ROLE_CONSTANTS } from '../../../constants';
 
 const ViewStudent = () => {
     const [showTab, setShowTab] = useState(false);
@@ -29,7 +30,7 @@ const ViewStudent = () => {
     const { userDetails, response, loading, error } = useSelector((state) => state.user);
 
     const studentID = params.id
-    const address = "Student"
+    const address = ROLE_CONSTANTS.STUDENT
 
     useEffect(() => {
         dispatch(getUserDetails(studentID, address));
@@ -102,13 +103,10 @@ const ViewStudent = () => {
     }
 
     const deleteHandler = () => {
-        setMessage("Sorry the delete function has been disabled for now.")
-        setShowPopup(true)
-
-        // dispatch(deleteUser(studentID, address))
-        //     .then(() => {
-        //         navigate(-1)
-        //     })
+        dispatch(deleteUser(studentID, address))
+            .then(() => {
+                navigate(-1)
+            })
     }
 
     const removeHandler = (id, deladdress) => {

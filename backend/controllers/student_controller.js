@@ -202,8 +202,9 @@ const studentAttendance = async (req, res) => {
                 (a) => a.subName.toString() === subName
             ).length;
 
-            if (attendedSessions >= subject.sessions) {
-                return res.send({ message: 'Maximum attendance limit reached' });
+            if (attendedSessions >= parseInt(subject.sessions)) {
+                subject.sessions = parseInt(subject.sessions) + 1;
+                await subject.save();
             }
 
             student.attendance.push({ date, status, subName });
