@@ -1,11 +1,11 @@
-import { Container, Grid, Paper } from '@mui/material'
+import { Container, Grid, Paper, Box, Typography } from '@mui/material'
 import SeeNotice from '../../components/SeeNotice';
 import Students from "../../assets/img1.png";
 import Classes from "../../assets/img2.png";
 import Teachers from "../../assets/img3.png";
 import Fees from "../../assets/img4.png";
-import styled from 'styled-components';
 import CountUp from 'react-countup';
+import GlassCard from '../../components/GlassCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllSclasses } from '../../redux/sclassRelated/sclassHandle';
@@ -37,69 +37,66 @@ const AdminHomePage = () => {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Students} alt="Students" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Students} alt="Students" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Total Students
-                            </Title>
-                            <Data start={0} end={numberOfStudents} duration={2.5} />
-                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                <CountUp start={0} end={numberOfStudents} duration={2.5} />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Classes} alt="Classes" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Classes} alt="Classes" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Total Classes
-                            </Title>
-                            <Data start={0} end={numberOfClasses} duration={5} />
-                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                <CountUp start={0} end={numberOfClasses} duration={5} />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Teachers} alt="Teachers" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Teachers} alt="Teachers" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Total Teachers
-                            </Title>
-                            <Data start={0} end={numberOfTeachers} duration={2.5} />
-                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                <CountUp start={0} end={numberOfTeachers} duration={2.5} />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Fees} alt="Fees" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Fees} alt="Fees" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Fees Collection
-                            </Title>
-                            <Data start={0} end={23000} duration={2.5} prefix="$" />                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="green" sx={{ fontWeight: 'bold' }}>
+                                $<CountUp start={0} end={23000} duration={2.5} />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12} md={12} lg={12}>
-                        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                        <GlassCard sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <SeeNotice />
-                        </Paper>
+                        </GlassCard>
                     </Grid>
                 </Grid>
             </Container>
         </>
     );
 };
-
-
-const StyledPaper = styled(Paper)`
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-`;
-
-const Title = styled.p`
-  font-size: 1.25rem;
-`;
-
-const Data = styled(CountUp)`
-  font-size: calc(1.3rem + .6vw);
-  color: green;
-`;
 
 export default AdminHomePage

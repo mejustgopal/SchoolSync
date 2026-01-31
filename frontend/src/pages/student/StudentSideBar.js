@@ -11,30 +11,51 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const StudentSideBar = () => {
     const location = useLocation();
+    
+    // Helper to check active path
+    const isActive = (path) => {
+        if (path === "/") return location.pathname === "/" || location.pathname === "/Student/dashboard";
+        return location.pathname.startsWith(path);
+    }
+
+    const itemStyles = (path) => ({
+        my: 0.5,
+        mx: 1,
+        borderRadius: 2,
+        backgroundColor: isActive(path) ? 'primary.main' : 'transparent',
+        color: isActive(path) ? 'white' : 'inherit',
+        '&:hover': {
+            backgroundColor: isActive(path) ? 'primary.dark' : 'rgba(0, 0, 0, 0.08)',
+        },
+        '& .MuiListItemIcon-root': {
+            color: isActive(path) ? 'white' : 'inherit',
+        }
+    });
+
     return (
         <>
             <React.Fragment>
-                <ListItemButton component={Link} to="/">
+                <ListItemButton component={Link} to="/" sx={itemStyles("/")}>
                     <ListItemIcon>
-                        <HomeIcon color={location.pathname === ("/" || "/Student/dashboard") ? 'primary' : 'inherit'} />
+                        <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Student/subjects">
+                <ListItemButton component={Link} to="/Student/subjects" sx={itemStyles("/Student/subjects")}>
                     <ListItemIcon>
-                        <AssignmentIcon color={location.pathname.startsWith("/Student/subjects") ? 'primary' : 'inherit'} />
+                        <AssignmentIcon />
                     </ListItemIcon>
                     <ListItemText primary="Subjects" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Student/attendance">
+                <ListItemButton component={Link} to="/Student/attendance" sx={itemStyles("/Student/attendance")}>
                     <ListItemIcon>
-                        <ClassOutlinedIcon color={location.pathname.startsWith("/Student/attendance") ? 'primary' : 'inherit'} />
+                        <ClassOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Attendance" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Student/complain">
+                <ListItemButton component={Link} to="/Student/complain" sx={itemStyles("/Student/complain")}>
                     <ListItemIcon>
-                        <AnnouncementOutlinedIcon color={location.pathname.startsWith("/Student/complain") ? 'primary' : 'inherit'} />
+                        <AnnouncementOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Complain" />
                 </ListItemButton>
@@ -44,15 +65,15 @@ const StudentSideBar = () => {
                 <ListSubheader component="div" inset>
                     User
                 </ListSubheader>
-                <ListItemButton component={Link} to="/Student/profile">
+                <ListItemButton component={Link} to="/Student/profile" sx={itemStyles("/Student/profile")}>
                     <ListItemIcon>
-                        <AccountCircleOutlinedIcon color={location.pathname.startsWith("/Student/profile") ? 'primary' : 'inherit'} />
+                        <AccountCircleOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Profile" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/logout">
+                <ListItemButton component={Link} to="/logout" sx={itemStyles("/logout")}>
                     <ListItemIcon>
-                        <ExitToAppIcon color={location.pathname.startsWith("/logout") ? 'primary' : 'inherit'} />
+                        <ExitToAppIcon />
                     </ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItemButton>

@@ -12,50 +12,72 @@ import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccount
 import ReportIcon from '@mui/icons-material/Report';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+
 const SideBar = () => {
     const location = useLocation();
+    
+    // Helper to check active path
+    const isActive = (path) => {
+        if (path === "/") return location.pathname === "/" || location.pathname === "/Admin/dashboard";
+        return location.pathname.startsWith(path);
+    }
+
+    const itemStyles = (path) => ({
+        my: 0.5,
+        mx: 1,
+        borderRadius: 2,
+        backgroundColor: isActive(path) ? 'primary.main' : 'transparent',
+        color: isActive(path) ? 'white' : 'inherit',
+        '&:hover': {
+            backgroundColor: isActive(path) ? 'primary.dark' : 'rgba(0, 0, 0, 0.08)',
+        },
+        '& .MuiListItemIcon-root': {
+            color: isActive(path) ? 'white' : 'inherit',
+        }
+    });
+
     return (
         <>
             <React.Fragment>
-                <ListItemButton component={Link} to="/">
+                <ListItemButton component={Link} to="/" sx={itemStyles("/")}>
                     <ListItemIcon>
-                        <HomeIcon color={location.pathname === ("/" || "/Admin/dashboard") ? 'primary' : 'inherit'} />
+                        <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/classes">
+                <ListItemButton component={Link} to="/Admin/classes" sx={itemStyles("/Admin/classes")}>
                     <ListItemIcon>
-                        <ClassOutlinedIcon color={location.pathname.startsWith('/Admin/classes') ? 'primary' : 'inherit'} />
+                        <ClassOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Classes" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/subjects">
+                <ListItemButton component={Link} to="/Admin/subjects" sx={itemStyles("/Admin/subjects")}>
                     <ListItemIcon>
-                        <AssignmentIcon color={location.pathname.startsWith("/Admin/subjects") ? 'primary' : 'inherit'} />
+                        <AssignmentIcon />
                     </ListItemIcon>
                     <ListItemText primary="Subjects" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/teachers">
+                <ListItemButton component={Link} to="/Admin/teachers" sx={itemStyles("/Admin/teachers")}>
                     <ListItemIcon>
-                        <SupervisorAccountOutlinedIcon color={location.pathname.startsWith("/Admin/teachers") ? 'primary' : 'inherit'} />
+                        <SupervisorAccountOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Teachers" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/students">
+                <ListItemButton component={Link} to="/Admin/students" sx={itemStyles("/Admin/students")}>
                     <ListItemIcon>
-                        <PersonOutlineIcon color={location.pathname.startsWith("/Admin/students") ? 'primary' : 'inherit'} />
+                        <PersonOutlineIcon />
                     </ListItemIcon>
                     <ListItemText primary="Students" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/notices">
+                <ListItemButton component={Link} to="/Admin/notices" sx={itemStyles("/Admin/notices")}>
                     <ListItemIcon>
-                        <AnnouncementOutlinedIcon color={location.pathname.startsWith("/Admin/notices") ? 'primary' : 'inherit'} />
+                        <AnnouncementOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Notices" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/complains">
+                <ListItemButton component={Link} to="/Admin/complains" sx={itemStyles("/Admin/complains")}>
                     <ListItemIcon>
-                        <ReportIcon color={location.pathname.startsWith("/Admin/complains") ? 'primary' : 'inherit'} />
+                        <ReportIcon />
                     </ListItemIcon>
                     <ListItemText primary="Complains" />
                 </ListItemButton>
@@ -65,15 +87,15 @@ const SideBar = () => {
                 <ListSubheader component="div" inset>
                     User
                 </ListSubheader>
-                <ListItemButton component={Link} to="/Admin/profile">
+                <ListItemButton component={Link} to="/Admin/profile" sx={itemStyles("/Admin/profile")}>
                     <ListItemIcon>
-                        <AccountCircleOutlinedIcon color={location.pathname.startsWith("/Admin/profile") ? 'primary' : 'inherit'} />
+                        <AccountCircleOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Profile" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/logout">
+                <ListItemButton component={Link} to="/logout" sx={itemStyles("/logout")}>
                     <ListItemIcon>
-                        <ExitToAppIcon color={location.pathname.startsWith("/logout") ? 'primary' : 'inherit'} />
+                        <ExitToAppIcon />
                     </ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItemButton>

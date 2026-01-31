@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, Box, Typography, Paper, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Grid, Box, Typography, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import bgpic from "../assets/designlogin.jpg"
 import { LightPurpleButton } from '../components/buttonStyles';
-import styled from 'styled-components';
 import { loginUser } from '../redux/userRelated/userHandle';
 import Popup from '../components/Popup';
 import { ROLE_CONSTANTS } from '../constants';
-
-const defaultTheme = createTheme();
+import GlassCard from '../components/GlassCard'; // Integrating GlassCard
 
 const LoginPage = ({ role }) => {
 
@@ -73,8 +70,6 @@ const LoginPage = ({ role }) => {
         if (name === 'studentName') setStudentNameError(false);
     };
 
-
-
     useEffect(() => {
         if (status === 'success' || currentUser !== null) {
             if (currentRole === ROLE_CONSTANTS.ADMIN) {
@@ -99,157 +94,139 @@ const LoginPage = ({ role }) => {
     }, [status, currentRole, navigate, error, response, currentUser]);
 
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                    <Box
-                        sx={{
-                            my: 8,
-                            mx: 4,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Typography variant="h4" sx={{ mb: 2, color: "#2c2143" }}>
-                            {role} Login
-                        </Typography>
-                        <Typography variant="h7">
-                            Welcome back! Please enter your details
-                        </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
-                            {role === ROLE_CONSTANTS.STUDENT ? (
-                                <>
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="rollNumber"
-                                        label="Enter your Roll Number"
-                                        name="rollNumber"
-                                        autoComplete="off"
-                                        type="number"
-                                        autoFocus
-                                        error={rollNumberError}
-                                        helperText={rollNumberError && 'Roll Number is required'}
-                                        onChange={handleInputChange}
-                                    />
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="studentName"
-                                        label="Enter your name"
-                                        name="studentName"
-                                        autoComplete="name"
-                                        autoFocus
-                                        error={studentNameError}
-                                        helperText={studentNameError && 'Name is required'}
-                                        onChange={handleInputChange}
-                                    />
-                                </>
-                            ) : (
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Enter your email"
-                                    name="email"
-                                    autoComplete="email"
-                                    autoFocus
-                                    error={emailError}
-                                    helperText={emailError && 'Email is required'}
-                                    onChange={handleInputChange}
-                                />
-                            )}
+        <RootContainer>
+            <CssBaseline />
+            <GlassCard sx={{ maxWidth: 500, width: '100%', mx: 2, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography variant="h4" sx={{ mb: 1, fontWeight: 'bold', color: 'primary.main' }}>
+                    {role} Login
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', color: 'text.secondary' }}>
+                   Please enter your details to continue
+                </Typography>
+
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ width: '100%' }}>
+                    {role === ROLE_CONSTANTS.STUDENT ? (
+                        <>
                             <TextField
                                 margin="normal"
                                 required
                                 fullWidth
-                                name="password"
-                                label="Password"
-                                type={toggle ? 'text' : 'password'}
-                                id="password"
-                                autoComplete="current-password"
-                                error={passwordError}
-                                helperText={passwordError && 'Password is required'}
+                                id="rollNumber"
+                                label="Roll Number"
+                                name="rollNumber"
+                                type="number"
+                                autoFocus
+                                error={rollNumberError}
+                                helperText={rollNumberError && 'Roll Number is required'}
                                 onChange={handleInputChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={() => setToggle(!toggle)}>
-                                                {toggle ? (
-                                                    <Visibility />
-                                                ) : (
-                                                    <VisibilityOff />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
                             />
-                            <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
-                                <FormControlLabel
-                                    control={<Checkbox value="remember" color="primary" />}
-                                    label="Remember me"
-                                />
-                                <StyledLink href="#">
-                                    Forgot password?
-                                </StyledLink>
-                            </Grid>
-                            <LightPurpleButton
-                                type="submit"
+                            <TextField
+                                margin="normal"
+                                required
                                 fullWidth
-                                variant="contained"
-                                sx={{ mt: 3 }}
-                            >
-                                {loader ?
-                                    <CircularProgress size={24} color="inherit" />
-                                    : "Login"}
-                            </LightPurpleButton>
+                                id="studentName"
+                                label="Name"
+                                name="studentName"
+                                autoComplete="name"
+                                error={studentNameError}
+                                helperText={studentNameError && 'Name is required'}
+                                onChange={handleInputChange}
+                            />
+                        </>
+                    ) : (
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            error={emailError}
+                            helperText={emailError && 'Email is required'}
+                            onChange={handleInputChange}
+                        />
+                    )}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type={toggle ? 'text' : 'password'}
+                        id="password"
+                        autoComplete="current-password"
+                        error={passwordError}
+                        helperText={passwordError && 'Password is required'}
+                        onChange={handleInputChange}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={() => setToggle(!toggle)}>
+                                        {toggle ? (
+                                            <Visibility />
+                                        ) : (
+                                            <VisibilityOff />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                    <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: 'center', mt: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Remember me"
+                        />
+                        <StyledLink href="#">
+                            Forgot password?
+                        </StyledLink>
+                    </Grid>
+                    
+                    <LightPurpleButton
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                         {loader ? <CircularProgress size={24} color="inherit" /> : "Login"}
+                    </LightPurpleButton>
 
-                            {role === ROLE_CONSTANTS.ADMIN &&
-                                <Grid container>
-                                    <Grid>
-                                        Don't have an account?
-                                    </Grid>
-                                    <Grid item sx={{ ml: 2 }}>
-                                        <StyledLink to="/Adminregister">
-                                            Sign up
-                                        </StyledLink>
-                                    </Grid>
-                                </Grid>
-                            }
+                    {role === ROLE_CONSTANTS.ADMIN &&
+                         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                            <Typography variant="body2" color="text.secondary">
+                                Don't have an account?{' '}
+                                <StyledLink to="/Adminregister" style={{ fontWeight: 600 }}>
+                                    Sign up
+                                </StyledLink>
+                            </Typography>
                         </Box>
-                    </Box>
-                </Grid>
-                <Grid
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        backgroundImage: `url(${bgpic})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                />
-            </Grid>
-
+                    }
+                </Box>
+            </GlassCard>
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-        </ThemeProvider>
+        </RootContainer>
     );
 }
 
 export default LoginPage
 
-const StyledLink = styled(Link)`
-  margin-top: 9px;
-  text-decoration: none;
-  color: #7f56da;
-`;
+const RootContainer = styled('div')(({ theme }) => ({
+  height: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: theme.palette.mode === 'dark' 
+      ? `linear-gradient(135deg, #121212 0%, #2c2143 100%)`
+      : `linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%)`, // Light gradient
+  padding: theme.spacing(2),
+}));
+
+const StyledLink = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+  color: theme.palette.primary.main,
+  '&:hover': {
+      textDecoration: 'underline',
+  }
+}));

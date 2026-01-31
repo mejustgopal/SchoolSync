@@ -147,10 +147,7 @@ export default AdminDashboard
 
 const styles = {
     boxStyled: {
-        backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+        backgroundColor: 'transparent', // Let global gradient show through
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
@@ -162,7 +159,12 @@ const styles = {
         px: [1],
     },
     drawerStyled: {
-        display: "flex"
+        display: "flex",
+        '& .MuiDrawer-paper': {
+            backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(30, 30, 30, 0.6)' : 'rgba(255, 255, 255, 0.6)',
+            backdropFilter: 'blur(10px)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+        }
     },
     hideDrawer: {
         display: 'flex',

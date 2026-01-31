@@ -1,53 +1,83 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Grid,
-  Paper,
-  Box,
-  Container,
-  CircularProgress,
-  Backdrop,
-} from '@mui/material';
+import { Grid, Paper, Box, Container, Typography, Backdrop, CircularProgress } from '@mui/material';
 import { AccountCircle, School, Group } from '@mui/icons-material';
-import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { styled as muiStyled } from '@mui/material/styles';
+import { useSelector, useDispatch } from 'react-redux';
 import { loginUser } from '../redux/userRelated/userHandle';
 import Popup from '../components/Popup';
-import { ROLE_CONSTANTS } from '../constants';
 
-const ChooseUser = () => {
+import { keyframes } from '@mui/system';
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const ChooseUser = ({ visitor }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const password = "zxc"
 
-
-  const { status, currentUser, currentRole } = useSelector(state => state.user);;
+  const { status, currentUser, currentRole } = useSelector(state => state.user);
 
   const [loader, setLoader] = useState(false)
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
   const navigateHandler = (user) => {
-    if (user === ROLE_CONSTANTS.ADMIN) {
-      navigate('/Adminlogin');
+    if (user === "Admin") {
+      if (visitor === "guest") {
+        const email = "yogendra@12"
+        const fields = { email, password }
+        setLoader(true)
+        dispatch(loginUser(fields, user))
+      }
+      else {
+        navigate('/Adminlogin');
+      }
     }
 
-    else if (user === ROLE_CONSTANTS.STUDENT) {
-      navigate('/Studentlogin');
+    else if (user === "Student") {
+      if (visitor === "guest") {
+        const rollNum = "1"
+        const studentName = "Dipesh Awasthi"
+        const fields = { rollNum, studentName, password }
+        setLoader(true)
+        dispatch(loginUser(fields, user))
+      }
+      else {
+        navigate('/Studentlogin');
+      }
     }
 
-    else if (user === ROLE_CONSTANTS.TEACHER) {
-      navigate('/Teacherlogin');
+    else if (user === "Teacher") {
+      if (visitor === "guest") {
+        const email = "tony@12"
+        const fields = { email, password }
+        setLoader(true)
+        dispatch(loginUser(fields, user))
+      }
+      else {
+        navigate('/Teacherlogin');
+      }
     }
   }
 
   useEffect(() => {
     if (status === 'success' || currentUser !== null) {
-      if (currentRole === ROLE_CONSTANTS.ADMIN) {
+      if (currentRole === 'Admin') {
         navigate('/Admin/dashboard');
       }
-      else if (currentRole === ROLE_CONSTANTS.STUDENT) {
+      else if (currentRole === 'Student') {
         navigate('/Student/dashboard');
-      } else if (currentRole === ROLE_CONSTANTS.TEACHER) {
+      } else if (currentRole === 'Teacher') {
         navigate('/Teacher/dashboard');
       }
     }
@@ -60,46 +90,60 @@ const ChooseUser = () => {
 
   return (
     <StyledContainer>
-      <Container>
-        <Grid container spacing={2} justifyContent="center">
+      <Container maxWidth="lg">
+        <Typography variant="h3" align="center" gutterBottom sx={{ 
+          mb: 6, 
+          fontWeight: 'bold',
+          color: 'text.primary',
+          animation: `${fadeInUp} 1s ease-out`
+        }}>
+          Select User Type
+        </Typography>
+        <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} sm={6} md={4}>
-            <div onClick={() => navigateHandler(ROLE_CONSTANTS.ADMIN)}>
-              <StyledPaper elevation={3}>
-                <Box mb={2}>
-                  <AccountCircle fontSize="large" />
-                </Box>
-                <StyledTypography>
+            <div onClick={() => navigateHandler("Admin")}>
+              <UserCard>
+                <div className="icon">
+                  <AccountCircle sx={{ fontSize: 80, color: '#7f56da' }} />
+                </div>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1, fontWeight: 600 }}>
                   Admin
-                </StyledTypography>
-                Login as an administrator to access the dashboard to manage app data.
-              </StyledPaper>
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Login as an administrator to access the dashboard to manage app data.
+                </Typography>
+              </UserCard>
             </div>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <StyledPaper elevation={3}>
-              <div onClick={() => navigateHandler(ROLE_CONSTANTS.STUDENT)}>
-                <Box mb={2}>
-                  <School fontSize="large" />
-                </Box>
-                <StyledTypography>
+            <div onClick={() => navigateHandler("Student")}>
+              <UserCard>
+                <div className="icon">
+                  <School sx={{ fontSize: 80, color: '#7f56da' }} />
+                </div>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1, fontWeight: 600 }}>
                   Student
-                </StyledTypography>
-                Login as a student to explore course materials and assignments.
-              </div>
-            </StyledPaper>
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Login as a student to explore course materials and assignments.
+                </Typography>
+              </UserCard>
+            </div>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <StyledPaper elevation={3}>
-              <div onClick={() => navigateHandler(ROLE_CONSTANTS.TEACHER)}>
-                <Box mb={2}>
-                  <Group fontSize="large" />
-                </Box>
-                <StyledTypography>
+            <div onClick={() => navigateHandler("Teacher")}>
+              <UserCard>
+                <div className="icon">
+                  <Group sx={{ fontSize: 80, color: '#7f56da' }} />
+                </div>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1, fontWeight: 600 }}>
                   Teacher
-                </StyledTypography>
-                Login as a teacher to create courses, assignments, and track student progress.
-              </div>
-            </StyledPaper>
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Login as a teacher to create courses, assignments, and track student progress.
+                </Typography>
+              </UserCard>
+            </div>
           </Grid>
         </Grid>
       </Container>
@@ -108,7 +152,6 @@ const ChooseUser = () => {
         open={loader}
       >
         <CircularProgress color="inherit" />
-        Please Wait
       </Backdrop>
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </StyledContainer>
@@ -117,27 +160,41 @@ const ChooseUser = () => {
 
 export default ChooseUser;
 
-const StyledContainer = styled.div`
-  background: linear-gradient(to bottom, #411d70, #19118b);
-  height: 120vh;
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-`;
+const StyledContainer = muiStyled('div')(({ theme }) => ({
+  minHeight: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: theme.palette.mode === 'dark' ? 'linear-gradient(135deg, #121212 0%, #2c2143 100%)' : 'linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%)',
+  padding: '20px',
+}));
 
-const StyledPaper = styled(Paper)`
-  padding: 20px;
-  text-align: center;
-  background-color: #1f1f38;
-  color:rgba(255, 255, 255, 0.6);
-  cursor:pointer;
+// Recreating GlassCard effect locally as styled-component or use import if easier. 
+// Using MUI styled for consistent theme access within the file mostly
 
-  &:hover {
-    background-color: #2c2c6c;
-    color:white;
+
+const UserCard = muiStyled(Paper)(({ theme }) => ({
+  padding: theme.spacing(4),
+  textAlign: 'center',
+  borderRadius: 20,
+  cursor: 'pointer',
+  background: theme.palette.mode === 'dark' ? '#1e1e1e' : '#fff',
+  transition: 'all 0.3s ease-in-out',
+  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '&:hover': {
+    transform: 'translateY(-10px)',
+    boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+    '& .icon': {
+        transform: 'scale(1.1)',
+    }
+  },
+  '& .icon': {
+      transition: 'transform 0.3s ease',
+      marginBottom: theme.spacing(2),
   }
-`;
-
-const StyledTypography = styled.h2`
-  margin-bottom: 10px;
-`;
+}));

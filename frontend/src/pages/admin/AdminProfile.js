@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser, updateUser } from '../../redux/userRelated/userHandle';
 import { useNavigate } from 'react-router-dom'
 import { authLogout } from '../../redux/userRelated/userSlice';
-import { Button, Collapse } from '@mui/material';
+import { Button, Collapse, Grid, TextField, Box, Typography } from '@mui/material';
 import { ROLE_CONSTANTS } from '../../constants';
+import GlassCard from '../../components/GlassCard';
 
 const AdminProfile = () => {
     const [showTab, setShowTab] = useState(false);
@@ -42,68 +43,117 @@ const AdminProfile = () => {
     }
 
     return (
-        <div>
-            Name: {currentUser.name}
-            <br />
-            Email: {currentUser.email}
-            <br />
-            School: {currentUser.schoolName}
-            <br />
-            {/* <Button variant="contained" color="error" onClick={deleteHandler}>Delete</Button> */}
-            <Button variant="contained" sx={styles.showButton}
-                onClick={() => setShowTab(!showTab)}>
-                {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}{buttonText}
-            </Button>
+        <Box sx={{ p: 3, maxWidth: '800px', mx: 'auto' }}>
+            <GlassCard sx={{ p: 4, mb: 3 }}>
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+                   Admin Profile
+                </Typography>
+                <Grid container spacing={2} sx={{ mb: 3 }}>
+                    <Grid item xs={12} sm={6}>
+                        <Typography variant="subtitle2" color="text.secondary">Name</Typography>
+                        <Typography variant="h6">{currentUser.name}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Typography variant="subtitle2" color="text.secondary">Email</Typography>
+                        <Typography variant="h6" sx={{ overflowWrap: 'break-word' }}>{currentUser.email}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Typography variant="subtitle2" color="text.secondary">School</Typography>
+                        <Typography variant="h6">{currentUser.schoolName}</Typography>
+                    </Grid>
+                </Grid>
+                
+                <Button 
+                    variant="contained" 
+                    sx={styles.showButton} 
+                    onClick={() => setShowTab(!showTab)}
+                    endIcon={showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                >
+                    {buttonText}
+                </Button>
+            </GlassCard>
+
             <Collapse in={showTab} timeout="auto" unmountOnExit>
-                <div className="register">
-                    <form className="registerForm" onSubmit={submitHandler}>
-                        <span className="registerTitle">Edit Details</span>
-                        <label>Name</label>
-                        <input className="registerInput" type="text" placeholder="Enter your name..."
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                            autoComplete="name" required />
-
-                        <label>School</label>
-                        <input className="registerInput" type="text" placeholder="Enter your school name..."
-                            value={schoolName}
-                            onChange={(event) => setSchoolName(event.target.value)}
-                            autoComplete="name" required />
-
-                        <label>Email</label>
-                        <input className="registerInput" type="email" placeholder="Enter your email..."
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                            autoComplete="email" required />
-
-                        <label>Password</label>
-                        <input className="registerInput" type="password" placeholder="Enter your password..."
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                            autoComplete="new-password" />
-
-                        <button className="registerButton" type="submit" >Update</button>
+                <GlassCard sx={{ p: 4 }}>
+                    <form onSubmit={submitHandler}>
+                        <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
+                            Edit Details
+                        </Typography>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Name"
+                                    variant="outlined"
+                                    value={name}
+                                    onChange={(event) => setName(event.target.value)}
+                                    autoComplete="name"
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="School"
+                                    variant="outlined"
+                                    value={schoolName}
+                                    onChange={(event) => setSchoolName(event.target.value)}
+                                    autoComplete="organization"
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Email"
+                                    type="email"
+                                    variant="outlined"
+                                    value={email}
+                                    onChange={(event) => setEmail(event.target.value)}
+                                    autoComplete="email"
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Password"
+                                    type="password"
+                                    variant="outlined"
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}
+                                    autoComplete="new-password"
+                                    placeholder="Leave blank to keep current password"
+                                    helperText="Only fill this if you want to change your password"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button
+                                    variant="contained"
+                                    type="submit"
+                                    size="large"
+                                    sx={{ ...styles.showButton, minWidth: 150 }}
+                                >
+                                    Update
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </form>
-                </div>
+                </GlassCard>
             </Collapse>
-        </div>
+        </Box>
     )
 }
 
 export default AdminProfile
 
 const styles = {
-    attendanceButton: {
-        backgroundColor: "#270843",
-        "&:hover": {
-            backgroundColor: "#3f1068",
-        }
-    },
     showButton: {
-        backgroundColor: "#270843",
+        backgroundColor: "#550080",
         "&:hover": {
-            backgroundColor: "#3f1068",
+            backgroundColor: "#7f56da",
         },
-        marginBottom: "10px"
+        color: 'white',
+        borderRadius: 2
     }
 }

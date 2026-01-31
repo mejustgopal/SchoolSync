@@ -1,7 +1,7 @@
-import { Container, Grid, Paper } from '@mui/material'
+import { Container, Grid, Paper, Box, Typography } from '@mui/material'
 import SeeNotice from '../../components/SeeNotice';
 import CountUp from 'react-countup';
-import styled from 'styled-components';
+import GlassCard from '../../components/GlassCard';
 import Students from "../../assets/img1.png";
 import Lessons from "../../assets/subjects.svg";
 import Tests from "../../assets/assignment.svg";
@@ -32,68 +32,66 @@ const TeacherHomePage = () => {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Students} alt="Students" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Students} alt="Students" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Class Students
-                            </Title>
-                            <Data start={0} end={numberOfStudents} duration={2.5} />
-                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                <CountUp start={0} end={numberOfStudents} duration={2.5} />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Lessons} alt="Lessons" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Lessons} alt="Lessons" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Total Lessons
-                            </Title>
-                            <Data start={0} end={numberOfSessions} duration={5} />
-                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                <CountUp start={0} end={numberOfSessions} duration={5} />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Tests} alt="Tests" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Tests} alt="Tests" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Tests Taken
-                            </Title>
-                            <Data start={0} end={24} duration={4} />
-                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                <CountUp start={0} end={24} duration={4} />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
-                        <StyledPaper>
-                            <img src={Time} alt="Time" />
-                            <Title>
+                        <GlassCard sx={{ height: '100%', p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ mb: 2, p: 2, borderRadius: '50%', bgcolor: 'rgba(85, 0, 128, 0.1)' }}>
+                                <img src={Time} alt="Time" style={{ width: 40, height: 40 }} />
+                            </Box>
+                            <Typography variant="h6" color="text.secondary" gutterBottom>
                                 Total Hours
-                            </Title>
-                            <Data start={0} end={30} duration={4} suffix="hrs"/>                        </StyledPaper>
+                            </Typography>
+                            <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                <CountUp start={0} end={30} duration={4} suffix="hrs" />
+                            </Typography>
+                        </GlassCard>
                     </Grid>
                     <Grid item xs={12}>
-                        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                        <GlassCard sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <SeeNotice />
-                        </Paper>
+                        </GlassCard>
                     </Grid>
                 </Grid>
             </Container>
         </>
     )
 }
-
-const StyledPaper = styled(Paper)`
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-`;
-
-const Title = styled.p`
-  font-size: 1.25rem;
-`;
-
-const Data = styled(CountUp)`
-  font-size: calc(1.3rem + .6vw);
-  color: green;
-`;
 
 export default TeacherHomePage

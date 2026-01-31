@@ -1,47 +1,48 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Grid, Box, Button } from '@mui/material';
-import styled from 'styled-components';
+import { Container, Grid, Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Students from "../assets/students.svg";
 import { LightPurpleButton } from '../components/buttonStyles';
 
 const Homepage = () => {
     return (
         <StyledContainer>
-            <Grid container spacing={0}>
+            <Grid container spacing={4} sx={{ alignItems: 'center', height: '100%' }}>
+                
+                {/* Text Content */}
                 <Grid item xs={12} md={6}>
-                    <img src={Students} alt="students" style={{ width: '100%' }} />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <StyledPaper elevation={3}>
-                        <StyledTitle>
-                            Welcome to
-                            <br />
-                            School Management
-                            <br />
-                            System
-                        </StyledTitle>
+                    <Box sx={{ p: 4 }}>
+                        <Typography variant="h2" gutterBottom sx={{ fontWeight: 800, background: 'linear-gradient(45deg, #7f56da, #550080)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                            School Management System
+                        </Typography>
                         <StyledText>
-                            Streamline school management, class organization, and add students and faculty.
-                            Seamlessly track attendance, assess performance, and provide feedback.
-                            Access records, view marks, and communicate effortlessly.
+                            Streamline your school's operations with our all-in-one platform. 
+                            Track attendance, manage marks, and communicate seamlessly.
                         </StyledText>
-                        <StyledBox>
+                        
+                        <Box sx={{ mt: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
                             <StyledLink to="/choose">
-                                <LightPurpleButton variant="contained" fullWidth>
-                                    Login
+                                <LightPurpleButton fullWidth sx={{ fontSize: '1.1rem' }}>
+                                    Login to Portal
                                 </LightPurpleButton>
                             </StyledLink>
 
-                            <StyledText>
+                            <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mt: 2 }}>
                                 Don't have an account?{' '}
-                                <Link to="/Adminregister" style={{color:"#550080"}}>
-                                    Sign up
-                                </Link>
-                            </StyledText>
-                        </StyledBox>
-                    </StyledPaper>
+                                <StyledLink to="/Adminregister" style={{ fontWeight: 600, color: '#7f56da' }}>
+                                    Sign Up
+                                </StyledLink>
+                            </Typography>
+                        </Box>
+                    </Box>
                 </Grid>
+
+                {/* Hero Image */}
+                <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <StyledImage src={Students} alt="students" />
+                </Grid>
+
             </Grid>
         </StyledContainer>
     );
@@ -49,45 +50,35 @@ const Homepage = () => {
 
 export default Homepage;
 
-const StyledContainer = styled(Container)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
+const StyledContainer = styled(Container)(({ theme }) => ({
+  height: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  paddingTop: theme.spacing(4),
+  [theme.breakpoints.down('md')]: {
+    height: 'auto',
+    paddingBottom: theme.spacing(4),
+  },
+}));
 
-const StyledPaper = styled.div`
-  padding: 24px;
-  height: 100vh;
-`;
+const StyledText = styled(Typography)(({ theme }) => ({
+  fontSize: '1.2rem',
+  color: theme.palette.text.secondary,
+  lineHeight: 1.6,
+  marginBottom: theme.spacing(4),
+}));
 
-const StyledBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content:center;
-  gap: 16px;
-  padding: 24px;
-`;
+const StyledLink = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+}));
 
-const StyledTitle = styled.h1`
-  font-size: 3rem;
-  color: #252525;
-  /* font-family: "Manrope"; */
-  font-weight: bold;
-  padding-top: 0;
-  letter-spacing: normal;
-  line-height: normal;
-`;
-
-const StyledText = styled.p`
-  /* color: #550080; */
-  margin-top: 30px;
-  margin-bottom: 30px; 
-  letter-spacing: normal;
-  line-height: normal;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-`;
+const StyledImage = styled('img')(({ theme }) => ({
+  width: '100%',
+  maxWidth: '500px',
+  height: 'auto',
+  filter: theme.palette.mode === 'dark' ? 'invert(0.9) hue-rotate(180deg)' : 'drop-shadow(0px 10px 20px rgba(0,0,0,0.1))',
+  transition: 'transform 0.3s ease',
+  '&:hover': {
+      transform: 'scale(1.02)',
+  }
+}));
