@@ -31,7 +31,7 @@ const ShowClasses = () => {
   }, [adminID, dispatch]);
 
   if (error) {
-    console.log(error)
+    // Removed console.log for production
   }
 
   const [showPopup, setShowPopup] = useState(false);

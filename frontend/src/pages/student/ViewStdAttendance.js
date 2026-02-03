@@ -35,8 +35,7 @@ const ViewStdAttendance = () => {
         }
     }, [dispatch, currentUser?._id]);
 
-    if (response) { console.log(response) }
-    else if (error) { console.log(error) }
+    // Removed console.log for production
 
     const [subjectAttendance, setSubjectAttendance] = useState([]);
     const [selectedSection, setSelectedSection] = useState('table');

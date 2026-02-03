@@ -1,20 +1,11 @@
-import axios from 'axios';
-import {
-    getRequest,
-    getSuccess,
-    getFailed,
-    getError
-} from './noticeSlice';
-
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
+import axiosInstance from '../../api/axiosInstance';
+import { getRequest, getSuccess, getFailed, getError } from './noticeSlice';
 
 export const getAllNotices = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}List/${id}`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
+        const result = await axiosInstance.get(`/${address}List/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {

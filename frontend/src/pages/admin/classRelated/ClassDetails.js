@@ -36,7 +36,7 @@ const ClassDetails = () => {
     }, [dispatch, classID])
 
     if (error) {
-        console.log(error)
+        // Removed console.log for production
     }
 
     const [value, setValue] = useState('1');

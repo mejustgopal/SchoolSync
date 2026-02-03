@@ -43,7 +43,7 @@ const ShowTeachers = () => {
             </Box>
         );
     } else if (error) {
-        console.log(error);
+        // Removed console.log for production
     }
 
     const deleteHandler = (deleteID, address) => {

@@ -43,8 +43,7 @@ const ViewStudent = () => {
         }
     }, [dispatch, userDetails]);
 
-    if (response) { console.log(response) }
-    else if (error) { console.log(error) }
+    // Removed console.log for production
 
     const [name, setName] = useState('');
     const [rollNum, setRollNum] = useState('');
@@ -99,7 +98,7 @@ const ViewStudent = () => {
                 dispatch(getUserDetails(studentID, address));
             })
             .catch((error) => {
-                console.error(error)
+                // Removed console.error for production
             })
     }
 

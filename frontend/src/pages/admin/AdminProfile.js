@@ -37,7 +37,7 @@ const AdminProfile = () => {
             dispatch(authLogout());
             navigate('/');
         } catch (error) {
-            console.error(error);
+            // Removed console.error for production
         }
     }
 

@@ -38,7 +38,7 @@ const ShowStudents = () => {
     }, [currentUser._id, dispatch]);
 
     if (error) {
-        console.log(error);
+        // Removed console.log for production
     }
 
     const [showPopup, setShowPopup] = React.useState(false);

@@ -46,7 +46,7 @@ const ChooseSubject = ({ situation }) => {
             </Box>
         </div>;
     } else if (error) {
-        console.log(error)
+        // Removed console.log for production
     }
 
     const updateSubjectHandler = (teacherId, teachSubject) => {

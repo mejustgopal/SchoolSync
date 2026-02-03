@@ -28,7 +28,7 @@ const ViewSubject = () => {
   }, [dispatch, subjectID, classID]);
 
   if (error) {
-    console.log(error)
+    // Removed console.log for production
   }
 
   const [value, setValue] = useState('1');

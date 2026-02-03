@@ -68,7 +68,7 @@ const AdminRegisterPage = () => {
             setLoader(false)
         }
         else if (status === 'error') {
-            console.log(error)
+            // Removed console.log for production
         }
     }, [status, currentUser, currentRole, navigate, error, response]);
 

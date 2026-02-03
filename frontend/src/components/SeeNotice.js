@@ -21,7 +21,7 @@ const SeeNotice = () => {
     }, [dispatch, currentRole, currentUser]);
 
     if (error) {
-        console.log(error);
+        // Removed console.log for production
     }
 
     const noticeColumns = [

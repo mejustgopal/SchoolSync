@@ -18,7 +18,7 @@ const TeacherDetails = () => {
     }, [dispatch, teacherID]);
 
     if (error) {
-        console.log(error);
+        // Removed console.log for production
     }
 
     const isSubjectNamePresent = teacherDetails?.teachSubject?.subName;

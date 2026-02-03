@@ -8,7 +8,8 @@ import { LightPurpleButton } from '../components/buttonStyles';
 import { loginUser } from '../redux/userRelated/userHandle';
 import Popup from '../components/Popup';
 import { ROLE_CONSTANTS } from '../constants';
-import GlassCard from '../components/GlassCard'; // Integrating GlassCard
+import GlassCard from '../components/GlassCard';
+import { validateEmail, validatePassword, validateRollNumber, validateName } from '../utils/validation';
 
 const LoginPage = ({ role }) => {
 
@@ -35,12 +36,29 @@ const LoginPage = ({ role }) => {
             const studentName = event.target.studentName.value;
             const password = event.target.password.value;
 
-            if (!rollNum || !studentName || !password) {
-                if (!rollNum) setRollNumberError(true);
-                if (!studentName) setStudentNameError(true);
-                if (!password) setPasswordError(true);
-                return;
+            // Validation
+            let hasError = false;
+            
+            if (!validateRollNumber(rollNum)) {
+                setRollNumberError(true);
+                hasError = true;
             }
+            
+            if (!validateName(studentName)) {
+                setStudentNameError(true);
+                hasError = true;
+            }
+            
+            const passwordCheck = validatePassword(password);
+            if (!passwordCheck.isValid) {
+                setPasswordError(true);
+                setMessage(passwordCheck.message);
+                setShowPopup(true);
+                hasError = true;
+            }
+            
+            if (hasError) return;
+
             const fields = { rollNum, studentName, password }
             setLoader(true)
             dispatch(loginUser(fields, role))
@@ -50,11 +68,23 @@ const LoginPage = ({ role }) => {
             const email = event.target.email.value;
             const password = event.target.password.value;
 
-            if (!email || !password) {
-                if (!email) setEmailError(true);
-                if (!password) setPasswordError(true);
-                return;
+            // Validation
+            let hasError = false;
+            
+            if (!validateEmail(email)) {
+                setEmailError(true);
+                hasError = true;
             }
+            
+            const passwordCheck = validatePassword(password);
+            if (!passwordCheck.isValid) {
+                setPasswordError(true);
+                setMessage(passwordCheck.message);
+                setShowPopup(true);
+                hasError = true;
+            }
+            
+            if (hasError) return;
 
             const fields = { email, password }
             setLoader(true)

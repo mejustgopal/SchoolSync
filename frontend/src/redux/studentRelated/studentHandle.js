@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 import {
     getRequest,
     getSuccess,
@@ -7,15 +7,11 @@ import {
     stuffDone
 } from './studentSlice';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
-
 export const getAllStudents = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/Students/${id}`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
+        const result = await axiosInstance.get(`/Students/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -30,16 +26,12 @@ export const updateStudentFields = (id, fields, address) => async (dispatch) => 
     dispatch(getRequest());
 
     try {
-        const result = await axios.put(`${BASE_URL}/${address}/${id}`, fields, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        });
-        if (result.data.message) {
-            dispatch(getFailed(result.data.message));
-        } else {
+        const result = await axiosInstance.put(`/${address}/${id}`, fields);
+        if (result.data.schoolName) {
             dispatch(stuffDone());
+        }
+        else {
+            dispatch(getSuccess(result.data));
         }
     } catch (error) {
         dispatch(getError(error));
@@ -50,13 +42,11 @@ export const removeStuff = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.put(`${BASE_URL}/${address}/${id}`, {}, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
+        const result = await axiosInstance.put(`/${address}/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
-            dispatch(stuffDone());
+            dispatch(getSuccess(result.data));
         }
     } catch (error) {
         dispatch(getError(error));

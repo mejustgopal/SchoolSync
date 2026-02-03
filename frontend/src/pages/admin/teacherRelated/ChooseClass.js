@@ -19,7 +19,7 @@ const ChooseClass = ({ situation }) => {
     }, [currentUser._id, dispatch]);
 
     if (error) {
-        console.log(error)
+        // Removed console.log for production
     }
 
     const navigateHandler = (classID) => {

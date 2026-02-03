@@ -25,7 +25,7 @@ const ShowNotices = () => {
     }, [currentUser._id, dispatch]);
 
     if (error) {
-        console.log(error);
+        // Removed console.log for production
     }
 
     const deleteHandler = (deleteID, address) => {
