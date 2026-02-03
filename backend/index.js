@@ -28,27 +28,28 @@ app.use(cors({
     credentials: true
 }));
 
-// Connect to MongoDB and start server only if connection succeeds
+// Connect to MongoDB
 mongoose
     .connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
-    .then(() => {
-        console.log("✅ Connected to MongoDB");
-        
-        app.use('/', Routes);
-        
-        // Error handler must be LAST middleware
-        app.use(errorHandler);
-        
-        app.listen(PORT, () => {
-            console.log(`🚀 Server started at port no. ${PORT}`);
-        });
-    })
-    .catch((err) => {
-        console.error("❌ MongoDB connection failed:", err);
-        process.exit(1);
-    });
+    .then(() => console.log("✅ Connected to MongoDB"))
+    .catch((err) => console.error("❌ MongoDB connection failed:", err));
 
+// Routes
+app.use('/', Routes);
+
+// Error handler must be LAST middleware
+app.use(errorHandler);
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+        console.log(`🚀 Server started at port no. ${PORT}`);
+    });
+}
+
+// Export for Vercel serverless
 module.exports = app;
