@@ -11,8 +11,7 @@ const StudentProfile = () => {
   const { currentUser, response, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  if (response) { console.log(response) }
-  else if (error) { console.log(error) }
+  // Removed console.log for production
 
   const sclassName = currentUser.sclassName
   const studentSchool = currentUser.school

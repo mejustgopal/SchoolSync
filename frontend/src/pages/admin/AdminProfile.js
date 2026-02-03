@@ -17,8 +17,7 @@ const AdminProfile = () => {
     const { currentUser, response, error } = useSelector((state) => state.user);
     const address = ROLE_CONSTANTS.ADMIN
 
-    if (response) { console.log(response) }
-    else if (error) { console.log(error) }
+    // Removed console.log for production
 
     const [name, setName] = useState(currentUser.name);
     const [email, setEmail] = useState(currentUser.email);

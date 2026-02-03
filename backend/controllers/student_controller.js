@@ -16,7 +16,7 @@ const studentRegister = async (req, res) => {
         });
 
         if (existingStudent) {
-            res.send({ message: 'Roll Number already exists' });
+            return res.status(409).json({ message: 'Roll Number already exists' });
         }
         else {
             const student = new Student({
@@ -51,10 +51,10 @@ const studentLogIn = async (req, res) => {
                 const token = jwt.sign({ _id: student._id, role: 'Student' }, process.env.SECRET_KEY, { expiresIn: '1d' });
                 res.send({ ...student._doc, token });
             } else {
-                res.send({ message: "Invalid password" });
+                return res.status(401).json({ message: "Invalid password" });
             }
         } else {
-            res.send({ message: "Student not found" });
+            return res.status(404).json({ message: "Student not found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -70,7 +70,7 @@ const getStudents = async (req, res) => {
             });
             res.send(modifiedStudents);
         } else {
-            res.send({ message: "No students found" });
+            return res.status(404).json({ message: "No students found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -79,6 +79,11 @@ const getStudents = async (req, res) => {
 
 const getStudentDetail = async (req, res) => {
     try {
+        // Authorization: Students can only view their own profile, teachers/admins can view any
+        if (req.user.role === 'Student' && req.user._id !== req.params.id) {
+            return res.status(403).json({ message: 'Unauthorized: You can only view your own profile' });
+        }
+        
         let student = await Student.findById(req.params.id)
             .populate("school", "schoolName")
             .populate("sclassName", "sclassName")
@@ -89,7 +94,7 @@ const getStudentDetail = async (req, res) => {
             res.send(student);
         }
         else {
-            res.send({ message: "No student found" });
+            return res.status(404).json({ message: "No student found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -115,8 +120,7 @@ const deleteStudents = async (req, res) => {
         const studentsToDelete = await Student.find({ school: req.params.id });
         
         if (studentsToDelete.length === 0) {
-            res.send({ message: "No students found to delete" });
-            return;
+            return res.status(404).json({ message: "No students found to delete" });
         }
         
         // Delete all complaints for these students
@@ -138,8 +142,7 @@ const deleteStudentsByClass = async (req, res) => {
         const studentsToDelete = await Student.find({ sclassName: req.params.id });
         
         if (studentsToDelete.length === 0) {
-            res.send({ message: "No students found to delete" });
-            return;
+            return res.status(404).json({ message: "No students found to delete" });
         }
         
         // Delete all complaints for these students
@@ -157,6 +160,11 @@ const deleteStudentsByClass = async (req, res) => {
 
 const updateStudent = async (req, res) => {
     try {
+        // Authorization: Students can only update their own profile, admins can update any
+        if (req.user.role === 'Student' && req.user._id !== req.params.id) {
+            return res.status(403).json({ message: 'Unauthorized: You can only update your own profile' });
+        }
+        
         if (req.body.password) {
             const salt = await bcrypt.genSalt(10)
             req.body.password = await bcrypt.hash(req.body.password, salt)
@@ -181,7 +189,7 @@ const updateExamResult = async (req, res) => {
         const student = await Student.findById(req.params.id);
 
         if (!student) {
-            return res.send({ message: 'Student not found' });
+            return res.status(404).json({ message: 'Student not found' });
         }
 
         const existingResult = student.examResult.find(
@@ -208,7 +216,7 @@ const studentAttendance = async (req, res) => {
         const student = await Student.findById(req.params.id);
 
         if (!student) {
-            return res.send({ message: 'Student not found' });
+            return res.status(404).json({ message: 'Student not found' });
         }
 
         const subject = await Subject.findById(subName);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 import {
     authRequest,
     stuffAdded,
@@ -13,15 +13,11 @@ import {
     getError,
 } from './userSlice';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL.replace(/\/+$/, "");
-
 export const loginUser = (fields, role) => async (dispatch) => {
     dispatch(authRequest());
 
     try {
-        const result = await axios.post(`${BASE_URL}/${role}Login`, fields, {
-            headers: { 'Content-Type': 'application/json' },
-        });
+        const result = await axiosInstance.post(`/${role}Login`, fields);
         if (result.data.role) {
             dispatch(authSuccess(result.data));
         } else {
@@ -36,9 +32,7 @@ export const registerUser = (fields, role) => async (dispatch) => {
     dispatch(authRequest());
 
     try {
-        const result = await axios.post(`${BASE_URL}/${role}Reg`, fields, {
-            headers: { 'Content-Type': 'application/json' },
-        });
+        const result = await axiosInstance.post(`/${role}Reg`, fields);
         if (result.data.schoolName) {
             dispatch(authSuccess(result.data));
         }
@@ -61,9 +55,7 @@ export const getUserDetails = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${BASE_URL}/${address}/${id}`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
+        const result = await axiosInstance.get(`/${address}/${id}`);
         if (result.data) {
             dispatch(doneSuccess(result.data));
         }
@@ -76,9 +68,7 @@ export const deleteUser = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.delete(`${BASE_URL}/${address}/${id}`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
+        const result = await axiosInstance.delete(`/${address}/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -93,12 +83,7 @@ export const updateUser = (fields, id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.put(`${BASE_URL}/${address}/${id}`, fields, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        });
+        const result = await axiosInstance.put(`/${address}/${id}`, fields);
         if (result.data.schoolName) {
             dispatch(authSuccess(result.data));
         }
@@ -114,12 +99,7 @@ export const addStuff = (fields, address) => async (dispatch) => {
     dispatch(authRequest());
 
     try {
-        const result = await axios.post(`${BASE_URL}/${address}Create`, fields, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        });
+        const result = await axiosInstance.post(`/${address}Create`, fields);
 
         if (result.data.message) {
             dispatch(authFailed(result.data.message));

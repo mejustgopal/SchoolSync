@@ -14,7 +14,7 @@ const teacherRegister = async (req, res) => {
         const existingTeacherByEmail = await Teacher.findOne({ email });
 
         if (existingTeacherByEmail) {
-            res.send({ message: 'Email already exists' });
+            return res.status(409).json({ message: 'Email already exists' });
         }
         else {
             let result = await teacher.save();
@@ -41,10 +41,10 @@ const teacherLogIn = async (req, res) => {
                 const token = jwt.sign({ _id: teacher._id, role: 'Teacher' }, process.env.SECRET_KEY, { expiresIn: '1d' });
                 res.send({ ...teacher._doc, token });
             } else {
-                res.send({ message: "Invalid password" });
+                return res.status(401).json({ message: "Invalid password" });
             }
         } else {
-            res.send({ message: "Teacher not found" });
+            return res.status(404).json({ message: "Teacher not found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -62,7 +62,7 @@ const getTeachers = async (req, res) => {
             });
             res.send(modifiedTeachers);
         } else {
-            res.send({ message: "No teachers found" });
+            return res.status(404).json({ message: "No teachers found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -80,7 +80,7 @@ const getTeacherDetail = async (req, res) => {
             res.send(teacher);
         }
         else {
-            res.send({ message: "No teacher found" });
+            return res.status(404).json({ message: "No teacher found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -125,8 +125,7 @@ const deleteTeachers = async (req, res) => {
         const teachersToDelete = await Teacher.find({ school: req.params.id });
         
         if (teachersToDelete.length === 0) {
-            res.send({ message: "No teachers found to delete" });
-            return;
+            return res.status(404).json({ message: "No teachers found to delete" });
         }
 
         // Delete the teachers
@@ -150,8 +149,7 @@ const deleteTeachersByClass = async (req, res) => {
         const teachersToDelete = await Teacher.find({ sclassName: req.params.id });
         
         if (teachersToDelete.length === 0) {
-            res.send({ message: "No teachers found to delete" });
-            return;
+            return res.status(404).json({ message: "No teachers found to delete" });
         }
 
         // Delete the teachers
@@ -173,10 +171,25 @@ const teacherAttendance = async (req, res) => {
     const { status, date } = req.body;
 
     try {
+        // Validation: Ensure required fields are present
+        if (!status || !date) {
+            return res.status(400).json({ 
+                message: 'Status and date are required fields' 
+            });
+        }
+
+        // Validation: Ensure status is valid
+        const validStatuses = ['Present', 'Absent'];
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({ 
+                message: 'Status must be either "Present" or "Absent"' 
+            });
+        }
+
         const teacher = await Teacher.findById(req.params.id);
 
         if (!teacher) {
-            return res.send({ message: 'Teacher not found' });
+            return res.status(404).json({ message: 'Teacher not found' });
         }
 
         const existingAttendance = teacher.attendance.find(

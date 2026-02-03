@@ -19,7 +19,7 @@ const noticeList = async (req, res) => {
         if (notices.length > 0) {
             res.send(notices)
         } else {
-            res.send({ message: "No notices found" });
+            return res.status(404).json({ message: "No notices found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -42,7 +42,7 @@ const deleteNotice = async (req, res) => {
         const result = await Notice.findByIdAndDelete(req.params.id)
         res.send(result)
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 }
 
@@ -50,12 +50,12 @@ const deleteNotices = async (req, res) => {
     try {
         const result = await Notice.deleteMany({ school: req.params.id })
         if (result.deletedCount === 0) {
-            res.send({ message: "No notices found to delete" })
+            return res.status(404).json({ message: "No notices found to delete" });
         } else {
             res.send(result)
         }
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 }
 

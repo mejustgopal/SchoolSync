@@ -37,11 +37,10 @@ const teacherSchema = new mongoose.Schema({
             type: Date,
             required: true
         },
-        presentCount: {
+        status: {
             type: String,
-        },
-        absentCount: {
-            type: String,
+            enum: ['Present', 'Absent'],
+            required: true
         }
     }]
 }, { timestamps: true });

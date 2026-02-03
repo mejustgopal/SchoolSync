@@ -26,10 +26,10 @@ const adminRegister = async (req, res) => {
         const existingSchool = await Admin.findOne({ schoolName: req.body.schoolName });
 
         if (existingAdminByEmail) {
-            res.send({ message: 'Email already exists' });
+            return res.status(409).json({ message: 'Email already exists' });
         }
         else if (existingSchool) {
-            res.send({ message: 'School name already exists' });
+            return res.status(409).json({ message: 'School name already exists' });
         }
         else {
             let result = await admin.save();
@@ -52,13 +52,13 @@ const adminLogIn = async (req, res) => {
                 const token = jwt.sign({ _id: admin._id, role: 'Admin' }, process.env.SECRET_KEY, { expiresIn: '1d' });
                 res.send({ ...admin._doc, token });
             } else {
-                res.send({ message: "Invalid password" });
+                return res.status(401).json({ message: "Invalid password" });
             }
         } else {
-            res.send({ message: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
     } else {
-        res.send({ message: "Email and password are required" });
+        return res.status(400).json({ message: "Email and password are required" });
     }
 };
 
@@ -70,7 +70,7 @@ const getAdminDetail = async (req, res) => {
             res.send(admin);
         }
         else {
-            res.send({ message: "No admin found" });
+            return res.status(404).json({ message: "No admin found" });
         }
     } catch (err) {
         res.status(500).json(err);

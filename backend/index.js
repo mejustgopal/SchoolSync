@@ -2,6 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 const dotenv = require("dotenv")
+const errorHandler = require("./middleware/errorHandler.js")
 
 dotenv.config();
 
@@ -37,6 +38,9 @@ mongoose
         console.log("✅ Connected to MongoDB");
         
         app.use('/', Routes);
+        
+        // Error handler must be LAST middleware
+        app.use(errorHandler);
         
         app.listen(PORT, () => {
             console.log(`🚀 Server started at port no. ${PORT}`);

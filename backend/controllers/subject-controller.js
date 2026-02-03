@@ -16,7 +16,7 @@ const subjectCreate = async (req, res) => {
         });
 
         if (existingSubjectBySubCode) {
-            res.send({ message: 'Sorry this subcode must be unique as it already exists' });
+            return res.status(409).json({ message: 'Sorry this subcode must be unique as it already exists' });
         } else {
             const newSubjects = subjects.map((subject) => ({
                 ...subject,
@@ -39,7 +39,7 @@ const allSubjects = async (req, res) => {
         if (subjects.length > 0) {
             res.send(subjects)
         } else {
-            res.send({ message: "No subjects found" });
+            return res.status(404).json({ message: "No subjects found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -52,7 +52,7 @@ const classSubjects = async (req, res) => {
         if (subjects.length > 0) {
             res.send(subjects)
         } else {
-            res.send({ message: "No subjects found" });
+            return res.status(404).json({ message: "No subjects found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -65,7 +65,7 @@ const freeSubjectList = async (req, res) => {
         if (subjects.length > 0) {
             res.send(subjects);
         } else {
-            res.send({ message: "No subjects found" });
+            return res.status(404).json({ message: "No subjects found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -81,7 +81,7 @@ const getSubjectDetail = async (req, res) => {
             res.send(subject);
         }
         else {
-            res.send({ message: "No subject found" });
+            return res.status(404).json({ message: "No subject found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -92,10 +92,15 @@ const deleteSubject = async (req, res) => {
     try {
         const deletedSubject = await Subject.findByIdAndDelete(req.params.id);
 
+        // Check if subject exists
+        if (!deletedSubject) {
+            return res.status(404).json({ message: 'Subject not found' });
+        }
+
         // Set the teachSubject field to null in teachers
         await Teacher.updateOne(
             { teachSubject: deletedSubject._id },
-            { $unset: { teachSubject: "" }, $unset: { teachSubject: null } }
+            { $unset: { teachSubject: "" } }
         );
 
         // Remove the objects containing the deleted subject from students' examResult array
