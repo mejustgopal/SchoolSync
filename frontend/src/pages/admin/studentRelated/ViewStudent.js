@@ -20,6 +20,7 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import Popup from '../../../components/Popup';
 import { ROLE_CONSTANTS } from '../../../constants';
+import GlassCard from '../../../components/GlassCard';
 
 const ViewStudent = () => {
     const [showTab, setShowTab] = useState(false);
@@ -339,58 +340,39 @@ const ViewStudent = () => {
 
     const StudentDetailsSection = () => {
         return (
-            <div>
-                Name: {userDetails.name}
-                <br />
-                Roll Number: {userDetails.rollNum}
-                <br />
-                Class: {sclassName.sclassName}
-                <br />
-                School: {studentSchool.schoolName}
-                {
-                    subjectAttendance && Array.isArray(subjectAttendance) && subjectAttendance.length > 0 && (
-                        <CustomPieChart data={chartData} />
-                    )
-                }
-                <Button variant="contained" sx={styles.styledButton} onClick={deleteHandler}>
-                    Delete
-                </Button>
-                <br />
-                {/* <Button variant="contained" sx={styles.styledButton} className="show-tab" onClick={() => { setShowTab(!showTab) }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                <GlassCard sx={{ padding: '2rem', maxWidth: 600, width: '100%' }}>
+                    <Typography variant="h4" align="center" gutterBottom sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                        Student Details
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}>
+                        <Typography variant="h6">
+                            Name: {userDetails.name}
+                        </Typography>
+                        <Typography variant="h6">
+                            Roll Number: {userDetails.rollNum}
+                        </Typography>
+                        <Typography variant="h6">
+                            Class: {sclassName.sclassName}
+                        </Typography>
+                        <Typography variant="h6">
+                            School: {studentSchool.schoolName}
+                        </Typography>
+                    </Box>
                     {
-                        showTab
-                            ? <KeyboardArrowUp />
-                            : <KeyboardArrowDown />
+                        subjectAttendance && Array.isArray(subjectAttendance) && subjectAttendance.length > 0 && (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                                <CustomPieChart data={chartData} />
+                            </Box>
+                        )
                     }
-                    Edit Student
-                </Button>
-                <Collapse in={showTab} timeout="auto" unmountOnExit>
-                    <div className="register">
-                        <form className="registerForm" onSubmit={submitHandler}>
-                            <span className="registerTitle">Edit Details</span>
-                            <label>Name</label>
-                            <input className="registerInput" type="text" placeholder="Enter user's name..."
-                                value={name}
-                                onChange={(event) => setName(event.target.value)}
-                                autoComplete="name" required />
-
-                            <label>Roll Number</label>
-                            <input className="registerInput" type="number" placeholder="Enter user's Roll Number..."
-                                value={rollNum}
-                                onChange={(event) => setRollNum(event.target.value)}
-                                required />
-
-                            <label>Password</label>
-                            <input className="registerInput" type="password" placeholder="Enter user's password..."
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                                autoComplete="new-password" />
-
-                            <button className="registerButton" type="submit" >Update</button>
-                        </form>
-                    </div>
-                </Collapse> */}
-            </div>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                        <Button variant="contained" sx={styles.styledButton} onClick={deleteHandler}>
+                            Delete
+                        </Button>
+                    </Box>
+                </GlassCard>
+            </Box>
         )
     }
 

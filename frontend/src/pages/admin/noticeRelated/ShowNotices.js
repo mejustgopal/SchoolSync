@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import {
-    Paper, Box, IconButton
+    Box, IconButton
 } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getAllNotices } from '../../../redux/noticeRelated/noticeHandle';
@@ -86,12 +87,12 @@ const ShowNotices = () => {
                             </GreenButton>
                         </Box>
                         :
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
                             {Array.isArray(noticesList) && noticesList.length > 0 &&
                                 <TableTemplate buttonHaver={NoticeButtonHaver} columns={noticeColumns} rows={noticeRows} />
                             }
                             <SpeedDialTemplate actions={actions} />
-                        </Paper>
+                        </GlassCard>
                     }
                 </>
             }

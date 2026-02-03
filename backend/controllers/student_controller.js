@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
+const Complain = require('../models/complainSchema.js');
 
 const studentRegister = async (req, res) => {
     try {
@@ -97,36 +98,60 @@ const getStudentDetail = async (req, res) => {
 
 const deleteStudent = async (req, res) => {
     try {
-        const result = await Student.findByIdAndDelete(req.params.id)
-        res.send(result)
+        // Delete student's complaints first to prevent orphaned records
+        await Complain.deleteMany({ user: req.params.id });
+        
+        // Then delete the student
+        const result = await Student.findByIdAndDelete(req.params.id);
+        res.send(result);
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 }
 
 const deleteStudents = async (req, res) => {
     try {
-        const result = await Student.deleteMany({ school: req.params.id })
-        if (result.deletedCount === 0) {
-            res.send({ message: "No students found to delete" })
-        } else {
-            res.send(result)
+        // Find all students to be deleted
+        const studentsToDelete = await Student.find({ school: req.params.id });
+        
+        if (studentsToDelete.length === 0) {
+            res.send({ message: "No students found to delete" });
+            return;
         }
+        
+        // Delete all complaints for these students
+        await Complain.deleteMany({ 
+            user: { $in: studentsToDelete.map(student => student._id) } 
+        });
+        
+        // Then delete the students
+        const result = await Student.deleteMany({ school: req.params.id });
+        res.send(result);
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 }
 
 const deleteStudentsByClass = async (req, res) => {
     try {
-        const result = await Student.deleteMany({ sclassName: req.params.id })
-        if (result.deletedCount === 0) {
-            res.send({ message: "No students found to delete" })
-        } else {
-            res.send(result)
+        // Find all students to be deleted
+        const studentsToDelete = await Student.find({ sclassName: req.params.id });
+        
+        if (studentsToDelete.length === 0) {
+            res.send({ message: "No students found to delete" });
+            return;
         }
+        
+        // Delete all complaints for these students
+        await Complain.deleteMany({ 
+            user: { $in: studentsToDelete.map(student => student._id) } 
+        });
+        
+        // Then delete the students
+        const result = await Student.deleteMany({ sclassName: req.params.id });
+        res.send(result);
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 }
 
@@ -134,7 +159,7 @@ const updateStudent = async (req, res) => {
     try {
         if (req.body.password) {
             const salt = await bcrypt.genSalt(10)
-            res.body.password = await bcrypt.hash(res.body.password, salt)
+            req.body.password = await bcrypt.hash(req.body.password, salt)
         }
         let result = await Student.findByIdAndUpdate(req.params.id,
             { $set: req.body },

@@ -46,4 +46,10 @@ const teacherSchema = new mongoose.Schema({
     }]
 }, { timestamps: true });
 
+// Add indexes for better query performance
+teacherSchema.index({ email: 1 }, { unique: true });
+teacherSchema.index({ school: 1 });
+teacherSchema.index({ teachSclass: 1 });
+teacherSchema.index({ teachSubject: 1 });
+
 module.exports = mongoose.model("teacher", teacherSchema)

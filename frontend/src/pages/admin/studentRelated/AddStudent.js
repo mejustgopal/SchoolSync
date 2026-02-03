@@ -5,7 +5,8 @@ import { registerUser } from '../../../redux/userRelated/userHandle';
 import Popup from '../../../components/Popup';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Box, Typography, TextField, Button, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import { ROLE_CONSTANTS } from '../../../constants';
 
 const AddStudent = ({ situation }) => {
@@ -87,54 +88,100 @@ const AddStudent = ({ situation }) => {
 
     return (
         <>
-            <div className="register">
-                <form className="registerForm" onSubmit={submitHandler}>
-                    <span className="registerTitle">Add Student</span>
-                    <label>Name</label>
-                    <input className="registerInput" type="text" placeholder="Enter student's name..."
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                        autoComplete="name" required />
+            <Box
+                sx={{
+                    flex: '1 1 auto',
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <GlassCard
+                    sx={{
+                        maxWidth: 500,
+                        width: '100%',
+                        padding: '2rem',
+                        marginTop: '1rem',
+                    }}
+                >
+                    <form onSubmit={submitHandler}>
+                        <Stack spacing={3}>
+                            <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                Add Student
+                            </Typography>
+                            <TextField
+                                fullWidth
+                                label="Name"
+                                variant="outlined"
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
+                                required
+                            />
 
-                    {
-                        situation === ROLE_CONSTANTS.STUDENT &&
-                        <>
-                            <label>Class</label>
-                            <select
-                                className="registerInput"
-                                value={className}
-                                onChange={changeHandler} required>
-                                <option value='Select Class'>Select Class</option>
-                                {sclassesList.map((classItem, index) => (
-                                    <option key={index} value={classItem.sclassName}>
-                                        {classItem.sclassName}
-                                    </option>
-                                ))}
-                            </select>
-                        </>
-                    }
+                            {situation === ROLE_CONSTANTS.STUDENT && (
+                                <FormControl fullWidth required>
+                                    <InputLabel id="class-select-label">Class</InputLabel>
+                                    <Select
+                                        labelId="class-select-label"
+                                        id="class-select"
+                                        value={className}
+                                        label="Class"
+                                        onChange={changeHandler}
+                                    >
+                                        <MenuItem value='Select Class'>Select Class</MenuItem>
+                                        {sclassesList.map((classItem, index) => (
+                                            <MenuItem key={index} value={classItem.sclassName}>
+                                                {classItem.sclassName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            )}
 
-                    <label>Roll Number</label>
-                    <input className="registerInput" type="number" placeholder="Enter student's Roll Number..."
-                        value={rollNum}
-                        onChange={(event) => setRollNum(event.target.value)}
-                        required />
+                            <TextField
+                                fullWidth
+                                label="Roll Number"
+                                variant="outlined"
+                                type="number"
+                                value={rollNum}
+                                onChange={(event) => setRollNum(event.target.value)}
+                                required
+                            />
 
-                    <label>Password</label>
-                    <input className="registerInput" type="password" placeholder="Enter student's password..."
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        autoComplete="new-password" required />
+                            <TextField
+                                fullWidth
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                required
+                            />
 
-                    <button className="registerButton" type="submit" disabled={loader}>
-                        {loader ? (
-                            <CircularProgress size={24} color="inherit" />
-                        ) : (
-                            'Add'
-                        )}
-                    </button>
-                </form>
-            </div>
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                type="submit"
+                                disabled={loader}
+                                sx={{
+                                    mt: 2,
+                                    backgroundColor: '#550080',
+                                    '&:hover': {
+                                        backgroundColor: '#3e0061',
+                                    }
+                                }}
+                            >
+                                {loader ? (
+                                    <CircularProgress size={24} color="inherit" />
+                                ) : (
+                                    'Add'
+                                )}
+                            </Button>
+                        </Stack>
+                    </form>
+                </GlassCard>
+            </Box>
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     )

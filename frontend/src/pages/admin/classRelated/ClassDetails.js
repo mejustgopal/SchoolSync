@@ -19,6 +19,7 @@ import Popup from "../../../components/Popup";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { ROLE_CONSTANTS } from "../../../constants";
+import GlassCard from "../../../components/GlassCard";
 
 const ClassDetails = () => {
     const params = useParams()
@@ -214,34 +215,38 @@ const ClassDetails = () => {
 
         return (
             <>
-                <Typography variant="h4" align="center" gutterBottom>
-                    Class Details
-                </Typography>
-                <Typography variant="h5" gutterBottom>
-                    This is Class {sclassDetails && sclassDetails.sclassName}
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                    Number of Subjects: {numberOfSubjects}
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                    Number of Students: {numberOfStudents}
-                </Typography>
-                {getresponse &&
-                    <GreenButton
-                        variant="contained"
-                        onClick={() => navigate("/Admin/class/addstudents/" + classID)}
-                    >
-                        Add Students
-                    </GreenButton>
-                }
-                {response &&
-                    <GreenButton
-                        variant="contained"
-                        onClick={() => navigate("/Admin/addsubject/" + classID)}
-                    >
-                        Add Subjects
-                    </GreenButton>
-                }
+                <GlassCard sx={{ padding: '2rem', maxWidth: 600, margin: '0 auto' }}>
+                    <Typography variant="h4" align="center" gutterBottom sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                        Class Details
+                    </Typography>
+                    <Typography variant="h5" gutterBottom align="center">
+                        This is Class {sclassDetails && sclassDetails.sclassName}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom align="center">
+                        Number of Subjects: {numberOfSubjects}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom align="center">
+                        Number of Students: {numberOfStudents}
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
+                        {getresponse &&
+                            <GreenButton
+                                variant="contained"
+                                onClick={() => navigate("/Admin/class/addstudents/" + classID)}
+                            >
+                                Add Students
+                            </GreenButton>
+                        }
+                        {response &&
+                            <GreenButton
+                                variant="contained"
+                                onClick={() => navigate("/Admin/addsubject/" + classID)}
+                            >
+                                Add Subjects
+                            </GreenButton>
+                        }
+                    </Box>
+                </GlassCard>
             </>
         );
     }

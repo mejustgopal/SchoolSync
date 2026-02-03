@@ -5,7 +5,8 @@ import { getSubjectDetails } from '../../../redux/sclassRelated/sclassHandle';
 import Popup from '../../../components/Popup';
 import { registerUser } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Box, Typography, TextField, Button, Stack } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import { ROLE_CONSTANTS } from '../../../constants';
 
 const AddTeacher = () => {
@@ -60,45 +61,89 @@ const AddTeacher = () => {
     }
   }, [status, navigate, error, response, dispatch]);
 
-  return (
+    return (
     <div>
-      <div className="register">
-        <form className="registerForm" onSubmit={submitHandler}>
-          <span className="registerTitle">Add Teacher</span>
-          <br />
-          <label>
-            Subject : {subjectDetails && subjectDetails.subName}
-          </label>
-          <label>
-            Class : {subjectDetails && subjectDetails.sclassName && subjectDetails.sclassName.sclassName}
-          </label>
-          <label>Name</label>
-          <input className="registerInput" type="text" placeholder="Enter teacher's name..."
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            autoComplete="name" required />
+      <Box
+        sx={{
+            flex: '1 1 auto',
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+        }}
+      >
+      <GlassCard
+        sx={{
+            maxWidth: 500,
+            width: '100%',
+            padding: '2rem',
+            marginTop: '1rem',
+        }}
+      >
+        <form onSubmit={submitHandler}>
+          <Stack spacing={3}>
+            <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                Add Teacher
+            </Typography>
+            <br />
+            <Typography variant="body1">
+              Subject : {subjectDetails && subjectDetails.subName}
+            </Typography>
+            <Typography variant="body1">
+              Class : {subjectDetails && subjectDetails.sclassName && subjectDetails.sclassName.sclassName}
+            </Typography>
+            <TextField
+              fullWidth
+              label="Name"
+              variant="outlined"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
+            />
 
-          <label>Email</label>
-          <input className="registerInput" type="email" placeholder="Enter teacher's email..."
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            autoComplete="email" required />
+            <TextField
+              fullWidth
+              label="Email"
+              variant="outlined"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
 
-          <label>Password</label>
-          <input className="registerInput" type="password" placeholder="Enter teacher's password..."
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            autoComplete="new-password" required />
+            <TextField
+              fullWidth
+              label="Password"
+              variant="outlined"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
 
-          <button className="registerButton" type="submit" disabled={loader}>
-            {loader ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              'Register'
-            )}
-          </button>
+            <Button
+              fullWidth
+              size="large"
+              variant="contained"
+              type="submit"
+              disabled={loader}
+              sx={{
+                  mt: 2,
+                  backgroundColor: '#550080',
+                  '&:hover': {
+                      backgroundColor: '#3e0061',
+                  }
+              }}
+            >
+              {loader ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                'Register'
+              )}
+            </Button>
+          </Stack>
         </form>
-      </div>
+      </GlassCard>
+      </Box>
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </div>
   )

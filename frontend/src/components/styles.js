@@ -20,8 +20,12 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    backgroundColor: 'transparent',
     '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+        backgroundColor: 'rgba(255, 255, 255, 0.05)', // Even lighter for glass effect
+    },
+    '&:hover': {
+        backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
     },
     // hide last border
     '&:last-child td, &:last-child th': {

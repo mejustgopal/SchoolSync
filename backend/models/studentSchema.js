@@ -73,6 +73,12 @@ const studentSchema = new mongoose.Schema({
             required: true
         }
     }]
-});
+}, { timestamps: true });
+
+// Add indexes for better query performance
+studentSchema.index({ rollNum: 1, school: 1, sclassName: 1 }, { unique: true });
+studentSchema.index({ school: 1 });
+studentSchema.index({ sclassName: 1 });
+studentSchema.index({ email: 1 });
 
 module.exports = mongoose.model("student", studentSchema);

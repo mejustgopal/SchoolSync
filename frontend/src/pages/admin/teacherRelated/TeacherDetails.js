@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { getTeacherDetails } from '../../../redux/teacherRelated/teacherHandle';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography, Box, Stack } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 
 const TeacherDetails = () => {
     const navigate = useNavigate();
@@ -31,30 +32,34 @@ const TeacherDetails = () => {
             {loading ? (
                 <div>Loading...</div>
             ) : (
-                <Container>
-                    <Typography variant="h4" align="center" gutterBottom>
-                        Teacher Details
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                        Teacher Name: {teacherDetails?.name}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                        Class Name: {teacherDetails?.teachSclass?.sclassName}
-                    </Typography>
-                    {isSubjectNamePresent ? (
-                        <>
-                            <Typography variant="h6" gutterBottom>
-                                Subject Name: {teacherDetails?.teachSubject?.subName}
+                <Container sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <GlassCard sx={{ padding: '2rem', maxWidth: 600, width: '100%' }}>
+                        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                            Teacher Details
+                        </Typography>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mt: 2 }}>
+                            <Typography variant="h6">
+                                Teacher Name: {teacherDetails?.name}
                             </Typography>
-                            <Typography variant="h6" gutterBottom>
-                                Subject Sessions: {teacherDetails?.teachSubject?.sessions}
+                            <Typography variant="h6">
+                                Class Name: {teacherDetails?.teachSclass?.sclassName}
                             </Typography>
-                        </>
-                    ) : (
-                        <Button variant="contained" onClick={handleAddSubject}>
-                            Add Subject
-                        </Button>
-                    )}
+                            {isSubjectNamePresent ? (
+                                <>
+                                    <Typography variant="h6">
+                                        Subject Name: {teacherDetails?.teachSubject?.subName}
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        Subject Sessions: {teacherDetails?.teachSubject?.sessions}
+                                    </Typography>
+                                </>
+                            ) : (
+                                <Button variant="contained" onClick={handleAddSubject} sx={{ mt: 2 }}>
+                                    Add Subject
+                                </Button>
+                            )}
+                        </Box>
+                    </GlassCard>
                 </Container>
             )}
         </>

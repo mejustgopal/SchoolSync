@@ -48,7 +48,7 @@ const TeacherSideBar = () => {
                     <ListItemIcon>
                         <ClassOutlinedIcon />
                     </ListItemIcon>
-                    <ListItemText primary={`Class ${sclassName.sclassName}`} />
+                    <ListItemText primary={`Class ${sclassName ? sclassName.sclassName : "N/A"}`} />
                 </ListItemButton>
                 <ListItemButton component={Link} to="/Teacher/complain" sx={itemStyles("/Teacher/complain")}>
                     <ListItemIcon>

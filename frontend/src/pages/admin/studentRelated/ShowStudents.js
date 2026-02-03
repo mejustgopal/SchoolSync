@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { getAllStudents } from '../../../redux/studentRelated/studentHandle';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import {
-    Paper, Box, IconButton
+    Box, IconButton, Paper
 } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { BlackButton, BlueButton, GreenButton } from '../../../components/buttonStyles';
 import TableTemplate from '../../../components/TableTemplate';
@@ -60,7 +61,7 @@ const ShowStudents = () => {
         return {
             name: student.name,
             rollNum: student.rollNum,
-            sclassName: student.sclassName.sclassName,
+            sclassName: student.sclassName ? student.sclassName.sclassName : "N/A",
             id: student._id,
         };
     })
@@ -193,12 +194,12 @@ const ShowStudents = () => {
                             </GreenButton>
                         </Box>
                         :
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
                             {Array.isArray(studentsList) && studentsList.length > 0 &&
                                 <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} />
                             }
                             <SpeedDialTemplate actions={actions} />
-                        </Paper>
+                        </GlassCard>
                     }
                 </>
             }

@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addStuff } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
-import { CircularProgress, Box, Typography, TextField, Button, Paper, Stack } from '@mui/material';
+import { CircularProgress, Box, Typography, TextField, Button, Stack } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import Popup from '../../../components/Popup';
 
 const AddNotice = () => {
@@ -52,13 +53,11 @@ const AddNotice = () => {
           minHeight: '80vh', // Ensure it takes up space even if content is small
         }}
       >
-        <Paper
-            elevation={3}
+        <GlassCard
             sx={{
                 padding: 4,
                 maxWidth: 500,
                 width: '100%',
-                borderRadius: 2,
             }}
         >
             <Typography variant="h4" component="h1" align="center" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
@@ -124,7 +123,7 @@ const AddNotice = () => {
                   </Button>
               </Stack>
             </form>
-        </Paper>
+        </GlassCard>
       </Box>
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </>

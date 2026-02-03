@@ -28,4 +28,10 @@ const subjectSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+// Add indexes for better query performance
+subjectSchema.index({ sclassName: 1 });
+subjectSchema.index({ school: 1 });
+subjectSchema.index({ teacher: 1 });
+subjectSchema.index({ subCode: 1 }, { unique: true });
+
 module.exports = mongoose.model("subject", subjectSchema);

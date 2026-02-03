@@ -22,7 +22,7 @@ const App = () => {
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: '#550080',
+        main: darkMode ? '#d8b4fe' : '#550080',
       },
       secondary: {
         main: '#7f56da',
@@ -34,6 +34,10 @@ const App = () => {
       text: {
         primary: darkMode ? '#fff' : '#2c2143',
         secondary: darkMode ? '#a0a0a0' : '#666',
+      },
+      action: {
+        active: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.54)',
+        hover: darkMode ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)',
       },
     },
     typography: {
@@ -50,6 +54,13 @@ const App = () => {
       borderRadius: 12,
     },
     components: {
+      MuiListItemIcon: {
+        styleOverrides: {
+          root: {
+             color: darkMode ? '#e0e0e0' : 'inherit',
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: {

@@ -7,7 +7,7 @@ import { underControl } from '../../../redux/userRelated/userSlice';
 import { BlueButton } from "../../../components/buttonStyles";
 import Popup from "../../../components/Popup";
 import Classroom from "../../../assets/classroom.png";
-import styled from "styled-components";
+import GlassCard from "../../../components/GlassCard";
 
 const AddClass = () => {
     const [sclassName, setSclassName] = useState("");
@@ -55,8 +55,21 @@ const AddClass = () => {
     }, [status, navigate, error, response, dispatch, tempDetails]);
     return (
         <>
-            <StyledContainer>
-                <StyledBox>
+            <Box
+                sx={{
+                    flex: '1 1 auto',
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <GlassCard
+                    sx={{
+                        maxWidth: 550,
+                        padding: '50px 3rem 50px',
+                        marginTop: '1rem',
+                    }}
+                >
                     <Stack sx={{
                         alignItems: 'center',
                         mb: 3
@@ -93,28 +106,11 @@ const AddClass = () => {
                             </Button>
                         </Stack>
                     </form>
-                </StyledBox>
-            </StyledContainer>
+                </GlassCard>
+            </Box>
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     )
 }
 
 export default AddClass
-
-const StyledContainer = styled(Box)`
-  flex: 1 1 auto;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledBox = styled(Box)`
-  max-width: 550px;
-  padding: 50px 3rem 50px;
-  margin-top: 1rem;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;

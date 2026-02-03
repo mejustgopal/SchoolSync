@@ -15,6 +15,7 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import styled from 'styled-components';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import Popup from '../../../components/Popup';
+import GlassCard from '../../../components/GlassCard';
 
 const ShowClasses = () => {
   const navigate = useNavigate()
@@ -114,8 +115,8 @@ const ShowClasses = () => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          {actions.map((action) => (
-            <MenuItem onClick={action.action}>
+          {actions.map((action, index) => (
+            <MenuItem onClick={action.action} key={index}>
               <ListItemIcon fontSize="small">
                 {action.icon}
               </ListItemIcon>
@@ -152,10 +153,12 @@ const ShowClasses = () => {
             </Box>
             :
             <>
-              {Array.isArray(sclassesList) && sclassesList.length > 0 &&
-                <TableTemplate buttonHaver={SclassButtonHaver} columns={sclassColumns} rows={sclassRows} />
-              }
-              <SpeedDialTemplate actions={actions} />
+              <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
+                {Array.isArray(sclassesList) && sclassesList.length > 0 &&
+                  <TableTemplate buttonHaver={SclassButtonHaver} columns={sclassColumns} rows={sclassRows} />
+                }
+                <SpeedDialTemplate actions={actions} />
+              </GlassCard>
             </>}
         </>
       }

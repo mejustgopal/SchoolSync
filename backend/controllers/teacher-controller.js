@@ -121,20 +121,21 @@ const deleteTeacher = async (req, res) => {
 
 const deleteTeachers = async (req, res) => {
     try {
-        const deletionResult = await Teacher.deleteMany({ school: req.params.id });
-
-        const deletedCount = deletionResult.deletedCount || 0;
-
-        if (deletedCount === 0) {
+        // Find teachers BEFORE deleting them
+        const teachersToDelete = await Teacher.find({ school: req.params.id });
+        
+        if (teachersToDelete.length === 0) {
             res.send({ message: "No teachers found to delete" });
             return;
         }
 
-        const deletedTeachers = await Teacher.find({ school: req.params.id });
+        // Delete the teachers
+        const deletionResult = await Teacher.deleteMany({ school: req.params.id });
 
+        // Update subjects to remove teacher references
         await Subject.updateMany(
-            { teacher: { $in: deletedTeachers.map(teacher => teacher._id) }, teacher: { $exists: true } },
-            { $unset: { teacher: "" }, $unset: { teacher: null } }
+            { teacher: { $in: teachersToDelete.map(teacher => teacher._id) } },
+            { $unset: { teacher: 1 } }
         );
 
         res.send(deletionResult);
@@ -145,20 +146,21 @@ const deleteTeachers = async (req, res) => {
 
 const deleteTeachersByClass = async (req, res) => {
     try {
-        const deletionResult = await Teacher.deleteMany({ sclassName: req.params.id });
-
-        const deletedCount = deletionResult.deletedCount || 0;
-
-        if (deletedCount === 0) {
+        // Find teachers BEFORE deleting them
+        const teachersToDelete = await Teacher.find({ sclassName: req.params.id });
+        
+        if (teachersToDelete.length === 0) {
             res.send({ message: "No teachers found to delete" });
             return;
         }
 
-        const deletedTeachers = await Teacher.find({ sclassName: req.params.id });
+        // Delete the teachers
+        const deletionResult = await Teacher.deleteMany({ sclassName: req.params.id });
 
+        // Update subjects to remove teacher references
         await Subject.updateMany(
-            { teacher: { $in: deletedTeachers.map(teacher => teacher._id) }, teacher: { $exists: true } },
-            { $unset: { teacher: "" }, $unset: { teacher: null } }
+            { teacher: { $in: teachersToDelete.map(teacher => teacher._id) } },
+            { $unset: { teacher: 1 } }
         );
 
         res.send(deletionResult);

@@ -1,7 +1,20 @@
 const router = require('express').Router();
+const rateLimit = require('express-rate-limit');
 const authMiddleware = require('../middleware/authMiddleware.js');
-
-
+const { requireAdmin, requireTeacher, requireAdminOrTeacher } = require('../middleware/roleMiddleware.js');
+const {
+    studentRegisterValidation,
+    studentLoginValidation,
+    teacherRegisterValidation,
+    teacherLoginValidation,
+    adminRegisterValidation,
+    adminLoginValidation,
+    subjectCreateValidation,
+    noticeCreateValidation,
+    complainCreateValidation,
+    sclassCreateValidation,
+    idParamValidation
+} = require('../middleware/validators.js');
 
 const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
 
@@ -26,93 +39,100 @@ const {
 const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } = require('../controllers/subject-controller.js');
 const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
 
-// Admin
-router.post('/AdminReg', adminRegister);
-router.post('/AdminLogin', adminLogIn);
+// Rate limiting for login endpoints
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // 5 requests per window
+    message: 'Too many login attempts, please try again later'
+});
 
-router.get("/Admin/:id", authMiddleware, getAdminDetail)
+// Admin
+router.post('/AdminReg', adminRegisterValidation, adminRegister);
+router.post('/AdminLogin', loginLimiter, adminLoginValidation, adminLogIn);
+
+router.get("/Admin/:id", authMiddleware, idParamValidation, getAdminDetail)
 
 
 // Student
 
-router.post('/StudentReg', studentRegister);
-router.post('/StudentLogin', studentLogIn)
+router.post('/StudentReg', authMiddleware, requireAdmin, studentRegisterValidation, studentRegister);
+router.post('/StudentLogin', loginLimiter, studentLoginValidation, studentLogIn)
 
-router.get("/Students/:id", authMiddleware, getStudents)
+router.get("/Students/:id", authMiddleware, requireAdmin, idParamValidation, getStudents)
 router.get("/Student/:id", authMiddleware, getStudentDetail)
 
-router.delete("/Students/:id", authMiddleware, deleteStudents)
-router.delete("/StudentsClass/:id", authMiddleware, deleteStudentsByClass)
-router.delete("/Student/:id", authMiddleware, deleteStudent)
+router.delete("/Students/:id", authMiddleware, requireAdmin, idParamValidation, deleteStudents)
+router.delete("/StudentsClass/:id", authMiddleware, requireAdmin, idParamValidation, deleteStudentsByClass)
+router.delete("/Student/:id", authMiddleware, requireAdmin, idParamValidation, deleteStudent)
 
 router.put("/Student/:id", authMiddleware, updateStudent)
 
-router.put('/UpdateExamResult/:id', authMiddleware, updateExamResult)
+router.put('/UpdateExamResult/:id', authMiddleware, requireAdminOrTeacher, updateExamResult)
 
-router.put('/StudentAttendance/:id', authMiddleware, studentAttendance)
+router.put('/StudentAttendance/:id', authMiddleware, requireAdminOrTeacher, studentAttendance)
 
-router.put('/RemoveAllStudentsSubAtten/:id', authMiddleware, clearAllStudentsAttendanceBySubject);
-router.put('/RemoveAllStudentsAtten/:id', authMiddleware, clearAllStudentsAttendance);
+router.put('/RemoveAllStudentsSubAtten/:id', authMiddleware, requireAdmin, clearAllStudentsAttendanceBySubject);
+router.put('/RemoveAllStudentsAtten/:id', authMiddleware, requireAdmin, clearAllStudentsAttendance);
 
-router.put('/RemoveStudentSubAtten/:id', authMiddleware, removeStudentAttendanceBySubject);
-router.put('/RemoveStudentAtten/:id', authMiddleware, removeStudentAttendance)
+router.put('/RemoveStudentSubAtten/:id', authMiddleware, requireAdmin, removeStudentAttendanceBySubject);
+router.put('/RemoveStudentAtten/:id', authMiddleware, requireAdmin, removeStudentAttendance)
 
 // Teacher
 
-router.post('/TeacherReg', teacherRegister);
-router.post('/TeacherLogin', teacherLogIn)
+router.post('/TeacherReg', authMiddleware, requireAdmin, teacherRegisterValidation, teacherRegister);
+router.post('/TeacherLogin', loginLimiter, teacherLoginValidation, teacherLogIn)
 
-router.get("/Teachers/:id", authMiddleware, getTeachers)
+router.get("/Teachers/:id", authMiddleware, requireAdmin, idParamValidation, getTeachers)
 router.get("/Teacher/:id", authMiddleware, getTeacherDetail)
 
-router.delete("/Teachers/:id", authMiddleware, deleteTeachers)
-router.delete("/TeachersClass/:id", authMiddleware, deleteTeachersByClass)
-router.delete("/Teacher/:id", authMiddleware, deleteTeacher)
+router.delete("/Teachers/:id", authMiddleware, requireAdmin, idParamValidation, deleteTeachers)
+router.delete("/TeachersClass/:id", authMiddleware, requireAdmin, idParamValidation, deleteTeachersByClass)
+router.delete("/Teacher/:id", authMiddleware, requireAdmin, idParamValidation, deleteTeacher)
 
-router.put("/TeacherSubject", authMiddleware, updateTeacherSubject)
+router.put("/TeacherSubject", authMiddleware, requireAdmin, updateTeacherSubject)
 
-router.post('/TeacherAttendance/:id', authMiddleware, teacherAttendance)
+router.post('/TeacherAttendance/:id', authMiddleware, requireAdmin, teacherAttendance)
 
 // Notice
 
-router.post('/NoticeCreate', authMiddleware, noticeCreate);
+router.post('/NoticeCreate', authMiddleware, requireAdmin, noticeCreateValidation, noticeCreate);
 
-router.get('/NoticeList/:id', authMiddleware, noticeList);
+router.get('/NoticeList/:id', authMiddleware, idParamValidation, noticeList);
 
-router.delete("/Notices/:id", authMiddleware, deleteNotices)
-router.delete("/Notice/:id", authMiddleware, deleteNotice)
+router.delete("/Notices/:id", authMiddleware, requireAdmin, idParamValidation, deleteNotices)
+router.delete("/Notice/:id", authMiddleware, requireAdmin, idParamValidation, deleteNotice)
 
-router.put("/Notice/:id", authMiddleware, updateNotice)
+router.put("/Notice/:id", authMiddleware, requireAdmin, updateNotice)
 
 // Complain
 
-router.post('/ComplainCreate', authMiddleware, complainCreate);
+router.post('/ComplainCreate', authMiddleware, complainCreateValidation, complainCreate);
 
-router.get('/ComplainList/:id', authMiddleware, complainList);
+router.get('/ComplainList/:id', authMiddleware, requireAdmin, idParamValidation, complainList);
 
 // Sclass
 
-router.post('/SclassCreate', authMiddleware, sclassCreate);
+router.post('/SclassCreate', authMiddleware, requireAdmin, sclassCreateValidation, sclassCreate);
 
-router.get('/SclassList/:id', authMiddleware, sclassList);
-router.get("/Sclass/:id", getSclassDetail)
+router.get('/SclassList/:id', authMiddleware, idParamValidation, sclassList);
+router.get("/Sclass/:id", idParamValidation, getSclassDetail)
 
-router.get("/Sclass/Students/:id", authMiddleware, getSclassStudents)
+router.get("/Sclass/Students/:id", authMiddleware, requireAdmin, idParamValidation, getSclassStudents)
 
-router.delete("/Sclasses/:id", authMiddleware, deleteSclasses)
-router.delete("/Sclass/:id", authMiddleware, deleteSclass)
+router.delete("/Sclasses/:id", authMiddleware, requireAdmin, idParamValidation, deleteSclasses)
+router.delete("/Sclass/:id", authMiddleware, requireAdmin, idParamValidation, deleteSclass)
 
 // Subject
 
-router.post('/SubjectCreate', authMiddleware, subjectCreate);
+router.post('/SubjectCreate', authMiddleware, requireAdmin, subjectCreateValidation, subjectCreate);
 
-router.get('/AllSubjects/:id', authMiddleware, allSubjects);
-router.get('/ClassSubjects/:id', authMiddleware, classSubjects);
-router.get('/FreeSubjectList/:id', authMiddleware, freeSubjectList);
-router.get("/Subject/:id", authMiddleware, getSubjectDetail)
+router.get('/AllSubjects/:id', authMiddleware, idParamValidation, allSubjects);
+router.get('/ClassSubjects/:id', authMiddleware, idParamValidation, classSubjects);
+router.get('/FreeSubjectList/:id', authMiddleware, requireAdmin, idParamValidation, freeSubjectList);
+router.get("/Subject/:id", authMiddleware, idParamValidation, getSubjectDetail)
 
-router.delete("/Subject/:id", authMiddleware, deleteSubject)
-router.delete("/Subjects/:id", authMiddleware, deleteSubjects)
-router.delete("/SubjectsClass/:id", authMiddleware, deleteSubjectsByClass)
+router.delete("/Subject/:id", authMiddleware, requireAdmin, idParamValidation, deleteSubject)
+router.delete("/Subjects/:id", authMiddleware, requireAdmin, idParamValidation, deleteSubjects)
+router.delete("/SubjectsClass/:id", authMiddleware, requireAdmin, idParamValidation, deleteSubjectsByClass)
 
 module.exports = router;

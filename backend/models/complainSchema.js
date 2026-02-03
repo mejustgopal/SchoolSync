@@ -19,6 +19,11 @@ const complainSchema = new mongoose.Schema({
         ref: 'admin',
         required: true,
     }
-});
+}, { timestamps: true });
+
+// Add indexes
+complainSchema.index({ user: 1 });
+complainSchema.index({ school: 1 });
+complainSchema.index({ date: -1 });
 
 module.exports = mongoose.model("complain", complainSchema);

@@ -12,8 +12,18 @@ const Homepage = () => {
                 
                 {/* Text Content */}
                 <Grid item xs={12} md={6}>
-                    <Box sx={{ p: 4 }}>
-                        <Typography variant="h2" gutterBottom sx={{ fontWeight: 800, background: 'linear-gradient(45deg, #7f56da, #550080)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    <Box sx={{ p: { xs: 2, md: 4 } }}>
+                        <Typography 
+                            variant="h2" 
+                            gutterBottom 
+                            sx={{ 
+                                fontWeight: 800, 
+                                background: 'linear-gradient(45deg, #7f56da, #550080)', 
+                                WebkitBackgroundClip: 'text', 
+                                WebkitTextFillColor: 'transparent',
+                                fontSize: { xs: '2.5rem', md: '3.75rem' } // Responsive font size
+                            }}
+                        >
                             School Management System
                         </Typography>
                         <StyledText>

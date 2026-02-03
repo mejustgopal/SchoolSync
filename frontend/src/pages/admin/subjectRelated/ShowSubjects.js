@@ -5,8 +5,9 @@ import { getSubjectList } from '../../../redux/sclassRelated/sclassHandle';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
-    Paper, Box, IconButton,
+    Box, IconButton,
 } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import DeleteIcon from "@mui/icons-material/Delete";
 import TableTemplate from '../../../components/TableTemplate';
 import { BlueButton, GreenButton } from '../../../components/buttonStyles';
@@ -47,8 +48,8 @@ const ShowSubjects = () => {
         return {
             subName: subject.subName,
             sessions: subject.sessions,
-            sclassName: subject.sclassName.sclassName,
-            sclassID: subject.sclassName._id,
+            sclassName: subject.sclassName ? subject.sclassName.sclassName : "N/A",
+            sclassID: subject.sclassName ? subject.sclassName._id : null,
             id: subject._id,
         };
     })
@@ -92,12 +93,12 @@ const ShowSubjects = () => {
                             </GreenButton>
                         </Box>
                         :
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
                             {Array.isArray(subjectsList) && subjectsList.length > 0 &&
                                 <TableTemplate buttonHaver={SubjectsButtonHaver} columns={subjectColumns} rows={subjectRows} />
                             }
                             <SpeedDialTemplate actions={actions} />
-                        </Paper>
+                        </GlassCard>
                     }
                 </>
             }

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Paper, Box, Checkbox
+  Box, Checkbox
 } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import { getAllComplains } from '../../../redux/complainRelated/complainHandle';
 import TableTemplate from '../../../components/TableTemplate';
 
@@ -30,7 +31,7 @@ const SeeComplains = () => {
     const date = new Date(complain.date);
     const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
     return {
-      user: complain.user.name,
+      user: complain.user ? complain.user.name : "Unknown User",
       complaint: complain.complaint,
       date: dateString,
       id: complain._id,
@@ -56,11 +57,11 @@ const SeeComplains = () => {
               No Complains Right Now
             </Box>
             :
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
               {Array.isArray(complainsList) && complainsList.length > 0 &&
                 <TableTemplate buttonHaver={ComplainButtonHaver} columns={complainColumns} rows={complainRows} />
               }
-            </Paper>
+            </GlassCard>
           }
         </>
       }

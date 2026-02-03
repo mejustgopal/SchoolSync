@@ -5,6 +5,7 @@ import { AccountCircle, School, Group } from '@mui/icons-material';
 import { styled as muiStyled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import Popup from '../components/Popup';
+import GlassCard from '../components/GlassCard';
 
 import { keyframes } from '@mui/system';
 
@@ -135,14 +136,10 @@ const StyledContainer = muiStyled('div')(({ theme }) => ({
 // Using MUI styled for consistent theme access within the file mostly
 
 
-const UserCard = muiStyled(Paper)(({ theme }) => ({
-  padding: theme.spacing(4),
+const UserCard = muiStyled(GlassCard)(({ theme }) => ({
   textAlign: 'center',
   borderRadius: 20,
   cursor: 'pointer',
-  background: theme.palette.mode === 'dark' ? '#1e1e1e' : '#fff',
-  transition: 'all 0.3s ease-in-out',
-  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
   height: '100%',
   display: 'flex',
   flexDirection: 'column',

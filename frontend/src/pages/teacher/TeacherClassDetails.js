@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { getClassStudents } from "../../redux/sclassRelated/sclassHandle";
 import { Paper, Box, Typography, ButtonGroup, Button, Popper, Grow, ClickAwayListener, MenuList, MenuItem } from '@mui/material';
+import GlassCard from "../../components/GlassCard";
 import { BlackButton, BlueButton} from "../../components/buttonStyles";
 import TableTemplate from "../../components/TableTemplate";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
@@ -159,7 +160,7 @@ const TeacherClassDetails = () => {
                             </Box>
                         </>
                     ) : (
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
                             <Typography variant="h5" gutterBottom>
                                 Students List:
                             </Typography>
@@ -167,7 +168,7 @@ const TeacherClassDetails = () => {
                             {Array.isArray(sclassStudents) && sclassStudents.length > 0 &&
                                 <TableTemplate buttonHaver={StudentsButtonHaver} columns={studentColumns} rows={studentRows} />
                             }
-                        </Paper>
+                        </GlassCard>
                     )}
                 </>
             )}

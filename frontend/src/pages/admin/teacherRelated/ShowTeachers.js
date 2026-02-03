@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { getAllTeachers } from '../../../redux/teacherRelated/teacherHandle';
 import {
-    Paper, Table, TableBody, TableContainer,
+    Table, TableBody, TableContainer,
     TableHead, TablePagination, Button, Box, IconButton,
 } from '@mui/material';
+import GlassCard from '../../../components/GlassCard';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { StyledTableCell, StyledTableRow } from '../../../components/styles';
@@ -79,7 +80,7 @@ const ShowTeachers = () => {
     ];
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -158,7 +159,7 @@ const ShowTeachers = () => {
 
             <SpeedDialTemplate actions={actions} />
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-        </Paper >
+        </GlassCard >
     );
 };
 

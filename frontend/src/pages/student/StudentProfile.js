@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Card, CardContent, Typography, Grid, Box, Avatar, Container, Paper, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import GlassCard from '../../components/GlassCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser } from '../../redux/userRelated/userHandle';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
@@ -64,7 +65,7 @@ const StudentProfile = () => {
   return (
     <>
       <Container maxWidth="md">
-        <StyledPaper elevation={3}>
+        <GlassCard sx={{ mb: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Box display="flex" justifyContent="center">
@@ -102,9 +103,8 @@ const StudentProfile = () => {
               </Box>
             </Grid>
           </Grid>
-        </StyledPaper>
-        <Card>
-          <CardContent>
+        </GlassCard>
+        <GlassCard>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                 <Typography variant="h6">
                 Personal Information
@@ -146,8 +146,7 @@ const StudentProfile = () => {
                 </Typography>
               </Grid>
             </Grid>
-          </CardContent>
-        </Card>
+        </GlassCard>
       </Container>
       
       <Dialog open={open} onClose={handleClose}>
