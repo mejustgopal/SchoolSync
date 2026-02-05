@@ -47,7 +47,6 @@ const studentLogIn = async (req, res) => {
                 student.password = undefined;
                 student.examResult = undefined;
                 student.attendance = undefined;
-                student.attendance = undefined;
                 const token = jwt.sign({ _id: student._id, role: 'Student' }, process.env.SECRET_KEY, { expiresIn: '1d' });
                 res.send({ ...student._doc, token });
             } else {

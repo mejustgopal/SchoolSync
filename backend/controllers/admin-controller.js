@@ -43,22 +43,26 @@ const adminRegister = async (req, res) => {
 };
 
 const adminLogIn = async (req, res) => {
-    if (req.body.email && req.body.password) {
-        let admin = await Admin.findOne({ email: req.body.email });
-        if (admin) {
-            const validated = await bcrypt.compare(req.body.password, admin.password);
-            if (validated) {
-                admin.password = undefined;
-                const token = jwt.sign({ _id: admin._id, role: 'Admin' }, process.env.SECRET_KEY, { expiresIn: '1d' });
-                res.send({ ...admin._doc, token });
+    try {
+        if (req.body.email && req.body.password) {
+            let admin = await Admin.findOne({ email: req.body.email });
+            if (admin) {
+                const validated = await bcrypt.compare(req.body.password, admin.password);
+                if (validated) {
+                    admin.password = undefined;
+                    const token = jwt.sign({ _id: admin._id, role: 'Admin' }, process.env.SECRET_KEY, { expiresIn: '1d' });
+                    res.send({ ...admin._doc, token });
+                } else {
+                    return res.status(401).json({ message: "Invalid password" });
+                }
             } else {
-                return res.status(401).json({ message: "Invalid password" });
+                return res.status(404).json({ message: "User not found" });
             }
         } else {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(400).json({ message: "Email and password are required" });
         }
-    } else {
-        return res.status(400).json({ message: "Email and password are required" });
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
     }
 };
 

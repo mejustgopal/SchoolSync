@@ -10,7 +10,7 @@ const subjectSchema = new mongoose.Schema({
         required: true,
     },
     sessions: {
-        type: String,
+        type: Number,
         required: true,
     },
     sclassName: {
@@ -20,7 +20,8 @@ const subjectSchema = new mongoose.Schema({
     },
     school: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'admin'
+        ref: 'admin',
+        required: true,
     },
     teacher: {
         type: mongoose.Schema.Types.ObjectId,

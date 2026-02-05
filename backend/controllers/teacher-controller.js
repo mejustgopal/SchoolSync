@@ -90,23 +90,37 @@ const getTeacherDetail = async (req, res) => {
 const updateTeacherSubject = async (req, res) => {
     const { teacherId, teachSubject } = req.body;
     try {
+        // Validate that subject exists
+        const subject = await Subject.findById(teachSubject);
+        if (!subject) {
+            return res.status(404).json({ message: 'Subject not found' });
+        }
+
         const updatedTeacher = await Teacher.findByIdAndUpdate(
             teacherId,
             { teachSubject },
             { new: true }
         );
 
+        if (!updatedTeacher) {
+            return res.status(404).json({ message: 'Teacher not found' });
+        }
+
         await Subject.findByIdAndUpdate(teachSubject, { teacher: updatedTeacher._id });
 
         res.send(updatedTeacher);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
 const deleteTeacher = async (req, res) => {
     try {
         const deletedTeacher = await Teacher.findByIdAndDelete(req.params.id);
+
+        if (!deletedTeacher) {
+            return res.status(404).json({ message: 'Teacher not found' });
+        }
 
         await Subject.updateOne(
             { teacher: deletedTeacher._id, teacher: { $exists: true } },
@@ -115,7 +129,7 @@ const deleteTeacher = async (req, res) => {
 
         res.send(deletedTeacher);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -146,14 +160,14 @@ const deleteTeachers = async (req, res) => {
 const deleteTeachersByClass = async (req, res) => {
     try {
         // Find teachers BEFORE deleting them
-        const teachersToDelete = await Teacher.find({ sclassName: req.params.id });
+        const teachersToDelete = await Teacher.find({ teachSclass: req.params.id });
 
         if (teachersToDelete.length === 0) {
             return res.status(404).json({ message: "No teachers found to delete" });
         }
 
         // Delete the teachers
-        const deletionResult = await Teacher.deleteMany({ sclassName: req.params.id });
+        const deletionResult = await Teacher.deleteMany({ teachSclass: req.params.id });
 
         // Update subjects to remove teacher references
         await Subject.updateMany(

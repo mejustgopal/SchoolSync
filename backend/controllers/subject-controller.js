@@ -10,25 +10,28 @@ const subjectCreate = async (req, res) => {
             sessions: subject.sessions,
         }));
 
-        const existingSubjectBySubCode = await Subject.findOne({
-            'subjects.subCode': subjects[0].subCode,
-            school: req.body.adminID,
-        });
-
-        if (existingSubjectBySubCode) {
-            return res.status(409).json({ message: 'Sorry this subcode must be unique as it already exists' });
-        } else {
-            const newSubjects = subjects.map((subject) => ({
-                ...subject,
-                sclassName: req.body.sclassName,
+        // Check each subject code for uniqueness
+        for (const subject of subjects) {
+            const existingSubjectBySubCode = await Subject.findOne({
+                subCode: subject.subCode,
                 school: req.body.adminID,
-            }));
+            });
 
-            const result = await Subject.insertMany(newSubjects);
-            res.send(result);
+            if (existingSubjectBySubCode) {
+                return res.status(409).json({ message: `Subject code ${subject.subCode} already exists` });
+            }
         }
+
+        const newSubjects = subjects.map((subject) => ({
+            ...subject,
+            sclassName: req.body.sclassName,
+            school: req.body.adminID,
+        }));
+
+        const result = await Subject.insertMany(newSubjects);
+        res.send(result);
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -128,7 +131,7 @@ const deleteSubjects = async (req, res) => {
         // Set the teachSubject field to null in teachers
         await Teacher.updateMany(
             { teachSubject: { $in: deletedSubjects.map(subject => subject._id) } },
-            { $unset: { teachSubject: "" }, $unset: { teachSubject: null } }
+            { $unset: { teachSubject: "" } }
         );
 
         // Set examResult and attendance to null in all students
@@ -139,7 +142,7 @@ const deleteSubjects = async (req, res) => {
 
         res.send(deletedSubjects);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -150,7 +153,7 @@ const deleteSubjectsByClass = async (req, res) => {
         // Set the teachSubject field to null in teachers
         await Teacher.updateMany(
             { teachSubject: { $in: deletedSubjects.map(subject => subject._id) } },
-            { $unset: { teachSubject: "" }, $unset: { teachSubject: null } }
+            { $unset: { teachSubject: "" } }
         );
 
         // Set examResult and attendance to null in all students
@@ -161,7 +164,7 @@ const deleteSubjectsByClass = async (req, res) => {
 
         res.send(deletedSubjects);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 

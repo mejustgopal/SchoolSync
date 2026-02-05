@@ -16,7 +16,7 @@ const complainList = async (req, res) => {
         if (complains.length > 0) {
             res.send(complains)
         } else {
-            return res.status(404).json({ message: "No complains found" });
+            res.send([]);
         }
     } catch (err) {
         res.status(500).json(err);
