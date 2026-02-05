@@ -14,8 +14,8 @@ const studentRegisterValidation = [
     body('name').trim().notEmpty().withMessage('Name is required'),
     body('rollNum').isInt({ min: 1 }).withMessage('Roll number must be a positive integer'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-    body('sclassName').notEmpty().withMessage('Class is required'),
-    body('adminID').notEmpty().withMessage('Admin ID is required'),
+    body('sclassName').isMongoId().withMessage('Valid Class ID is required'),
+    body('adminID').isMongoId().withMessage('Valid Admin ID is required'),
     body('email').optional().isEmail().withMessage('Invalid email format'),
     body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
     validate
@@ -33,9 +33,9 @@ const teacherRegisterValidation = [
     body('name').trim().notEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Invalid email format'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-    body('school').notEmpty().withMessage('School ID is required'),
-    body('teachSubject').notEmpty().withMessage('Subject is required'),
-    body('teachSclass').notEmpty().withMessage('Class is required'),
+    body('school').isMongoId().withMessage('Valid School ID is required'),
+    body('teachSubject').isMongoId().withMessage('Valid Subject ID is required'),
+    body('teachSclass').isMongoId().withMessage('Valid Class ID is required'),
     validate
 ];
 
