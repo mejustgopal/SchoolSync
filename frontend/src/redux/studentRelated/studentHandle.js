@@ -10,6 +10,11 @@ import {
 export const getAllStudents = (id) => async (dispatch) => {
     dispatch(getRequest());
 
+    if (!id || id === 'undefined') {
+        dispatch(getError({ message: 'Missing ID for students' }));
+        return;
+    }
+
     try {
         const result = await axiosInstance.get(`/Students/${id}`);
         if (result.data.message) {
@@ -24,6 +29,11 @@ export const getAllStudents = (id) => async (dispatch) => {
 
 export const updateStudentFields = (id, fields, address) => async (dispatch) => {
     dispatch(getRequest());
+
+    if (!id || id === 'undefined') {
+        dispatch(getError({ message: 'Missing ID for student update' }));
+        return;
+    }
 
     try {
         const result = await axiosInstance.put(`/${address}/${id}`, fields);
@@ -40,6 +50,11 @@ export const updateStudentFields = (id, fields, address) => async (dispatch) => 
 
 export const removeStuff = (id, address) => async (dispatch) => {
     dispatch(getRequest());
+
+    if (!id || id === 'undefined') {
+        dispatch(getError({ message: 'Missing ID for student removal' }));
+        return;
+    }
 
     try {
         const result = await axiosInstance.put(`/${address}/${id}`);

@@ -9,6 +9,11 @@ import {
 export const getAllTeachers = (id) => async (dispatch) => {
     dispatch(getRequest());
 
+    if (!id) {
+        dispatch(getError({ message: 'Missing school ID' }));
+        return;
+    }
+
     try {
         const result = await axiosInstance.get(`/Teachers/${id}`);
         if (result.data.message) {
@@ -23,6 +28,11 @@ export const getAllTeachers = (id) => async (dispatch) => {
 
 export const getTeacherDetails = (id) => async (dispatch) => {
     dispatch(getRequest());
+
+    if (!id) {
+        dispatch(getError({ message: 'Missing teacher ID' }));
+        return;
+    }
 
     try {
         const result = await axiosInstance.get(`/Teacher/${id}`);

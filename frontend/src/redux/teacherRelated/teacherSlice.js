@@ -22,7 +22,7 @@ const teacherSlice = createSlice({
             state.response = null;
         },
         getSuccess: (state, action) => {
-            state.teachersList = action.payload;
+            state.teachersList = Array.isArray(action.payload) ? action.payload : [];
             state.loading = false;
             state.error = null;
             state.response = null;

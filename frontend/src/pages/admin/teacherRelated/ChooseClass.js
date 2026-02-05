@@ -23,6 +23,12 @@ const ChooseClass = ({ situation }) => {
     }
 
     const navigateHandler = (classID) => {
+        // Validate classID before navigation
+        if (!classID || classID === 'undefined') {
+            console.error('Invalid classID for navigation:', classID);
+            return;
+        }
+
         if (situation === ROLE_CONSTANTS.TEACHER) {
             navigate("/Admin/teachers/choosesubject/" + classID)
         }
@@ -35,12 +41,12 @@ const ChooseClass = ({ situation }) => {
         { id: 'name', label: 'Class Name', minWidth: 170 },
     ]
 
-    const sclassRows = sclassesList && sclassesList.length > 0 && sclassesList.map((sclass) => {
+    const sclassRows = Array.isArray(sclassesList) && sclassesList.length > 0 ? sclassesList.map((sclass) => {
         return {
             name: sclass.sclassName,
             id: sclass._id,
         };
-    })
+    }) : []
 
     const SclassButtonHaver = ({ row }) => {
         return (

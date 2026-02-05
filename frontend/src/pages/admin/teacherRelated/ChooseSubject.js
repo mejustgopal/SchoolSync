@@ -21,17 +21,23 @@ const ChooseSubject = ({ situation }) => {
 
     useEffect(() => {
         if (situation === "Norm") {
-            setClassID(params.id);
-            const classID = params.id
-            dispatch(getTeacherFreeClassSubjects(classID));
+            const classID = params.id;
+            // Check for both undefined and the string 'undefined'
+            if (classID && classID !== 'undefined') {
+                setClassID(classID);
+                dispatch(getTeacherFreeClassSubjects(classID));
+            }
         }
         else if (situation === ROLE_CONSTANTS.TEACHER) {
-            const { classID, teacherID } = params
-            setClassID(classID);
-            setTeacherID(teacherID);
-            dispatch(getTeacherFreeClassSubjects(classID));
+            const { classID, teacherID } = params;
+            // Check for both undefined and the string 'undefined'
+            if (classID && classID !== 'undefined' && teacherID && teacherID !== 'undefined') {
+                setClassID(classID);
+                setTeacherID(teacherID);
+                dispatch(getTeacherFreeClassSubjects(classID));
+            }
         }
-    }, [situation]);
+    }, [situation, params, dispatch]);
 
     if (loading) {
         return <div>Loading...</div>;

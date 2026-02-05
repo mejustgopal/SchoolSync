@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import {
-    Box, IconButton
+    Box, IconButton, Typography, Paper
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
@@ -41,7 +41,7 @@ const ShowNotices = () => {
         { id: 'date', label: 'Date', minWidth: 170 },
     ];
 
-    const noticeRows = noticesList && noticesList.length > 0 && noticesList.map((notice) => {
+    const noticeRows = Array.isArray(noticesList) && noticesList.length > 0 ? noticesList.map((notice) => {
         const date = new Date(notice.date);
         const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
         return {
@@ -50,7 +50,7 @@ const ShowNotices = () => {
             date: dateString,
             id: notice._id,
         };
-    });
+    }) : []
 
     const NoticeButtonHaver = ({ row }) => {
         return (
@@ -79,10 +79,13 @@ const ShowNotices = () => {
                 <div>Loading...</div>
                 :
                 <>
-                    {response ?
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                    {(response || noticesList.length === 0) ?
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+                            <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary', mb: 3 }}>
+                                No Notices Found. Please add notices to communicate with others.
+                            </Typography>
                             <GreenButton variant="contained"
-                                onClick={() => navigate("/Admin/addnotice")}>
+                                onClick={() => navigate("/Admin/addnotice")} sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}>
                                 Add Notice
                             </GreenButton>
                         </Box>

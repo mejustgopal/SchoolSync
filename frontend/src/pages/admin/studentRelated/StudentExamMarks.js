@@ -43,7 +43,7 @@ const StudentExamMarks = ({ situation }) => {
             dispatch(getUserDetails(studentID, ROLE_CONSTANTS.STUDENT));
             setChosenSubName(subjectID);
         }
-    }, [situation]);
+    }, [situation, params, dispatch]);
 
     useEffect(() => {
         if (userDetails && userDetails.sclassName && situation === ROLE_CONSTANTS.STUDENT) {
@@ -135,7 +135,7 @@ const StudentExamMarks = ({ situation }) => {
                                                 label="Choose an option"
                                                 onChange={changeHandler} required
                                             >
-                                                {subjectsList ?
+                                                {Array.isArray(subjectsList) && subjectsList.length > 0 ?
                                                     subjectsList.map((subject, index) => (
                                                         <MenuItem key={index} value={subject.subName}>
                                                             {subject.subName}

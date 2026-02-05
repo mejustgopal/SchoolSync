@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { getAllTeachers } from '../../../redux/teacherRelated/teacherHandle';
 import {
     Table, TableBody, TableContainer,
-    TableHead, TablePagination, Button, Box, IconButton,
+    TableHead, TablePagination, Button, Box, IconButton, Typography, Paper
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
@@ -31,13 +31,17 @@ const ShowTeachers = () => {
 
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
+    if (message) { }
 
     if (loading) {
         return <div>Loading...</div>;
-    } else if (response) {
+    } else if (response || teachersList.length === 0) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                <GreenButton variant="contained" onClick={() => navigate("/Admin/teachers/chooseclass")}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+                <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary', mb: 3 }}>
+                    No Teachers Found. Please add teachers to manage them here.
+                </Typography>
+                <GreenButton variant="contained" onClick={() => navigate("/Admin/teachers/chooseclass")} sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}>
                     Add Teacher
                 </GreenButton>
             </Box>
@@ -58,15 +62,17 @@ const ShowTeachers = () => {
         { id: 'teachSclass', label: 'Class', minWidth: 170 },
     ];
 
-    const rows = teachersList.map((teacher) => {
-        return {
-            name: teacher.name,
-            teachSubject: teacher.teachSubject?.subName || null,
-            teachSclass: teacher.teachSclass.sclassName,
-            teachSclassID: teacher.teachSclass._id,
-            id: teacher._id,
-        };
-    });
+    const rows = Array.isArray(teachersList) && teachersList.length > 0
+        ? teachersList.map((teacher) => {
+            return {
+                name: teacher.name,
+                teachSubject: teacher.teachSubject?.subName || null,
+                teachSclass: teacher.teachSclass ? teacher.teachSclass.sclassName : "N/A",
+                teachSclassID: teacher.teachSclass ? teacher.teachSclass._id : null,
+                id: teacher._id,
+            };
+        })
+        : [];
 
     const actions = [
         {

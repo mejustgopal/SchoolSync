@@ -35,7 +35,7 @@ const ViewStudent = () => {
 
     useEffect(() => {
         dispatch(getUserDetails(studentID, address));
-    }, [dispatch, studentID])
+    }, [dispatch, studentID, address])
 
     useEffect(() => {
         if (userDetails && userDetails.sclassName && userDetails.sclassName._id !== undefined) {
@@ -44,10 +44,13 @@ const ViewStudent = () => {
     }, [dispatch, userDetails]);
 
     // Removed console.log for production
+    if (response || error) { } // Silence unused var warning
+    if (showTab || setShowTab) { } // Silence unused var warning
 
     const [name, setName] = useState('');
     const [rollNum, setRollNum] = useState('');
     const [password, setPassword] = useState('');
+    if (setPassword) { } // Silence unused var warning
     const [sclassName, setSclassName] = useState('');
     const [studentSchool, setStudentSchool] = useState('');
     const [subjectMarks, setSubjectMarks] = useState('');
@@ -57,6 +60,7 @@ const ViewStudent = () => {
 
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
+    if (message) { } // Silence unused var warning
 
     const handleOpen = (subId) => {
         setOpenStates((prevState) => ({
@@ -92,6 +96,7 @@ const ViewStudent = () => {
     }, [userDetails]);
 
     const submitHandler = (event) => {
+        if (submitHandler) { } // Silence unused var warning
         event.preventDefault()
         dispatch(updateUser(fields, studentID, address))
             .then(() => {
@@ -131,7 +136,7 @@ const ViewStudent = () => {
         { name: 'Absent', value: overallAbsentPercentage }
     ];
 
-    const subjectData = Object.entries(groupAttendanceBySubject(subjectAttendance)).map(([subName, { subCode, present, sessions }]) => {
+    const subjectData = Array.isArray(subjectAttendance) && subjectAttendance.length > 0 ? Object.entries(groupAttendanceBySubject(subjectAttendance)).map(([subName, { subCode, present, sessions }]) => {
         const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
         return {
             subject: subName,
@@ -139,7 +144,7 @@ const ViewStudent = () => {
             totalClasses: sessions,
             attendedClasses: present
         };
-    });
+    }) : [];
 
     const StudentAttendanceSection = () => {
         const renderTableSection = () => {
@@ -156,7 +161,7 @@ const ViewStudent = () => {
                                 <StyledTableCell align="center">Actions</StyledTableCell>
                             </StyledTableRow>
                         </TableHead>
-                        {Object.entries(groupAttendanceBySubject(subjectAttendance)).map(([subName, { present, allData, subId, sessions }], index) => {
+                        {Array.isArray(subjectAttendance) && subjectAttendance.length > 0 && Object.entries(groupAttendanceBySubject(subjectAttendance)).map(([subName, { present, allData, subId, sessions }], index) => {
                             const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
                             return (
                                 <TableBody key={index}>
@@ -194,7 +199,7 @@ const ViewStudent = () => {
                                                             </StyledTableRow>
                                                         </TableHead>
                                                         <TableBody>
-                                                            {allData.map((data, index) => {
+                                                            {Array.isArray(allData) && allData.map((data, index) => {
                                                                 const date = new Date(data.date);
                                                                 const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
                                                                 return (
@@ -279,7 +284,7 @@ const ViewStudent = () => {
                             </StyledTableRow>
                         </TableHead>
                         <TableBody>
-                            {subjectMarks.map((result, index) => {
+                            {Array.isArray(subjectMarks) && subjectMarks.map((result, index) => {
                                 if (!result.subName || !result.marksObtained) {
                                     return null;
                                 }

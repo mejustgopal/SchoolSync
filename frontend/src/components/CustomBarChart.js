@@ -154,16 +154,16 @@ const CustomTooltipContent = ({ active, payload, dataKey }) => {
 };
 
 const CustomBarChart = ({ chartData, dataKey }) => {
-    const subjects = chartData.map((data) => data.subject);
+    const subjects = Array.isArray(chartData) ? chartData.map((data) => data.subject) : [];
     const distinctColors = generateDistinctColors(subjects.length);
 
     return (
-        <BarChart width={500} height={500} data={chartData}>
+        <BarChart width={500} height={500} data={Array.isArray(chartData) ? chartData : []}>
             <XAxis dataKey={dataKey === "marksObtained" ? "subName.subName" : "subject"} />
             <YAxis domain={[0, 100]} />
             <Tooltip content={<CustomTooltipContent dataKey={dataKey} />} />
             <Bar dataKey={dataKey}>
-                {chartData.map((entry, index) => (
+                {Array.isArray(chartData) && chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={distinctColors[index]} />
                 ))}
             </Bar>

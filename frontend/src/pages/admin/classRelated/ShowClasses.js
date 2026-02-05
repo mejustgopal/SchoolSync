@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IconButton, Box, Menu, MenuItem, ListItemIcon, Tooltip } from '@mui/material';
+import { IconButton, Box, Menu, MenuItem, ListItemIcon, Tooltip, Typography } from '@mui/material';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -36,6 +36,7 @@ const ShowClasses = () => {
 
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
+  if (message) { } // silences unused var warning
 
   const deleteHandler = (deleteID, address) => {
     dispatch(deleteUser(deleteID, address))
@@ -48,12 +49,12 @@ const ShowClasses = () => {
     { id: 'name', label: 'Class Name', minWidth: 170 },
   ]
 
-  const sclassRows = sclassesList && sclassesList.length > 0 && sclassesList.map((sclass) => {
+  const sclassRows = Array.isArray(sclassesList) && sclassesList.length > 0 ? sclassesList.map((sclass) => {
     return {
       name: sclass.sclassName,
       id: sclass._id,
     };
-  })
+  }) : []
 
   const SclassButtonHaver = ({ row }) => {
     const actions = [
@@ -145,9 +146,12 @@ const ShowClasses = () => {
         <div>Loading...</div>
         :
         <>
-          {getresponse ?
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-              <GreenButton variant="contained" onClick={() => navigate("/Admin/addclass")}>
+          {(getresponse || sclassesList.length === 0) ?
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+              <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary', mb: 3 }}>
+                No Classes Found. Please add classes to manage them here.
+              </Typography>
+              <GreenButton variant="contained" onClick={() => navigate("/Admin/addclass")} sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}>
                 Add Class
               </GreenButton>
             </Box>

@@ -50,7 +50,7 @@ const ViewStdAttendance = () => {
 
     const overallAttendancePercentage = calculateOverallAttendancePercentage(subjectAttendance);
 
-    const subjectData = Object.entries(attendanceBySubject).map(([subName, { subCode, present, sessions }]) => {
+    const subjectData = Array.isArray(subjectAttendance) && subjectAttendance.length > 0 ? Object.entries(attendanceBySubject).map(([subName, { subCode, present, sessions }]) => {
         const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
         return {
             subject: subName,
@@ -58,7 +58,7 @@ const ViewStdAttendance = () => {
             totalClasses: sessions,
             attendedClasses: present
         };
-    });
+    }) : [];
 
     const handleSectionChange = (event, newSection) => {
         setSelectedSection(newSection);
@@ -70,7 +70,7 @@ const ViewStdAttendance = () => {
                 <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold', color: 'text.primary', mb: 3 }}>
                     Attendance Overview
                 </Typography>
-                
+
                 <GlassCard sx={{ mb: 3, p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'rgba(0, 150, 0, 0.1)' }}>
                     <Typography variant="h6" sx={{ color: 'green', fontWeight: 'bold' }}>
                         Overall Attendance Percentage: {overallAttendancePercentage.toFixed(2)}%
@@ -88,7 +88,7 @@ const ViewStdAttendance = () => {
                                 <StyledTableCell align="center" sx={{ fontWeight: 'bold', color: 'text.primary' }}>Actions</StyledTableCell>
                             </StyledTableRow>
                         </TableHead>
-                        {Object.entries(attendanceBySubject).map(([subName, { present, allData, subId, sessions }], index) => {
+                        {Array.isArray(subjectAttendance) && subjectAttendance.length > 0 && Object.entries(attendanceBySubject).map(([subName, { present, allData, subId, sessions }], index) => {
                             const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
 
                             return (
@@ -99,11 +99,11 @@ const ViewStdAttendance = () => {
                                         </StyledTableCell>
                                         <StyledTableCell sx={{ color: 'text.secondary' }}>{present}</StyledTableCell>
                                         <StyledTableCell sx={{ color: 'text.secondary' }}>{sessions}</StyledTableCell>
-                                        <StyledTableCell sx={{ color: 'text.secondary', fontWeight: 'bold', color: subjectAttendancePercentage < 75 ? 'error.main' : 'green' }}>
+                                        <StyledTableCell sx={{ color: subjectAttendancePercentage < 75 ? 'error.main' : 'green', fontWeight: 'bold' }}>
                                             {subjectAttendancePercentage}%
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
-                                            <Button 
+                                            <Button
                                                 variant="outlined"
                                                 size="small"
                                                 onClick={() => handleOpen(subId)}
@@ -129,7 +129,7 @@ const ViewStdAttendance = () => {
                                                             </StyledTableRow>
                                                         </TableHead>
                                                         <TableBody>
-                                                            {allData.map((data, index) => {
+                                                            {Array.isArray(allData) && allData.map((data, index) => {
                                                                 const date = new Date(data.date);
                                                                 const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
                                                                 return (
@@ -174,17 +174,17 @@ const ViewStdAttendance = () => {
                     <div>Loading...</div>
                 )
                 :
-                <Box sx={{ p: 3, mb: 7 }}> 
+                <Box sx={{ p: 3, mb: 7 }}>
                     {subjectAttendance && Array.isArray(subjectAttendance) && subjectAttendance.length > 0 ?
                         <>
                             {selectedSection === 'table' && renderTableSection()}
                             {selectedSection === 'chart' && renderChartSection()}
 
                             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, borderTop: '1px solid rgba(255,255,255,0.1)' }} elevation={3}>
-                                <BottomNavigation 
-                                    value={selectedSection} 
-                                    onChange={handleSectionChange} 
-                                    showLabels 
+                                <BottomNavigation
+                                    value={selectedSection}
+                                    onChange={handleSectionChange}
+                                    showLabels
                                     sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(30,30,30,0.9)' : 'white' }}
                                 >
                                     <BottomNavigationAction

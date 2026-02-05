@@ -15,7 +15,7 @@ const complainSlice = createSlice({
             state.loading = true;
         },
         getSuccess: (state, action) => {
-            state.complainsList = action.payload;
+            state.complainsList = Array.isArray(action.payload) ? action.payload : [];
             state.loading = false;
             state.error = null;
             state.response = null;

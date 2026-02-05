@@ -15,7 +15,7 @@ const noticeSlice = createSlice({
             state.loading = true;
         },
         getSuccess: (state, action) => {
-            state.noticesList = action.payload;
+            state.noticesList = Array.isArray(action.payload) ? action.payload : [];
             state.loading = false;
             state.error = null;
             state.response = null;

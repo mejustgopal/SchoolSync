@@ -5,7 +5,7 @@ import { getSubjectList } from '../../../redux/sclassRelated/sclassHandle';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
-    Box, IconButton,
+    Box, IconButton, Typography, Paper
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -30,6 +30,7 @@ const ShowSubjects = () => {
 
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
+    if (message) { }
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
@@ -44,15 +45,17 @@ const ShowSubjects = () => {
         { id: 'sclassName', label: 'Class', minWidth: 170 },
     ]
 
-    const subjectRows = subjectsList.map((subject) => {
-        return {
-            subName: subject.subName,
-            sessions: subject.sessions,
-            sclassName: subject.sclassName ? subject.sclassName.sclassName : "N/A",
-            sclassID: subject.sclassName ? subject.sclassName._id : null,
-            id: subject._id,
-        };
-    })
+    const subjectRows = Array.isArray(subjectsList) && subjectsList.length > 0
+        ? subjectsList.map((subject) => {
+            return {
+                subName: subject.subName,
+                sessions: subject.sessions,
+                sclassName: subject.sclassName ? subject.sclassName.sclassName : "N/A",
+                sclassID: subject.sclassName ? subject.sclassName._id : null,
+                id: subject._id,
+            };
+        })
+        : [];
 
     const SubjectsButtonHaver = ({ row }) => {
         return (
@@ -85,10 +88,13 @@ const ShowSubjects = () => {
                 <div>Loading...</div>
                 :
                 <>
-                    {response ?
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                    {(response || subjectsList.length === 0) ?
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+                            <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary', mb: 3 }}>
+                                No Subjects Found. Please add subjects to manage them here.
+                            </Typography>
                             <GreenButton variant="contained"
-                                onClick={() => navigate("/Admin/subjects/chooseclass")}>
+                                onClick={() => navigate("/Admin/subjects/chooseclass")} sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}>
                                 Add Subjects
                             </GreenButton>
                         </Box>

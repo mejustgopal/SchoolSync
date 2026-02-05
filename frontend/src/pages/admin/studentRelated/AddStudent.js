@@ -63,6 +63,14 @@ const AddStudent = ({ situation }) => {
             setMessage("Please select a classname")
             setShowPopup(true)
         }
+        else if (rollNum <= 0) {
+            setMessage("Roll number must be a positive integer")
+            setShowPopup(true)
+        }
+        else if (password.length < 6) {
+            setMessage("Password must be at least 6 characters long")
+            setShowPopup(true)
+        }
         else {
             setLoader(true)
             dispatch(registerUser(fields, role))
@@ -80,7 +88,7 @@ const AddStudent = ({ situation }) => {
             setLoader(false)
         }
         else if (status === 'error') {
-            setMessage("Network Error")
+            setMessage(error)
             setShowPopup(true)
             setLoader(false)
         }
@@ -129,7 +137,7 @@ const AddStudent = ({ situation }) => {
                                         onChange={changeHandler}
                                     >
                                         <MenuItem value='Select Class'>Select Class</MenuItem>
-                                        {sclassesList.map((classItem, index) => (
+                                        {Array.isArray(sclassesList) && sclassesList.length > 0 && sclassesList.map((classItem, index) => (
                                             <MenuItem key={index} value={classItem.sclassName}>
                                                 {classItem.sclassName}
                                             </MenuItem>

@@ -22,7 +22,7 @@ const studentSlice = createSlice({
             state.statestatus = "added";
         },
         getSuccess: (state, action) => {
-            state.studentsList = action.payload;
+            state.studentsList = Array.isArray(action.payload) ? action.payload : [];
             state.loading = false;
             state.error = null;
             state.response = null;

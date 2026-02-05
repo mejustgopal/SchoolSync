@@ -59,7 +59,7 @@ const StudentSubjects = () => {
                         </StyledTableRow>
                     </TableHead>
                     <TableBody>
-                        {subjectMarks.map((result, index) => {
+                        {Array.isArray(subjectMarks) && subjectMarks.map((result, index) => {
                             if (!result.subName || !result.marksObtained) {
                                 return null;
                             }
@@ -92,7 +92,7 @@ const StudentSubjects = () => {
                 <Typography variant="h6" gutterBottom>
                     And these are the subjects:
                 </Typography>
-                {subjectsList &&
+                {Array.isArray(subjectsList) && subjectsList.length > 0 &&
                     subjectsList.map((subject, index) => (
                         <div key={index}>
                             <Typography variant="subtitle1">

@@ -62,13 +62,13 @@ const ClassDetails = () => {
         { id: 'code', label: 'Subject Code', minWidth: 100 },
     ]
 
-    const subjectRows = subjectsList && subjectsList.length > 0 && subjectsList.map((subject) => {
+    const subjectRows = Array.isArray(subjectsList) && subjectsList.length > 0 ? subjectsList.map((subject) => {
         return {
             name: subject.subName,
             code: subject.subCode,
             id: subject._id,
         };
-    })
+    }) : []
 
     const SubjectsButtonHaver = ({ row }) => {
         return (
@@ -130,13 +130,13 @@ const ClassDetails = () => {
         { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
     ]
 
-    const studentRows = sclassStudents.map((student) => {
+    const studentRows = Array.isArray(sclassStudents) && sclassStudents.length > 0 ? sclassStudents.map((student) => {
         return {
             name: student.name,
             rollNum: student.rollNum,
             id: student._id,
         };
-    })
+    }) : []
 
     const StudentsButtonHaver = ({ row }) => {
         return (

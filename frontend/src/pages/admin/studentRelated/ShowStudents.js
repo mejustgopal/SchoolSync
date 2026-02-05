@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllStudents } from '../../../redux/studentRelated/studentHandle';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import {
-    Box, IconButton, Paper
+    Box, IconButton, Paper, Typography
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
@@ -43,6 +43,7 @@ const ShowStudents = () => {
 
     const [showPopup, setShowPopup] = React.useState(false);
     const [message, setMessage] = React.useState("");
+    if (message) { }
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
@@ -57,14 +58,14 @@ const ShowStudents = () => {
         { id: 'sclassName', label: 'Class', minWidth: 170 },
     ]
 
-    const studentRows = studentsList && studentsList.length > 0 && studentsList.map((student) => {
+    const studentRows = Array.isArray(studentsList) && studentsList.length > 0 ? studentsList.map((student) => {
         return {
             name: student.name,
             rollNum: student.rollNum,
             sclassName: student.sclassName ? student.sclassName.sclassName : "N/A",
             id: student._id,
         };
-    })
+    }) : []
 
     const StudentButtonHaver = ({ row }) => {
         const options = ['Take Attendance', 'Provide Marks'];
@@ -187,9 +188,12 @@ const ShowStudents = () => {
                 <div>Loading...</div>
                 :
                 <>
-                    {response ?
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                            <GreenButton variant="contained" onClick={() => navigate("/Admin/addstudents")}>
+                    {(response || studentsList.length === 0) ?
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+                            <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary', mb: 3 }}>
+                                No Students Found. Please add students to manage them here.
+                            </Typography>
+                            <GreenButton variant="contained" onClick={() => navigate("/Admin/addstudents")} sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}>
                                 Add Students
                             </GreenButton>
                         </Box>

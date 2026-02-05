@@ -15,6 +15,11 @@ import {
 export const getAllSclasses = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
+    if (!id || id === 'undefined' || !address) {
+        dispatch(getError({ message: 'Missing required parameters' }));
+        return;
+    }
+
     try {
         const result = await axiosInstance.get(`/${address}List/${id}`);
         if (result.data.message) {
@@ -29,6 +34,11 @@ export const getAllSclasses = (id, address) => async (dispatch) => {
 
 export const getClassStudents = (id) => async (dispatch) => {
     dispatch(getRequest());
+
+    if (!id) {
+        dispatch(getError({ message: 'Missing class ID' }));
+        return;
+    }
 
     try {
         const result = await axiosInstance.get(`/Sclass/Students/${id}`);
@@ -45,6 +55,11 @@ export const getClassStudents = (id) => async (dispatch) => {
 export const getClassDetails = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
+    if (!id || !address) {
+        dispatch(getError({ message: 'Missing required parameters' }));
+        return;
+    }
+
     try {
         const result = await axiosInstance.get(`/${address}/${id}`);
         if (result.data) {
@@ -57,6 +72,11 @@ export const getClassDetails = (id, address) => async (dispatch) => {
 
 export const getSubjectList = (id, address) => async (dispatch) => {
     dispatch(getRequest());
+
+    if (!id || !address) {
+        dispatch(getError({ message: 'Missing required parameters' }));
+        return;
+    }
 
     try {
         const result = await axiosInstance.get(`/${address}/${id}`);
@@ -73,6 +93,11 @@ export const getSubjectList = (id, address) => async (dispatch) => {
 export const getTeacherFreeClassSubjects = (id) => async (dispatch) => {
     dispatch(getRequest());
 
+    if (!id || id === 'undefined') {
+        dispatch(getError({ message: 'Missing class ID' }));
+        return;
+    }
+
     try {
         const result = await axiosInstance.get(`/FreeSubjectList/${id}`);
         if (result.data.message) {
@@ -87,6 +112,11 @@ export const getTeacherFreeClassSubjects = (id) => async (dispatch) => {
 
 export const getSubjectDetails = (id, address) => async (dispatch) => {
     dispatch(getSubDetailsRequest());
+
+    if (!id || !address) {
+        dispatch(getError({ message: 'Missing required parameters' }));
+        return;
+    }
 
     try {
         const result = await axiosInstance.get(`/${address}/${id}`);

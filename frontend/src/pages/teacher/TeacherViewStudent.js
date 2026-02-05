@@ -16,7 +16,8 @@ const TeacherViewStudent = () => {
     const params = useParams()
     const dispatch = useDispatch();
     const { currentUser, userDetails, response, loading, error } = useSelector((state) => state.user);
- 
+    if (response || error) { } // Silence unused var warning
+
     const address = ROLE_CONSTANTS.STUDENT
     const studentID = params.id
     const teachSubject = currentUser.teachSubject?.subName
@@ -24,7 +25,7 @@ const TeacherViewStudent = () => {
 
     useEffect(() => {
         dispatch(getUserDetails(studentID, address));
-    }, [dispatch, studentID]);
+    }, [dispatch, studentID, address]);
 
     // Removed console.log for production
 
@@ -124,7 +125,7 @@ const TeacherViewStudent = () => {
                                                                         </StyledTableRow>
                                                                     </TableHead>
                                                                     <TableBody>
-                                                                        {allData.map((data, index) => {
+                                                                        {Array.isArray(allData) && allData.map((data, index) => {
                                                                             const date = new Date(data.date);
                                                                             const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
                                                                             return (

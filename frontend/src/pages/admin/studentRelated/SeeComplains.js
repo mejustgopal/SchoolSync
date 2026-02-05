@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Checkbox
+  Box, Checkbox, Typography, Paper
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import { getAllComplains } from '../../../redux/complainRelated/complainHandle';
@@ -9,7 +9,7 @@ import TableTemplate from '../../../components/TableTemplate';
 
 const SeeComplains = () => {
 
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };  const dispatch = useDispatch();
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }; const dispatch = useDispatch();
   const { complainsList, loading, error, response } = useSelector((state) => state.complain);
   const { currentUser } = useSelector(state => state.user)
 
@@ -27,7 +27,7 @@ const SeeComplains = () => {
     { id: 'date', label: 'Date', minWidth: 170 },
   ];
 
-  const complainRows = complainsList && complainsList.length > 0 && complainsList.map((complain) => {
+  const complainRows = Array.isArray(complainsList) && complainsList.length > 0 ? complainsList.map((complain) => {
     const date = new Date(complain.date);
     const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
     return {
@@ -36,7 +36,7 @@ const SeeComplains = () => {
       date: dateString,
       id: complain._id,
     };
-  });
+  }) : []
 
   const ComplainButtonHaver = ({ row }) => {
     return (
@@ -52,9 +52,11 @@ const SeeComplains = () => {
         <div>Loading...</div>
         :
         <>
-          {response ?
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-              No Complains Right Now
+          {(response || complainsList.length === 0) ?
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+              <Typography variant="h5" gutterBottom sx={{ color: 'text.secondary' }}>
+                No Complaints Found. Rest easy, everything seems to be going smoothly!
+              </Typography>
             </Box>
             :
             <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
