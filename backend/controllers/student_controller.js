@@ -70,7 +70,7 @@ const getStudents = async (req, res) => {
             });
             res.send(modifiedStudents);
         } else {
-            return res.status(404).json({ message: "No students found" });
+            res.send([]);
         }
     } catch (err) {
         res.status(500).json(err);
@@ -83,7 +83,7 @@ const getStudentDetail = async (req, res) => {
         if (req.user.role === 'Student' && req.user._id !== req.params.id) {
             return res.status(403).json({ message: 'Unauthorized: You can only view your own profile' });
         }
-        
+
         let student = await Student.findById(req.params.id)
             .populate("school", "schoolName")
             .populate("sclassName", "sclassName")
@@ -105,7 +105,7 @@ const deleteStudent = async (req, res) => {
     try {
         // Delete student's complaints first to prevent orphaned records
         await Complain.deleteMany({ user: req.params.id });
-        
+
         // Then delete the student
         const result = await Student.findByIdAndDelete(req.params.id);
         res.send(result);
@@ -118,16 +118,16 @@ const deleteStudents = async (req, res) => {
     try {
         // Find all students to be deleted
         const studentsToDelete = await Student.find({ school: req.params.id });
-        
+
         if (studentsToDelete.length === 0) {
             return res.status(404).json({ message: "No students found to delete" });
         }
-        
+
         // Delete all complaints for these students
-        await Complain.deleteMany({ 
-            user: { $in: studentsToDelete.map(student => student._id) } 
+        await Complain.deleteMany({
+            user: { $in: studentsToDelete.map(student => student._id) }
         });
-        
+
         // Then delete the students
         const result = await Student.deleteMany({ school: req.params.id });
         res.send(result);
@@ -140,16 +140,16 @@ const deleteStudentsByClass = async (req, res) => {
     try {
         // Find all students to be deleted
         const studentsToDelete = await Student.find({ sclassName: req.params.id });
-        
+
         if (studentsToDelete.length === 0) {
             return res.status(404).json({ message: "No students found to delete" });
         }
-        
+
         // Delete all complaints for these students
-        await Complain.deleteMany({ 
-            user: { $in: studentsToDelete.map(student => student._id) } 
+        await Complain.deleteMany({
+            user: { $in: studentsToDelete.map(student => student._id) }
         });
-        
+
         // Then delete the students
         const result = await Student.deleteMany({ sclassName: req.params.id });
         res.send(result);
@@ -164,7 +164,7 @@ const updateStudent = async (req, res) => {
         if (req.user.role === 'Student' && req.user._id !== req.params.id) {
             return res.status(403).json({ message: 'Unauthorized: You can only update your own profile' });
         }
-        
+
         if (req.body.password) {
             const salt = await bcrypt.genSalt(10)
             req.body.password = await bcrypt.hash(req.body.password, salt)

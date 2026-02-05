@@ -62,7 +62,7 @@ const getTeachers = async (req, res) => {
             });
             res.send(modifiedTeachers);
         } else {
-            return res.status(404).json({ message: "No teachers found" });
+            res.send([]);
         }
     } catch (err) {
         res.status(500).json(err);
@@ -123,7 +123,7 @@ const deleteTeachers = async (req, res) => {
     try {
         // Find teachers BEFORE deleting them
         const teachersToDelete = await Teacher.find({ school: req.params.id });
-        
+
         if (teachersToDelete.length === 0) {
             return res.status(404).json({ message: "No teachers found to delete" });
         }
@@ -147,7 +147,7 @@ const deleteTeachersByClass = async (req, res) => {
     try {
         // Find teachers BEFORE deleting them
         const teachersToDelete = await Teacher.find({ sclassName: req.params.id });
-        
+
         if (teachersToDelete.length === 0) {
             return res.status(404).json({ message: "No teachers found to delete" });
         }
@@ -173,16 +173,16 @@ const teacherAttendance = async (req, res) => {
     try {
         // Validation: Ensure required fields are present
         if (!status || !date) {
-            return res.status(400).json({ 
-                message: 'Status and date are required fields' 
+            return res.status(400).json({
+                message: 'Status and date are required fields'
             });
         }
 
         // Validation: Ensure status is valid
         const validStatuses = ['Present', 'Absent'];
         if (!validStatuses.includes(status)) {
-            return res.status(400).json({ 
-                message: 'Status must be either "Present" or "Absent"' 
+            return res.status(400).json({
+                message: 'Status must be either "Present" or "Absent"'
             });
         }
 

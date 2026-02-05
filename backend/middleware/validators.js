@@ -62,10 +62,12 @@ const adminLoginValidation = [
 
 // Subject validation
 const subjectCreateValidation = [
-    body('subName').trim().notEmpty().withMessage('Subject name is required'),
-    body('subCode').trim().notEmpty().withMessage('Subject code is required'),
-    body('sessions').notEmpty().withMessage('Sessions is required'),
+    body('subjects').isArray().withMessage('Subjects must be an array'),
+    body('subjects.*.subName').trim().notEmpty().withMessage('Subject name is required'),
+    body('subjects.*.subCode').trim().notEmpty().withMessage('Subject code is required'),
+    body('subjects.*.sessions').notEmpty().withMessage('Sessions is required'),
     body('sclassName').notEmpty().withMessage('Class is required'),
+    body('adminID').notEmpty().withMessage('Admin ID is required'),
     validate
 ];
 

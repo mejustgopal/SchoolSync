@@ -19,7 +19,7 @@ const noticeList = async (req, res) => {
         if (notices.length > 0) {
             res.send(notices)
         } else {
-            return res.status(404).json({ message: "No notices found" });
+            res.send([]);
         }
     } catch (err) {
         res.status(500).json(err);
