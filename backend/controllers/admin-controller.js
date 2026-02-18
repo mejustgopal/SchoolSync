@@ -81,6 +81,18 @@ const getAdminDetail = async (req, res) => {
     }
 }
 
+const updateAdmin = async (req, res) => {
+    try {
+        if (req.body.password) {
+            const salt = await bcrypt.genSalt(10);
+            req.body.password = await bcrypt.hash(req.body.password, salt);
+        }
+        let result = await Admin.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+        result.password = undefined;
+        res.send(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
 
-
-module.exports = { adminRegister, adminLogIn, getAdminDetail };
+module.exports = { adminRegister, adminLogIn, getAdminDetail, updateAdmin };

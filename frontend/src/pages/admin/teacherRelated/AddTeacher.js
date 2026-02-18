@@ -5,9 +5,11 @@ import { getSubjectDetails } from '../../../redux/sclassRelated/sclassHandle';
 import Popup from '../../../components/Popup';
 import { registerUser } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
-import { CircularProgress, Box, Typography, TextField, Button, Stack } from '@mui/material';
+import { CircularProgress, Box, Typography, TextField, Button, Stack, InputAdornment, IconButton } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import { ROLE_CONSTANTS } from '../../../constants';
+import { validatePassword, validateEmail } from '../../../utils/validation';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const AddTeacher = () => {
   const params = useParams()
@@ -29,6 +31,7 @@ const AddTeacher = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
+  const [toggle, setToggle] = useState(false)
 
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
@@ -63,8 +66,15 @@ const AddTeacher = () => {
       return;
     }
 
-    if (password.length < 6) {
-      setMessage('Password must be at least 6 characters long.');
+    const passwordCheck = validatePassword(password);
+    if (!passwordCheck.isValid) {
+      setMessage(passwordCheck.message);
+      setShowPopup(true);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setMessage('Invalid email format.');
       setShowPopup(true);
       return;
     }
@@ -146,10 +156,23 @@ const AddTeacher = () => {
                 fullWidth
                 label="Password"
                 variant="outlined"
-                type="password"
+                type={toggle ? 'text' : 'password'}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setToggle(!toggle)}>
+                        {toggle ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
               <Button

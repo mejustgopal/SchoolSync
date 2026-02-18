@@ -10,6 +10,7 @@ import { registerUser } from '../../redux/userRelated/userHandle';
 import Popup from '../../components/Popup';
 import { ROLE_CONSTANTS } from '../../constants';
 import GlassCard from '../../components/GlassCard';
+import { validateEmail, validatePassword } from '../../utils/validation';
 
 const AdminRegisterPage = () => {
 
@@ -42,6 +43,19 @@ const AdminRegisterPage = () => {
             if (!schoolName) setSchoolNameError(true);
             if (!email) setEmailError(true);
             if (!password) setPasswordError(true);
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            setEmailError(true);
+            return;
+        }
+
+        const passwordCheck = validatePassword(password);
+        if (!passwordCheck.isValid) {
+            setPasswordError(true);
+            setMessage(passwordCheck.message);
+            setShowPopup(true);
             return;
         }
 

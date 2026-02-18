@@ -18,7 +18,7 @@ const ShowSubjects = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const { subjectsList, loading, error, response } = useSelector((state) => state.sclass);
-    const { currentUser } = useSelector(state => state.user)
+    const { currentUser, error: userError } = useSelector(state => state.user)
 
     useEffect(() => {
         dispatch(getSubjectList(currentUser._id, "AllSubjects"));
@@ -36,7 +36,11 @@ const ShowSubjects = () => {
             setMessage(error);
             setShowPopup(true);
         }
-    }, [error]);
+        else if (userError) {
+            setMessage(userError);
+            setShowPopup(true);
+        }
+    }, [error, userError]);
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))

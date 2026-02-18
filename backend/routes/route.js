@@ -16,10 +16,10 @@ const {
     idParamValidation
 } = require('../middleware/validators.js');
 
-const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
+const { adminRegister, adminLogIn, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
 
 const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
-const { complainCreate, complainList } = require('../controllers/complain-controller.js');
+const { complainCreate, complainList, deleteComplain, deleteComplains } = require('../controllers/complain-controller.js');
 const { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } = require('../controllers/notice-controller.js');
 const {
     studentRegister,
@@ -51,6 +51,7 @@ router.post('/AdminReg', adminRegisterValidation, adminRegister);
 router.post('/AdminLogin', loginLimiter, adminLoginValidation, adminLogIn);
 
 router.get("/Admin/:id", authMiddleware, idParamValidation, getAdminDetail)
+router.put("/Admin/:id", authMiddleware, idParamValidation, updateAdmin)
 
 
 // Student
@@ -109,6 +110,8 @@ router.put("/Notice/:id", authMiddleware, requireAdmin, updateNotice)
 router.post('/ComplainCreate', authMiddleware, complainCreateValidation, complainCreate);
 
 router.get('/ComplainList/:id', authMiddleware, requireAdmin, idParamValidation, complainList);
+router.delete("/Complain/:id", authMiddleware, requireAdmin, idParamValidation, deleteComplain)
+router.delete("/Complains/:id", authMiddleware, requireAdmin, idParamValidation, deleteComplains)
 
 // Sclass
 

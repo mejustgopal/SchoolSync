@@ -197,7 +197,11 @@ const LoginPage = ({ role }) => {
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    <IconButton onClick={() => setToggle(!toggle)}>
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => setToggle(!toggle)}
+                                        edge="end"
+                                    >
                                         {toggle ? (
                                             <Visibility />
                                         ) : (

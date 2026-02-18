@@ -20,19 +20,27 @@ const Popup = ({ message, setShowPopup, showPopup }) => {
         dispatch(underStudentControl())
     };
 
+    // Determine severity
+    let severity = "error";
+    if (message) {
+        const lowerMsg = String(message).toLowerCase();
+        if (
+            lowerMsg.includes("success") ||
+            lowerMsg.includes("done") ||
+            lowerMsg.includes("added") ||
+            lowerMsg.includes("updated") ||
+            lowerMsg.includes("registered")
+        ) {
+            severity = "success";
+        }
+    }
+
     return (
         <>
             <Snackbar open={showPopup} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal}>
-                {
-                    (message === "Done Successfully") ?
-                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                            {typeof message === 'string' && message.split('\n').map((msg, i) => <div key={i}>{msg}</div>)}
-                        </Alert>
-                        :
-                        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-                            {typeof message === 'string' && message.split('\n').map((msg, i) => <div key={i}>{msg}</div>)}
-                        </Alert>
-                }
+                <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                    {typeof message === 'string' && message.split('\n').map((msg, i) => <div key={i}>{msg}</div>)}
+                </Alert>
             </Snackbar>
         </>
     );

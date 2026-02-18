@@ -23,16 +23,16 @@ export const validatePassword = (password) => {
   if (!password) {
     return { isValid: false, message: 'Password is required' };
   }
-  
-  if (password.length < 8) {
-    return { isValid: false, message: 'Password must be at least 8 characters' };
+
+  if (password.length < 6) {
+    return { isValid: false, message: 'Password must be at least 6 characters' };
   }
-  
+
   // Optional: Add more strength requirements
   // const hasUpperCase = /[A-Z]/.test(password);
   // const hasLowerCase = /[a-z]/.test(password);
   // const hasNumber = /\d/.test(password);
-  
+
   return { isValid: true, message: '' };
 };
 

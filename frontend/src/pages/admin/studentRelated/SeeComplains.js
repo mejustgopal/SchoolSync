@@ -5,16 +5,20 @@ import {
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import { getAllComplains } from '../../../redux/complainRelated/complainHandle';
+import { deleteUser } from '../../../redux/userRelated/userHandle';
 import TableTemplate from '../../../components/TableTemplate';
 import Popup from '../../../components/Popup';
 import { useState } from 'react';
+import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from '@mui/material';
 
 const SeeComplains = () => {
 
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const dispatch = useDispatch();
   const { complainsList, loading, error, response } = useSelector((state) => state.complain);
-  const { currentUser } = useSelector(state => state.user)
+  const { currentUser, error: userError } = useSelector(state => state.user)
 
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
@@ -28,7 +32,11 @@ const SeeComplains = () => {
       setMessage(error);
       setShowPopup(true);
     }
-  }, [error]);
+    else if (userError) {
+      setMessage(userError);
+      setShowPopup(true);
+    }
+  }, [error, userError]);
 
   const complainColumns = [
     { id: 'user', label: 'User', minWidth: 170 },
@@ -47,13 +55,29 @@ const SeeComplains = () => {
     };
   }) : []
 
+  const deleteHandler = (deleteID, address) => {
+    dispatch(deleteUser(deleteID, address))
+      .then(() => {
+        dispatch(getAllComplains(currentUser._id, "Complain"));
+      })
+  }
+
   const ComplainButtonHaver = ({ row }) => {
     return (
       <>
-        <Checkbox {...label} />
+        <IconButton onClick={() => deleteHandler(row.id, "Complain")}>
+          <DeleteIcon color="error" />
+        </IconButton>
       </>
     );
   };
+
+  const actions = [
+    {
+      icon: <DeleteIcon color="error" />, name: 'Delete All Complaints',
+      action: () => deleteHandler(currentUser._id, "Complains")
+    }
+  ];
 
   return (
     <>
@@ -72,6 +96,7 @@ const SeeComplains = () => {
               {Array.isArray(complainsList) && complainsList.length > 0 &&
                 <TableTemplate buttonHaver={ComplainButtonHaver} columns={complainColumns} rows={complainRows} />
               }
+              <SpeedDialTemplate actions={actions} />
             </GlassCard>
           }
         </>

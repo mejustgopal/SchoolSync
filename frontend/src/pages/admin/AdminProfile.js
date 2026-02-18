@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser, updateUser } from '../../redux/userRelated/userHandle';
 import { useNavigate } from 'react-router-dom'
-import { authLogout } from '../../redux/userRelated/userSlice';
+import { authLogout, underControl } from '../../redux/userRelated/userSlice';
 import { Button, Collapse, Grid, TextField, Box, Typography } from '@mui/material';
 import { ROLE_CONSTANTS } from '../../constants';
 import GlassCard from '../../components/GlassCard';
+import Popup from '../../components/Popup';
 
 const AdminProfile = () => {
     const [showTab, setShowTab] = useState(false);
@@ -14,8 +15,13 @@ const AdminProfile = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const { currentUser, response, error } = useSelector((state) => state.user);
+    const { currentUser, response, error, status } = useSelector((state) => state.user);
     const address = ROLE_CONSTANTS.ADMIN
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
+
+    if (response) { console.log(response) } else if (error) { console.log(error) }
 
     // Removed console.log for production
 
@@ -31,6 +37,22 @@ const AdminProfile = () => {
         dispatch(updateUser(fields, currentUser._id, address))
     }
 
+    useEffect(() => {
+        dispatch(underControl());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (status === 'success') {
+            setMessage("Profile Updated Successfully");
+            setShowPopup(true);
+            dispatch(underControl()); // Reset status after showing popup
+        }
+        else if (status === 'error') {
+            setMessage("Network Error");
+            setShowPopup(true);
+        }
+    }, [status, dispatch]);
+
     const deleteHandler = () => {
         try {
             dispatch(deleteUser(currentUser._id, address));
@@ -45,7 +67,7 @@ const AdminProfile = () => {
         <Box sx={{ p: 3, maxWidth: '800px', mx: 'auto' }}>
             <GlassCard sx={{ p: 4, mb: 3 }}>
                 <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
-                   Admin Profile
+                    Admin Profile
                 </Typography>
                 <Grid container spacing={2} sx={{ mb: 3 }}>
                     <Grid item xs={12} sm={6}>
@@ -61,10 +83,10 @@ const AdminProfile = () => {
                         <Typography variant="h6">{currentUser.schoolName}</Typography>
                     </Grid>
                 </Grid>
-                
-                <Button 
-                    variant="contained" 
-                    sx={styles.showButton} 
+
+                <Button
+                    variant="contained"
+                    sx={styles.showButton}
                     onClick={() => setShowTab(!showTab)}
                     endIcon={showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                 >
@@ -140,6 +162,7 @@ const AdminProfile = () => {
                     </form>
                 </GlassCard>
             </Collapse>
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </Box>
     )
 }

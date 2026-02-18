@@ -5,9 +5,11 @@ import { registerUser } from '../../../redux/userRelated/userHandle';
 import Popup from '../../../components/Popup';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
-import { CircularProgress, Box, Typography, TextField, Button, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { CircularProgress, Box, Typography, TextField, Button, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, IconButton } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import { ROLE_CONSTANTS } from '../../../constants';
+import { validatePassword } from '../../../utils/validation';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const AddStudent = ({ situation }) => {
     const dispatch = useDispatch()
@@ -23,6 +25,7 @@ const AddStudent = ({ situation }) => {
     const [password, setPassword] = useState('')
     const [className, setClassName] = useState('')
     const [sclassName, setSclassName] = useState('')
+    const [toggle, setToggle] = useState(false)
 
     const adminID = currentUser._id
     const role = ROLE_CONSTANTS.STUDENT
@@ -67,13 +70,15 @@ const AddStudent = ({ situation }) => {
             setMessage("Roll number must be a positive integer")
             setShowPopup(true)
         }
-        else if (password.length < 6) {
-            setMessage("Password must be at least 6 characters long")
-            setShowPopup(true)
-        }
         else {
-            setLoader(true)
-            dispatch(registerUser(fields, role))
+            const passwordCheck = validatePassword(password);
+            if (!passwordCheck.isValid) {
+                setMessage(passwordCheck.message);
+                setShowPopup(true);
+            } else {
+                setLoader(true)
+                dispatch(registerUser(fields, role))
+            }
         }
     }
 
@@ -160,10 +165,23 @@ const AddStudent = ({ situation }) => {
                                 fullWidth
                                 label="Password"
                                 variant="outlined"
-                                type="password"
+                                type={toggle ? 'text' : 'password'}
                                 value={password}
                                 onChange={(event) => setPassword(event.target.value)}
                                 required
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={() => setToggle(!toggle)}>
+                                                {toggle ? (
+                                                    <Visibility />
+                                                ) : (
+                                                    <VisibilityOff />
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
 
                             <Button

@@ -22,7 +22,7 @@ const ShowClasses = () => {
   const dispatch = useDispatch();
 
   const { sclassesList, loading, error, getresponse } = useSelector((state) => state.sclass);
-  const { currentUser } = useSelector(state => state.user)
+  const { currentUser, error: userError } = useSelector(state => state.user)
 
   const adminID = currentUser._id
 
@@ -42,7 +42,11 @@ const ShowClasses = () => {
       setMessage(error);
       setShowPopup(true);
     }
-  }, [error]);
+    else if (userError) {
+      setMessage(userError);
+      setShowPopup(true);
+    }
+  }, [error, userError]);
 
   const deleteHandler = (deleteID, address) => {
     dispatch(deleteUser(deleteID, address))

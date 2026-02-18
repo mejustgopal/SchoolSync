@@ -76,7 +76,7 @@ const StudentExamMarks = ({ situation }) => {
         else if (error) {
             setLoader(false)
             setShowPopup(true)
-            setMessage("error")
+            setMessage(error)
         }
         else if (statestatus === "added") {
             setLoader(false)
