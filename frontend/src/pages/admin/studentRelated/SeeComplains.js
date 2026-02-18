@@ -6,20 +6,29 @@ import {
 import GlassCard from '../../../components/GlassCard';
 import { getAllComplains } from '../../../redux/complainRelated/complainHandle';
 import TableTemplate from '../../../components/TableTemplate';
+import Popup from '../../../components/Popup';
+import { useState } from 'react';
 
 const SeeComplains = () => {
 
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }; const dispatch = useDispatch();
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+  const dispatch = useDispatch();
   const { complainsList, loading, error, response } = useSelector((state) => state.complain);
   const { currentUser } = useSelector(state => state.user)
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     dispatch(getAllComplains(currentUser._id, "Complain"));
   }, [currentUser._id, dispatch]);
 
-  if (error) {
-    // Removed console.log for production
-  }
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
+      setShowPopup(true);
+    }
+  }, [error]);
 
   const complainColumns = [
     { id: 'user', label: 'User', minWidth: 170 },
@@ -67,6 +76,7 @@ const SeeComplains = () => {
           }
         </>
       }
+      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </>
   );
 };

@@ -30,7 +30,13 @@ const ShowSubjects = () => {
 
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
-    if (message) { }
+
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
@@ -43,6 +49,7 @@ const ShowSubjects = () => {
         { id: 'subName', label: 'Sub Name', minWidth: 170 },
         { id: 'sessions', label: 'Sessions', minWidth: 170 },
         { id: 'sclassName', label: 'Class', minWidth: 170 },
+        { id: 'examDate', label: 'Exam Date', minWidth: 170 },
     ]
 
     const subjectRows = Array.isArray(subjectsList) && subjectsList.length > 0
@@ -53,6 +60,7 @@ const ShowSubjects = () => {
                 sclassName: subject.sclassName ? subject.sclassName.sclassName : "N/A",
                 sclassID: subject.sclassName ? subject.sclassName._id : null,
                 id: subject._id,
+                examDate: subject.examDate ? new Date(subject.examDate).toLocaleDateString() : "N/A",
             };
         })
         : [];

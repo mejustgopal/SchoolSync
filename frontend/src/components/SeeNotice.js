@@ -4,12 +4,17 @@ import { getAllNotices } from '../redux/noticeRelated/noticeHandle';
 import { Paper } from '@mui/material';
 import TableViewTemplate from './TableViewTemplate';
 import { ROLE_CONSTANTS } from '../constants';
+import Popup from './Popup';
+import { useState } from 'react';
 
 const SeeNotice = () => {
     const dispatch = useDispatch();
 
     const { currentUser, currentRole } = useSelector(state => state.user);
     const { noticesList, loading, error, response } = useSelector((state) => state.notice);
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         if (currentRole === ROLE_CONSTANTS.ADMIN && currentUser?._id) {
@@ -20,9 +25,12 @@ const SeeNotice = () => {
         }
     }, [dispatch, currentRole, currentUser]);
 
-    if (error) {
-        // Removed console.log for production
-    }
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const noticeColumns = [
         { id: 'title', label: 'Title', minWidth: 170 },
@@ -56,6 +64,7 @@ const SeeNotice = () => {
                     </Paper>
                 </>
             )}
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </div>
 
     )

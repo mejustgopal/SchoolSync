@@ -13,6 +13,9 @@ const subjectSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    examDate: {
+        type: Date,
+    },
     sclassName: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sclass',

@@ -68,7 +68,9 @@ const AdminRegisterPage = () => {
             setLoader(false)
         }
         else if (status === 'error') {
-            // Removed console.log for production
+            setMessage(error)
+            setShowPopup(true)
+            setLoader(false)
         }
     }, [status, currentUser, currentRole, navigate, error, response]);
 
@@ -94,6 +96,7 @@ const AdminRegisterPage = () => {
                         autoComplete="name"
                         autoFocus
                         error={adminNameError}
+                        className={adminNameError ? "shake" : ""}
                         helperText={adminNameError && 'Name is required'}
                         onChange={handleInputChange}
                     />
@@ -106,6 +109,7 @@ const AdminRegisterPage = () => {
                         name="schoolName"
                         autoComplete="off"
                         error={schoolNameError}
+                        className={schoolNameError ? "shake" : ""}
                         helperText={schoolNameError && 'School name is required'}
                         onChange={handleInputChange}
                     />
@@ -118,6 +122,7 @@ const AdminRegisterPage = () => {
                         name="email"
                         autoComplete="email"
                         error={emailError}
+                        className={emailError ? "shake" : ""}
                         helperText={emailError && 'Email is required'}
                         onChange={handleInputChange}
                     />
@@ -131,6 +136,7 @@ const AdminRegisterPage = () => {
                         id="password"
                         autoComplete="current-password"
                         error={passwordError}
+                        className={passwordError ? "shake" : ""}
                         helperText={passwordError && 'Password is required'}
                         onChange={handleInputChange}
                         InputProps={{
@@ -153,14 +159,14 @@ const AdminRegisterPage = () => {
                             label="Remember me"
                         />
                     </Grid>
-                    
+
                     <LightPurpleButton
                         type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {loader ? <CircularProgress size={24} color="inherit"/> : "Register"}
+                        {loader ? <CircularProgress size={24} color="inherit" /> : "Register"}
                     </LightPurpleButton>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -181,20 +187,20 @@ const AdminRegisterPage = () => {
 export default AdminRegisterPage
 
 const RootContainer = styled('div')(({ theme }) => ({
-  height: '100vh',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: theme.palette.mode === 'dark' 
-      ? `linear-gradient(135deg, #121212 0%, #2c2143 100%)`
-      : `linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%)`, 
-  padding: theme.spacing(2),
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: theme.palette.mode === 'dark'
+        ? `linear-gradient(135deg, #121212 0%, #2c2143 100%)`
+        : `linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%)`,
+    padding: theme.spacing(2),
 }));
 
 const StyledLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: theme.palette.primary.main,
-  '&:hover': {
-      textDecoration: 'underline',
-  }
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+    '&:hover': {
+        textDecoration: 'underline',
+    }
 }));

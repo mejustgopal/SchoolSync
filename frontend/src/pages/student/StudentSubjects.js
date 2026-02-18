@@ -11,6 +11,7 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import { StyledTableCell, StyledTableRow } from '../../components/styles';
 import { ROLE_CONSTANTS } from '../../constants';
+import Popup from '../../components/Popup';
 
 const StudentSubjects = () => {
 
@@ -18,13 +19,21 @@ const StudentSubjects = () => {
     const { subjectsList, sclassDetails } = useSelector((state) => state.sclass);
     const { userDetails, currentUser, loading, response, error } = useSelector((state) => state.user);
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
+
     useEffect(() => {
         if (currentUser?._id) {
             dispatch(getUserDetails(currentUser._id, ROLE_CONSTANTS.STUDENT));
         }
     }, [dispatch, currentUser?._id])
 
-    // Removed console.log for production
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const [subjectMarks, setSubjectMarks] = useState([]);
     const [selectedSection, setSelectedSection] = useState('table');
@@ -56,6 +65,7 @@ const StudentSubjects = () => {
                         <StyledTableRow>
                             <StyledTableCell>Subject</StyledTableCell>
                             <StyledTableCell>Marks</StyledTableCell>
+                            <StyledTableCell>Exam Date</StyledTableCell>
                         </StyledTableRow>
                     </TableHead>
                     <TableBody>
@@ -67,6 +77,7 @@ const StudentSubjects = () => {
                                 <StyledTableRow key={index}>
                                     <StyledTableCell>{result.subName.subName}</StyledTableCell>
                                     <StyledTableCell>{result.marksObtained}</StyledTableCell>
+                                    <StyledTableCell>{result.subName.examDate ? new Date(result.subName.examDate).toLocaleDateString() : "N/A"}</StyledTableCell>
                                 </StyledTableRow>
                             );
                         })}
@@ -96,7 +107,7 @@ const StudentSubjects = () => {
                     subjectsList.map((subject, index) => (
                         <div key={index}>
                             <Typography variant="subtitle1">
-                                {subject.subName} ({subject.subCode})
+                                {subject.subName} ({subject.subCode}) - Exam Date: {subject.examDate ? new Date(subject.examDate).toLocaleDateString() : "N/A"}
                             </Typography>
                         </div>
                     ))}
@@ -138,6 +149,7 @@ const StudentSubjects = () => {
                     }
                 </div>
             )}
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     );
 };

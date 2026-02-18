@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Container, Typography, Box, Stack } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
+import Popup from '../../../components/Popup';
+import { useState } from 'react';
 
 const TeacherDetails = () => {
     const navigate = useNavigate();
@@ -13,13 +15,19 @@ const TeacherDetails = () => {
 
     const teacherID = params.id;
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
+
     useEffect(() => {
         dispatch(getTeacherDetails(teacherID));
     }, [dispatch, teacherID]);
 
-    if (error) {
-        // Removed console.log for production
-    }
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const isSubjectNamePresent = teacherDetails?.teachSubject?.subName;
 
@@ -62,6 +70,7 @@ const TeacherDetails = () => {
                     </GlassCard>
                 </Container>
             )}
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     );
 };

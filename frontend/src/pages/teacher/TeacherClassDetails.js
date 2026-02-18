@@ -8,6 +8,8 @@ import GlassCard from "../../components/GlassCard";
 import { BlackButton, BlueButton } from "../../components/buttonStyles";
 import TableTemplate from "../../components/TableTemplate";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import Popup from "../../components/Popup";
+import { useState } from "react";
 
 const TeacherClassDetails = () => {
     const navigate = useNavigate()
@@ -18,13 +20,19 @@ const TeacherClassDetails = () => {
     const classID = currentUser.teachSclass?._id
     const subjectID = currentUser.teachSubject?._id
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
+
     useEffect(() => {
         dispatch(getClassStudents(classID));
     }, [dispatch, classID])
 
-    if (error) {
-        // Removed console.log for production
-    }
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const studentColumns = [
         { id: 'name', label: 'Name', minWidth: 170 },
@@ -172,6 +180,7 @@ const TeacherClassDetails = () => {
                     )}
                 </>
             )}
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     );
 };

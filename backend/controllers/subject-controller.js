@@ -8,6 +8,7 @@ const subjectCreate = async (req, res) => {
             subName: subject.subName,
             subCode: subject.subCode,
             sessions: subject.sessions,
+            examDate: subject.examDate,
         }));
 
         // Check each subject code for uniqueness

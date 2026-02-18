@@ -8,7 +8,7 @@ import Popup from '../../../components/Popup';
 import GlassCard from '../../../components/GlassCard';
 
 const SubjectForm = () => {
-    const [subjects, setSubjects] = useState([{ subName: "", subCode: "", sessions: "" }]);
+    const [subjects, setSubjects] = useState([{ subName: "", subCode: "", sessions: "", examDate: "" }]);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -43,8 +43,14 @@ const SubjectForm = () => {
         setSubjects(newSubjects);
     };
 
+    const handleExamDateChange = (index) => (event) => {
+        const newSubjects = [...subjects];
+        newSubjects[index].examDate = event.target.value;
+        setSubjects(newSubjects);
+    };
+
     const handleAddSubject = () => {
-        setSubjects([...subjects, { subName: "", subCode: "" }]);
+        setSubjects([...subjects, { subName: "", subCode: "", sessions: "", examDate: "" }]);
     };
 
     const handleRemoveSubject = (index) => () => {
@@ -59,6 +65,7 @@ const SubjectForm = () => {
             subName: subject.subName,
             subCode: subject.subCode,
             sessions: subject.sessions,
+            examDate: subject.examDate,
         })),
         adminID,
     };
@@ -143,6 +150,21 @@ const SubjectForm = () => {
                                         value={subject.sessions}
                                         onChange={handleSessionsChange(index)}
                                         sx={styles.inputField}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        fullWidth
+                                        label="Exam Date"
+                                        variant="outlined"
+                                        type="date"
+                                        value={subject.examDate}
+                                        onChange={handleExamDateChange(index)}
+                                        sx={styles.inputField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
                                         required
                                     />
                                 </Grid>

@@ -43,7 +43,7 @@ const StudentExamMarks = ({ situation }) => {
             dispatch(getUserDetails(studentID, ROLE_CONSTANTS.STUDENT));
             setChosenSubName(subjectID);
         }
-    }, [situation, params, dispatch]);
+    }, [situation, params.id, params.studentID, params.subjectID, dispatch]);
 
     useEffect(() => {
         if (userDetails && userDetails.sclassName && situation === ROLE_CONSTANTS.STUDENT) {
@@ -172,9 +172,9 @@ const StudentExamMarks = ({ situation }) => {
                             </form>
                         </Box>
                     </Box>
-                    <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
                 </>
             }
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     )
 }

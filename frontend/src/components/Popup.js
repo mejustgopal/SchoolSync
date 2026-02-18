@@ -9,7 +9,7 @@ const Popup = ({ message, setShowPopup, showPopup }) => {
     const dispatch = useDispatch();
 
     const vertical = "top"
-    const horizontal = "right"
+    const horizontal = "center"
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -22,15 +22,15 @@ const Popup = ({ message, setShowPopup, showPopup }) => {
 
     return (
         <>
-            <Snackbar open={showPopup} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal}>
+            <Snackbar open={showPopup} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal}>
                 {
                     (message === "Done Successfully") ?
                         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                            {message}
+                            {typeof message === 'string' && message.split('\n').map((msg, i) => <div key={i}>{msg}</div>)}
                         </Alert>
                         :
                         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-                            {message}
+                            {typeof message === 'string' && message.split('\n').map((msg, i) => <div key={i}>{msg}</div>)}
                         </Alert>
                 }
             </Snackbar>

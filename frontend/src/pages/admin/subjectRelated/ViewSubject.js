@@ -8,6 +8,7 @@ import TableTemplate from '../../../components/TableTemplate';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import Popup from '../../../components/Popup';
 
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
@@ -22,14 +23,20 @@ const ViewSubject = () => {
 
   const { classID, subjectID } = params
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     dispatch(getSubjectDetails(subjectID, "Subject"));
     dispatch(getClassStudents(classID));
   }, [dispatch, subjectID, classID]);
 
-  if (error) {
-    // Removed console.log for production
-  }
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
+      setShowPopup(true);
+    }
+  }, [error]);
 
   const [value, setValue] = useState('1');
 
@@ -203,7 +210,9 @@ const ViewSubject = () => {
             </TabContext>
           </Box>
         </>
+
       }
+      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </>
   )
 }

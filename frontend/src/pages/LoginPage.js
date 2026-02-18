@@ -38,17 +38,17 @@ const LoginPage = ({ role }) => {
 
             // Validation
             let hasError = false;
-            
+
             if (!validateRollNumber(rollNum)) {
                 setRollNumberError(true);
                 hasError = true;
             }
-            
+
             if (!validateName(studentName)) {
                 setStudentNameError(true);
                 hasError = true;
             }
-            
+
             const passwordCheck = validatePassword(password);
             if (!passwordCheck.isValid) {
                 setPasswordError(true);
@@ -56,7 +56,7 @@ const LoginPage = ({ role }) => {
                 setShowPopup(true);
                 hasError = true;
             }
-            
+
             if (hasError) return;
 
             const fields = { rollNum, studentName, password }
@@ -70,12 +70,12 @@ const LoginPage = ({ role }) => {
 
             // Validation
             let hasError = false;
-            
+
             if (!validateEmail(email)) {
                 setEmailError(true);
                 hasError = true;
             }
-            
+
             const passwordCheck = validatePassword(password);
             if (!passwordCheck.isValid) {
                 setPasswordError(true);
@@ -83,7 +83,7 @@ const LoginPage = ({ role }) => {
                 setShowPopup(true);
                 hasError = true;
             }
-            
+
             if (hasError) return;
 
             const fields = { email, password }
@@ -117,7 +117,7 @@ const LoginPage = ({ role }) => {
             setLoader(false)
         }
         else if (status === 'error') {
-            setMessage("Network Error")
+            setMessage(error)
             setShowPopup(true)
             setLoader(false)
         }
@@ -131,7 +131,7 @@ const LoginPage = ({ role }) => {
                     {role} Login
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', color: 'text.secondary' }}>
-                   Please enter your details to continue
+                    Please enter your details to continue
                 </Typography>
 
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ width: '100%' }}>
@@ -147,6 +147,7 @@ const LoginPage = ({ role }) => {
                                 type="number"
                                 autoFocus
                                 error={rollNumberError}
+                                className={rollNumberError ? "shake" : ""}
                                 helperText={rollNumberError && 'Roll Number is required'}
                                 onChange={handleInputChange}
                             />
@@ -159,6 +160,7 @@ const LoginPage = ({ role }) => {
                                 name="studentName"
                                 autoComplete="name"
                                 error={studentNameError}
+                                className={studentNameError ? "shake" : ""}
                                 helperText={studentNameError && 'Name is required'}
                                 onChange={handleInputChange}
                             />
@@ -174,6 +176,7 @@ const LoginPage = ({ role }) => {
                             autoComplete="email"
                             autoFocus
                             error={emailError}
+                            className={emailError ? "shake" : ""}
                             helperText={emailError && 'Email is required'}
                             onChange={handleInputChange}
                         />
@@ -188,6 +191,7 @@ const LoginPage = ({ role }) => {
                         id="password"
                         autoComplete="current-password"
                         error={passwordError}
+                        className={passwordError ? "shake" : ""}
                         helperText={passwordError && 'Password is required'}
                         onChange={handleInputChange}
                         InputProps={{
@@ -213,18 +217,18 @@ const LoginPage = ({ role }) => {
                             Forgot password?
                         </StyledLink>
                     </Grid>
-                    
+
                     <LightPurpleButton
                         type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                         {loader ? <CircularProgress size={24} color="inherit" /> : "Login"}
+                        {loader ? <CircularProgress size={24} color="inherit" /> : "Login"}
                     </LightPurpleButton>
 
                     {role === ROLE_CONSTANTS.ADMIN &&
-                         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                             <Typography variant="body2" color="text.secondary">
                                 Don't have an account?{' '}
                                 <StyledLink to="/Adminregister" style={{ fontWeight: 600 }}>
@@ -243,20 +247,20 @@ const LoginPage = ({ role }) => {
 export default LoginPage
 
 const RootContainer = styled('div')(({ theme }) => ({
-  height: '100vh',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: theme.palette.mode === 'dark' 
-      ? `linear-gradient(135deg, #121212 0%, #2c2143 100%)`
-      : `linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%)`, // Light gradient
-  padding: theme.spacing(2),
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: theme.palette.mode === 'dark'
+        ? `linear-gradient(135deg, #121212 0%, #2c2143 100%)`
+        : `linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%)`, // Light gradient
+    padding: theme.spacing(2),
 }));
 
 const StyledLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: theme.palette.primary.main,
-  '&:hover': {
-      textDecoration: 'underline',
-  }
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+    '&:hover': {
+        textDecoration: 'underline',
+    }
 }));

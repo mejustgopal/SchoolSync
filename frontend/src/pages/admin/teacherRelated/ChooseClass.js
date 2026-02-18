@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { PurpleButton } from '../../../components/buttonStyles';
 import TableTemplate from '../../../components/TableTemplate';
 import { ROLE_CONSTANTS } from '../../../constants';
+import Popup from '../../../components/Popup';
+import { useState } from 'react';
 
 const ChooseClass = ({ situation }) => {
     const navigate = useNavigate()
@@ -14,13 +16,19 @@ const ChooseClass = ({ situation }) => {
     const { sclassesList, loading, error, getresponse } = useSelector((state) => state.sclass);
     const { currentUser } = useSelector(state => state.user)
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
+
     useEffect(() => {
         dispatch(getAllSclasses(currentUser._id, "Sclass"));
     }, [currentUser._id, dispatch]);
 
-    if (error) {
-        // Removed console.log for production
-    }
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const navigateHandler = (classID) => {
         // Validate classID before navigation
@@ -82,6 +90,7 @@ const ChooseClass = ({ situation }) => {
                         </>}
                 </>
             }
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     )
 }

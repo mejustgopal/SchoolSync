@@ -36,7 +36,13 @@ const ShowClasses = () => {
 
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
-  if (message) { } // silences unused var warning
+
+  useEffect(() => {
+    if (error) {
+      setMessage(error);
+      setShowPopup(true);
+    }
+  }, [error]);
 
   const deleteHandler = (deleteID, address) => {
     dispatch(deleteUser(deleteID, address))

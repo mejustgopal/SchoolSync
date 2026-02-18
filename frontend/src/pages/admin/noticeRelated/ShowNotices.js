@@ -12,6 +12,8 @@ import { deleteUser } from '../../../redux/userRelated/userHandle';
 import TableTemplate from '../../../components/TableTemplate';
 import { GreenButton } from '../../../components/buttonStyles';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+import Popup from '../../../components/Popup';
+import { useState } from 'react';
 
 const ShowNotices = () => {
 
@@ -20,13 +22,19 @@ const ShowNotices = () => {
     const { noticesList, loading, error, response } = useSelector((state) => state.notice);
     const { currentUser } = useSelector(state => state.user)
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
+
     useEffect(() => {
         dispatch(getAllNotices(currentUser._id, "Notice"));
     }, [currentUser._id, dispatch]);
 
-    if (error) {
-        // Removed console.log for production
-    }
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
@@ -99,6 +107,7 @@ const ShowNotices = () => {
                     }
                 </>
             }
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     );
 };

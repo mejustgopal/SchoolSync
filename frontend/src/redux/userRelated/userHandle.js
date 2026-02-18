@@ -24,7 +24,13 @@ export const loginUser = (fields, role) => async (dispatch) => {
             dispatch(authFailed(result.data.message));
         }
     } catch (error) {
-        dispatch(authError(error.response?.data?.message || error.message));
+        let errorMessage = error.response?.data?.message || error.message;
+        if (Array.isArray(error.response?.data?.errors)) {
+            errorMessage = error.response.data.errors.map(err => err.msg).join('\n');
+        } else if (Array.isArray(error.response?.data)) {
+            errorMessage = error.response.data.map(err => err.msg).join('\n');
+        }
+        dispatch(authError(errorMessage));
     }
 };
 
@@ -43,7 +49,13 @@ export const registerUser = (fields, role) => async (dispatch) => {
             dispatch(authFailed(result.data.message));
         }
     } catch (error) {
-        dispatch(authError(error.response?.data?.message || error.message));
+        let errorMessage = error.response?.data?.message || error.message;
+        if (Array.isArray(error.response?.data?.errors)) {
+            errorMessage = error.response.data.errors.map(err => err.msg).join('\n');
+        } else if (Array.isArray(error.response?.data)) {
+            errorMessage = error.response.data.map(err => err.msg).join('\n');
+        }
+        dispatch(authError(errorMessage));
     }
 };
 
@@ -60,7 +72,13 @@ export const getUserDetails = (id, address) => async (dispatch) => {
             dispatch(doneSuccess(result.data));
         }
     } catch (error) {
-        dispatch(getError(error.response?.data?.message || error.message));
+        let errorMessage = error.response?.data?.message || error.message;
+        if (Array.isArray(error.response?.data?.errors)) {
+            errorMessage = error.response.data.errors.map(err => err.msg).join('\n');
+        } else if (Array.isArray(error.response?.data)) {
+            errorMessage = error.response.data.map(err => err.msg).join('\n');
+        }
+        dispatch(getError(errorMessage));
     }
 }
 
@@ -75,7 +93,13 @@ export const deleteUser = (id, address) => async (dispatch) => {
             dispatch(getDeleteSuccess());
         }
     } catch (error) {
-        dispatch(getError(error.response?.data?.message || error.message));
+        let errorMessage = error.response?.data?.message || error.message;
+        if (Array.isArray(error.response?.data?.errors)) {
+            errorMessage = error.response.data.errors.map(err => err.msg).join('\n');
+        } else if (Array.isArray(error.response?.data)) {
+            errorMessage = error.response.data.map(err => err.msg).join('\n');
+        }
+        dispatch(getError(errorMessage));
     }
 }
 
@@ -91,7 +115,13 @@ export const updateUser = (fields, id, address) => async (dispatch) => {
             dispatch(authSuccess(result.data)); // Dispatch authSuccess to update currentUser in Redux
         }
     } catch (error) {
-        dispatch(getError(error.response?.data?.message || error.message));
+        let errorMessage = error.response?.data?.message || error.message;
+        if (Array.isArray(error.response?.data?.errors)) {
+            errorMessage = error.response.data.errors.map(err => err.msg).join('\n');
+        } else if (Array.isArray(error.response?.data)) {
+            errorMessage = error.response.data.map(err => err.msg).join('\n');
+        }
+        dispatch(getError(errorMessage));
     }
 }
 
@@ -107,6 +137,12 @@ export const addStuff = (fields, address) => async (dispatch) => {
             dispatch(stuffAdded(result.data));
         }
     } catch (error) {
-        dispatch(authError(error.response?.data?.message || error.message));
+        let errorMessage = error.response?.data?.message || error.message;
+        if (Array.isArray(error.response?.data?.errors)) {
+            errorMessage = error.response.data.errors.map(err => err.msg).join('\n');
+        } else if (Array.isArray(error.response?.data)) {
+            errorMessage = error.response.data.map(err => err.msg).join('\n');
+        }
+        dispatch(authError(errorMessage));
     }
 };

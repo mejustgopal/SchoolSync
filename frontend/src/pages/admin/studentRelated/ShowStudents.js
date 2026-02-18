@@ -43,7 +43,13 @@ const ShowStudents = () => {
 
     const [showPopup, setShowPopup] = React.useState(false);
     const [message, setMessage] = React.useState("");
-    if (message) { }
+
+    useEffect(() => {
+        if (error) {
+            setMessage(error);
+            setShowPopup(true);
+        }
+    }, [error]);
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
