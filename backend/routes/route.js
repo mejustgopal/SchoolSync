@@ -1,8 +1,8 @@
-const router = require('express').Router();
-const rateLimit = require('express-rate-limit');
-const authMiddleware = require('../middleware/authMiddleware.js');
-const { requireAdmin, requireTeacher, requireAdminOrTeacher } = require('../middleware/roleMiddleware.js');
-const {
+import express from 'express';
+import rateLimit from 'express-rate-limit';
+import authMiddleware from '../middleware/authMiddleware.js';
+import { requireAdmin, requireTeacher, requireAdminOrTeacher } from '../middleware/roleMiddleware.js';
+import {
     studentRegisterValidation,
     studentLoginValidation,
     teacherRegisterValidation,
@@ -14,14 +14,13 @@ const {
     complainCreateValidation,
     sclassCreateValidation,
     idParamValidation
-} = require('../middleware/validators.js');
+} from '../middleware/validators.js';
 
-const { adminRegister, adminLogIn, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
-
-const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
-const { complainCreate, complainList, deleteComplain, deleteComplains } = require('../controllers/complain-controller.js');
-const { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } = require('../controllers/notice-controller.js');
-const {
+import { adminRegister, adminLogIn, getAdminDetail, updateAdmin } from '../controllers/admin-controller.js';
+import { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } from '../controllers/class-controller.js';
+import { complainCreate, complainList, deleteComplain, deleteComplains } from '../controllers/complain-controller.js';
+import { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } from '../controllers/notice-controller.js';
+import {
     studentRegister,
     studentLogIn,
     getStudents,
@@ -35,9 +34,12 @@ const {
     clearAllStudentsAttendanceBySubject,
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
-    removeStudentAttendance } = require('../controllers/student_controller.js');
-const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } = require('../controllers/subject-controller.js');
-const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
+    removeStudentAttendance
+} from '../controllers/student_controller.js';
+import { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } from '../controllers/subject-controller.js';
+import { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } from '../controllers/teacher-controller.js';
+
+const router = express.Router();
 
 // Rate limiting for login endpoints
 const loginLimiter = rateLimit({
@@ -138,4 +140,4 @@ router.delete("/Subject/:id", authMiddleware, requireAdmin, idParamValidation, d
 router.delete("/Subjects/:id", authMiddleware, requireAdmin, idParamValidation, deleteSubjects)
 router.delete("/SubjectsClass/:id", authMiddleware, requireAdmin, idParamValidation, deleteSubjectsByClass)
 
-module.exports = router;
+export default router;

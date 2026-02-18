@@ -1,16 +1,12 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const Admin = require('../models/adminSchema.js');
-const Sclass = require('../models/sclassSchema.js');
-const Student = require('../models/studentSchema.js');
-const Teacher = require('../models/teacherSchema.js');
-const Subject = require('../models/subjectSchema.js');
-const Notice = require('../models/noticeSchema.js');
-const Complain = require('../models/complainSchema.js');
-
-
-
-
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import Admin from '../models/adminSchema.js';
+import Sclass from '../models/sclassSchema.js';
+import Student from '../models/studentSchema.js';
+import Teacher from '../models/teacherSchema.js';
+import Subject from '../models/subjectSchema.js';
+import Notice from '../models/noticeSchema.js';
+import Complain from '../models/complainSchema.js';
 
 const adminRegister = async (req, res) => {
     try {
@@ -95,4 +91,4 @@ const updateAdmin = async (req, res) => {
     }
 };
 
-module.exports = { adminRegister, adminLogIn, getAdminDetail, updateAdmin };
+export { adminRegister, adminLogIn, getAdminDetail, updateAdmin };

@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const Teacher = require('../models/teacherSchema.js');
-const Subject = require('../models/subjectSchema.js');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import Teacher from '../models/teacherSchema.js';
+import Subject from '../models/subjectSchema.js';
 
 const teacherRegister = async (req, res) => {
     const { name, email, password, role, school, teachSubject, teachSclass } = req.body;
@@ -224,7 +224,7 @@ const teacherAttendance = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     teacherRegister,
     teacherLogIn,
     getTeachers,

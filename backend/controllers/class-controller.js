@@ -1,8 +1,8 @@
-const Sclass = require('../models/sclassSchema.js');
-const Student = require('../models/studentSchema.js');
-const Subject = require('../models/subjectSchema.js');
-const Teacher = require('../models/teacherSchema.js');
-const Complain = require('../models/complainSchema.js');
+import Sclass from '../models/sclassSchema.js';
+import Student from '../models/studentSchema.js';
+import Subject from '../models/subjectSchema.js';
+import Teacher from '../models/teacherSchema.js';
+import Complain from '../models/complainSchema.js';
 
 const sclassCreate = async (req, res) => {
     try {
@@ -147,4 +147,4 @@ const deleteSclasses = async (req, res) => {
 };
 
 
-module.exports = { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents };
+export { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents };

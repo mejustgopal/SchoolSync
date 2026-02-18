@@ -30,7 +30,7 @@ const requireAdminOrTeacher = (req, res, next) => {
     }
 };
 
-module.exports = {
+export {
     requireAdmin,
     requireTeacher,
     requireStudent,

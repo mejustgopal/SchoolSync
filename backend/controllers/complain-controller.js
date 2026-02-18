@@ -1,4 +1,4 @@
-const Complain = require('../models/complainSchema.js');
+import Complain from '../models/complainSchema.js';
 
 const complainCreate = async (req, res) => {
     try {
@@ -45,4 +45,4 @@ const deleteComplains = async (req, res) => {
     }
 };
 
-module.exports = { complainCreate, complainList, deleteComplain, deleteComplains };
+export { complainCreate, complainList, deleteComplain, deleteComplains };

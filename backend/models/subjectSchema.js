@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const subjectSchema = new mongoose.Schema({
     subName: {
@@ -29,6 +29,7 @@ const subjectSchema = new mongoose.Schema({
     teacher: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'teacher',
+        // required: true,
     }
 }, { timestamps: true });
 
@@ -38,4 +39,4 @@ subjectSchema.index({ school: 1 });
 subjectSchema.index({ teacher: 1 });
 subjectSchema.index({ subCode: 1 }, { unique: true });
 
-module.exports = mongoose.model("subject", subjectSchema);
+export default mongoose.model("subject", subjectSchema);

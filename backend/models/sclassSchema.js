@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const sclassSchema = new mongoose.Schema({
     sclassName: {
@@ -15,5 +15,5 @@ const sclassSchema = new mongoose.Schema({
 sclassSchema.index({ sclassName: 1, school: 1 }, { unique: true });
 sclassSchema.index({ school: 1 });
 
-module.exports = mongoose.model("sclass", sclassSchema);
+export default mongoose.model("sclass", sclassSchema);
 

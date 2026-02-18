@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
 const adminSchema = new mongoose.Schema({
     name: {
@@ -29,4 +29,4 @@ const adminSchema = new mongoose.Schema({
 adminSchema.index({ email: 1 }, { unique: true });
 adminSchema.index({ schoolName: 1 }, { unique: true });
 
-module.exports = mongoose.model("admin", adminSchema)
+export default mongoose.model("admin", adminSchema)

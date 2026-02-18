@@ -1,4 +1,4 @@
-const { body, param, validationResult } = require('express-validator');
+import { body, param, validationResult } from 'express-validator';
 
 // Middleware to check validation results
 const validate = (req, res, next) => {
@@ -101,7 +101,7 @@ const idParamValidation = [
     validate
 ];
 
-module.exports = {
+export {
     studentRegisterValidation,
     studentLoginValidation,
     teacherRegisterValidation,

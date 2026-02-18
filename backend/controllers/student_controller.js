@@ -1,8 +1,8 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const Student = require('../models/studentSchema.js');
-const Subject = require('../models/subjectSchema.js');
-const Complain = require('../models/complainSchema.js');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import Student from '../models/studentSchema.js';
+import Subject from '../models/subjectSchema.js';
+import Complain from '../models/complainSchema.js';
 
 const studentRegister = async (req, res) => {
     try {
@@ -311,7 +311,7 @@ const removeStudentAttendance = async (req, res) => {
 };
 
 
-module.exports = {
+export {
     studentRegister,
     studentLogIn,
     getStudents,

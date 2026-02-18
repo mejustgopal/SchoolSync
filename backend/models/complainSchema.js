@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const complainSchema = new mongoose.Schema({
     user: {
@@ -26,4 +26,4 @@ complainSchema.index({ user: 1 });
 complainSchema.index({ school: 1 });
 complainSchema.index({ date: -1 });
 
-module.exports = mongoose.model("complain", complainSchema);
+export default mongoose.model("complain", complainSchema);

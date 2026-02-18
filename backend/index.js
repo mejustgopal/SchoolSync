@@ -1,13 +1,13 @@
-const express = require("express")
-const cors = require("cors")
-const mongoose = require("mongoose")
-const dotenv = require("dotenv")
-const errorHandler = require("./middleware/errorHandler.js")
+import express from "express"
+import cors from "cors"
+import mongoose from "mongoose"
+import dotenv from "dotenv"
+import errorHandler from "./middleware/errorHandler.js"
 
 dotenv.config();
 
 const app = express()
-const Routes = require("./routes/route.js")
+import Routes from "./routes/route.js"
 
 const PORT = process.env.PORT || 5000
 
@@ -52,4 +52,4 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Export for Vercel serverless
-module.exports = app;
+export default app;
