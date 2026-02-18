@@ -1,4 +1,4 @@
-# MERN School Management System - Frontend
+# SchoolSync - Frontend
 
 This is the frontend client for the School Management System, built with React, Redux, and Material UI.
 

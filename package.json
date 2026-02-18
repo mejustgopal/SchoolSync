@@ -1,7 +1,7 @@
 {
-  "name": "mern-school-management-system-main",
+  "name": "schoolsync",
   "version": "1.0.0",
-  "description": "<h1 align=\"center\">     SCHOOL MANAGEMENT SYSTEM </h1>",
+  "description": "<h1 align=\"center\">     SCHOOLSYNC </h1>",
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",

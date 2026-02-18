@@ -24,7 +24,7 @@ const Homepage = () => {
                                 fontSize: { xs: '2.5rem', md: '3.75rem' } // Responsive font size
                             }}
                         >
-                            School Management System
+                            SchoolSync
                         </Typography>
                         <StyledText>
                             Streamline your school's operations with our all-in-one platform. 
