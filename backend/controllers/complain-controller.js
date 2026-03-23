@@ -1,16 +1,16 @@
 import Complain from '../models/complainSchema.js';
 
-const complainCreate = async (req, res) => {
+const complainCreate = async (req, res, next) => {
     try {
         const complain = new Complain(req.body)
         const result = await complain.save()
         res.send(result)
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const complainList = async (req, res) => {
+const complainList = async (req, res, next) => {
     try {
         let complains = await Complain.find({ school: req.params.id }).populate("user", "name");
         if (complains.length > 0) {
@@ -19,21 +19,21 @@ const complainList = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
 
-const deleteComplain = async (req, res) => {
+const deleteComplain = async (req, res, next) => {
     try {
         const result = await Complain.findByIdAndDelete(req.params.id);
         res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const deleteComplains = async (req, res) => {
+const deleteComplains = async (req, res, next) => {
     try {
         const result = await Complain.deleteMany({ school: req.params.id });
         if (result.deletedCount === 0) {
@@ -41,7 +41,7 @@ const deleteComplains = async (req, res) => {
         }
         res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 

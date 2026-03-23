@@ -98,19 +98,37 @@ const StudentSubjects = () => {
                     Class Details
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                    You are currently in Class {sclassDetails && sclassDetails.sclassName}
+                    You are currently in Class {sclassDetails?.sclassName || currentUser?.sclassName?.sclassName}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     And these are the subjects:
                 </Typography>
-                {Array.isArray(subjectsList) && subjectsList.length > 0 &&
-                    subjectsList.map((subject, index) => (
-                        <div key={index}>
-                            <Typography variant="subtitle1">
-                                {subject.subName} ({subject.subCode}) - Exam Date: {subject.examDate ? new Date(subject.examDate).toLocaleDateString() : "N/A"}
-                            </Typography>
-                        </div>
-                    ))}
+                {Array.isArray(subjectsList) && subjectsList.length > 0 ? (
+                    <Table sx={{ mt: 2 }} aria-label="subjects table">
+                        <TableHead>
+                            <StyledTableRow>
+                                <StyledTableCell>Subject Name</StyledTableCell>
+                                <StyledTableCell>Subject Code</StyledTableCell>
+                                <StyledTableCell>Exam Date</StyledTableCell>
+                            </StyledTableRow>
+                        </TableHead>
+                        <TableBody>
+                            {subjectsList.map((subject, index) => (
+                                <StyledTableRow key={index}>
+                                    <StyledTableCell>{subject.subName}</StyledTableCell>
+                                    <StyledTableCell>{subject.subCode}</StyledTableCell>
+                                    <StyledTableCell>
+                                        {subject.examDate ? new Date(subject.examDate).toLocaleDateString() : 'N/A'}
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                ) : (
+                    <Typography variant="subtitle1">
+                        No subjects found.
+                    </Typography>
+                )}
             </Container>
         );
     };

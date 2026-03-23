@@ -2,7 +2,7 @@ import Subject from '../models/subjectSchema.js';
 import Teacher from '../models/teacherSchema.js';
 import Student from '../models/studentSchema.js';
 
-const subjectCreate = async (req, res) => {
+const subjectCreate = async (req, res, next) => {
     try {
         const subjects = req.body.subjects.map((subject) => ({
             subName: subject.subName,
@@ -32,11 +32,11 @@ const subjectCreate = async (req, res) => {
         const result = await Subject.insertMany(newSubjects);
         res.send(result);
     } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+        next(error);
     }
 };
 
-const allSubjects = async (req, res) => {
+const allSubjects = async (req, res, next) => {
     try {
         let subjects = await Subject.find({ school: req.params.id })
             .populate("sclassName", "sclassName")
@@ -46,11 +46,11 @@ const allSubjects = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const classSubjects = async (req, res) => {
+const classSubjects = async (req, res, next) => {
     try {
         let subjects = await Subject.find({ sclassName: req.params.id })
         if (subjects.length > 0) {
@@ -59,11 +59,11 @@ const classSubjects = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const freeSubjectList = async (req, res) => {
+const freeSubjectList = async (req, res, next) => {
     try {
         let subjects = await Subject.find({ sclassName: req.params.id, teacher: { $exists: false } });
         if (subjects.length > 0) {
@@ -72,11 +72,11 @@ const freeSubjectList = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const getSubjectDetail = async (req, res) => {
+const getSubjectDetail = async (req, res, next) => {
     try {
         let subject = await Subject.findById(req.params.id);
         if (subject) {
@@ -88,11 +88,11 @@ const getSubjectDetail = async (req, res) => {
             return res.status(404).json({ message: "No subject found" });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
-const deleteSubject = async (req, res) => {
+const deleteSubject = async (req, res, next) => {
     try {
         const deletedSubject = await Subject.findByIdAndDelete(req.params.id);
 
@@ -121,11 +121,11 @@ const deleteSubject = async (req, res) => {
 
         res.send(deletedSubject);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const deleteSubjects = async (req, res) => {
+const deleteSubjects = async (req, res, next) => {
     try {
         const deletedSubjects = await Subject.deleteMany({ school: req.params.id });
 
@@ -143,11 +143,11 @@ const deleteSubjects = async (req, res) => {
 
         res.send(deletedSubjects);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        next(error);
     }
 };
 
-const deleteSubjectsByClass = async (req, res) => {
+const deleteSubjectsByClass = async (req, res, next) => {
     try {
         const deletedSubjects = await Subject.deleteMany({ sclassName: req.params.id });
 
@@ -165,7 +165,7 @@ const deleteSubjectsByClass = async (req, res) => {
 
         res.send(deletedSubjects);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        next(error);
     }
 };
 

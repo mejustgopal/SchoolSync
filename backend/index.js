@@ -1,13 +1,19 @@
-import express from "express"
-import cors from "cors"
-import mongoose from "mongoose"
-import dotenv from "dotenv"
-import errorHandler from "./middleware/errorHandler.js"
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
+import errorHandler from "./middleware/errorHandler.js";
 
 dotenv.config();
 
-const app = express()
-import Routes from "./routes/route.js"
+const app = express();
+import Routes from "./routes/route.js";
+
+// Security middlewares
+app.use(helmet());
+app.use(mongoSanitize());
 
 const PORT = process.env.PORT || 5000
 

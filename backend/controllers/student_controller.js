@@ -4,7 +4,7 @@ import Student from '../models/studentSchema.js';
 import Subject from '../models/subjectSchema.js';
 import Complain from '../models/complainSchema.js';
 
-const studentRegister = async (req, res) => {
+const studentRegister = async (req, res, next) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -32,11 +32,11 @@ const studentRegister = async (req, res) => {
             res.send({ ...result._doc, token });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const studentLogIn = async (req, res) => {
+const studentLogIn = async (req, res, next) => {
     try {
         let student = await Student.findOne({ rollNum: req.body.rollNum, name: req.body.studentName });
         if (student) {
@@ -56,11 +56,11 @@ const studentLogIn = async (req, res) => {
             return res.status(404).json({ message: "Student not found" });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const getStudents = async (req, res) => {
+const getStudents = async (req, res, next) => {
     try {
         let students = await Student.find({ school: req.params.id }).populate("sclassName", "sclassName");
         if (students.length > 0) {
@@ -72,11 +72,11 @@ const getStudents = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const getStudentDetail = async (req, res) => {
+const getStudentDetail = async (req, res, next) => {
     try {
         // Authorization: Students can only view their own profile, teachers/admins can view any
         if (req.user.role === 'Student' && req.user._id !== req.params.id) {
@@ -96,11 +96,11 @@ const getStudentDetail = async (req, res) => {
             return res.status(404).json({ message: "No student found" });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
-const deleteStudent = async (req, res) => {
+const deleteStudent = async (req, res, next) => {
     try {
         // Delete student's complaints first to prevent orphaned records
         await Complain.deleteMany({ user: req.params.id });
@@ -109,11 +109,11 @@ const deleteStudent = async (req, res) => {
         const result = await Student.findByIdAndDelete(req.params.id);
         res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 
-const deleteStudents = async (req, res) => {
+const deleteStudents = async (req, res, next) => {
     try {
         // Find all students to be deleted
         const studentsToDelete = await Student.find({ school: req.params.id });
@@ -131,11 +131,11 @@ const deleteStudents = async (req, res) => {
         const result = await Student.deleteMany({ school: req.params.id });
         res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 
-const deleteStudentsByClass = async (req, res) => {
+const deleteStudentsByClass = async (req, res, next) => {
     try {
         // Find all students to be deleted
         const studentsToDelete = await Student.find({ sclassName: req.params.id });
@@ -153,11 +153,11 @@ const deleteStudentsByClass = async (req, res) => {
         const result = await Student.deleteMany({ sclassName: req.params.id });
         res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 
-const updateStudent = async (req, res) => {
+const updateStudent = async (req, res, next) => {
     try {
         // Authorization: Students can only update their own profile, admins can update any
         if (req.user.role === 'Student' && req.user._id !== req.params.id) {
@@ -177,11 +177,11 @@ const updateStudent = async (req, res) => {
         result.password = undefined;
         res.send(result)
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 
-const updateExamResult = async (req, res) => {
+const updateExamResult = async (req, res, next) => {
     const { subName, marksObtained } = req.body;
 
     try {
@@ -204,11 +204,11 @@ const updateExamResult = async (req, res) => {
         const result = await student.save();
         return res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const studentAttendance = async (req, res) => {
+const studentAttendance = async (req, res, next) => {
     const { subName, status, date } = req.body;
 
     try {
@@ -245,11 +245,11 @@ const studentAttendance = async (req, res) => {
         const result = await student.save();
         return res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const clearAllStudentsAttendanceBySubject = async (req, res) => {
+const clearAllStudentsAttendanceBySubject = async (req, res, next) => {
     const subName = req.params.id;
 
     try {
@@ -259,11 +259,11 @@ const clearAllStudentsAttendanceBySubject = async (req, res) => {
         );
         return res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const clearAllStudentsAttendance = async (req, res) => {
+const clearAllStudentsAttendance = async (req, res, next) => {
     const schoolId = req.params.id
 
     try {
@@ -274,11 +274,11 @@ const clearAllStudentsAttendance = async (req, res) => {
 
         return res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const removeStudentAttendanceBySubject = async (req, res) => {
+const removeStudentAttendanceBySubject = async (req, res, next) => {
     const studentId = req.params.id;
     const subName = req.body.subId
 
@@ -290,12 +290,12 @@ const removeStudentAttendanceBySubject = async (req, res) => {
 
         return res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
 
-const removeStudentAttendance = async (req, res) => {
+const removeStudentAttendance = async (req, res, next) => {
     const studentId = req.params.id;
 
     try {
@@ -306,7 +306,7 @@ const removeStudentAttendance = async (req, res) => {
 
         return res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 

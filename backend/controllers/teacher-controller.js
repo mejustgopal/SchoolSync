@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import Teacher from '../models/teacherSchema.js';
 import Subject from '../models/subjectSchema.js';
 
-const teacherRegister = async (req, res) => {
+const teacherRegister = async (req, res, next) => {
     const { name, email, password, role, school, teachSubject, teachSclass } = req.body;
     try {
         const salt = await bcrypt.genSalt(10);
@@ -24,11 +24,11 @@ const teacherRegister = async (req, res) => {
             res.send({ ...result._doc, token });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const teacherLogIn = async (req, res) => {
+const teacherLogIn = async (req, res, next) => {
     try {
         let teacher = await Teacher.findOne({ email: req.body.email });
         if (teacher) {
@@ -47,11 +47,11 @@ const teacherLogIn = async (req, res) => {
             return res.status(404).json({ message: "Teacher not found" });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const getTeachers = async (req, res) => {
+const getTeachers = async (req, res, next) => {
     try {
         let teachers = await Teacher.find({ school: req.params.id })
             .populate("teachSubject", "subName")
@@ -65,11 +65,11 @@ const getTeachers = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const getTeacherDetail = async (req, res) => {
+const getTeacherDetail = async (req, res, next) => {
     try {
         let teacher = await Teacher.findById(req.params.id)
             .populate("teachSubject", "subName sessions")
@@ -83,11 +83,11 @@ const getTeacherDetail = async (req, res) => {
             return res.status(404).json({ message: "No teacher found" });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
-const updateTeacherSubject = async (req, res) => {
+const updateTeacherSubject = async (req, res, next) => {
     const { teacherId, teachSubject } = req.body;
     try {
         // Validate that subject exists
@@ -110,11 +110,11 @@ const updateTeacherSubject = async (req, res) => {
 
         res.send(updatedTeacher);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        next(error);
     }
 };
 
-const deleteTeacher = async (req, res) => {
+const deleteTeacher = async (req, res, next) => {
     try {
         const deletedTeacher = await Teacher.findByIdAndDelete(req.params.id);
 
@@ -129,11 +129,11 @@ const deleteTeacher = async (req, res) => {
 
         res.send(deletedTeacher);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        next(error);
     }
 };
 
-const deleteTeachers = async (req, res) => {
+const deleteTeachers = async (req, res, next) => {
     try {
         // Find teachers BEFORE deleting them
         const teachersToDelete = await Teacher.find({ school: req.params.id });
@@ -153,11 +153,11 @@ const deleteTeachers = async (req, res) => {
 
         res.send(deletionResult);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const deleteTeachersByClass = async (req, res) => {
+const deleteTeachersByClass = async (req, res, next) => {
     try {
         // Find teachers BEFORE deleting them
         const teachersToDelete = await Teacher.find({ teachSclass: req.params.id });
@@ -177,11 +177,11 @@ const deleteTeachersByClass = async (req, res) => {
 
         res.send(deletionResult);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-const teacherAttendance = async (req, res) => {
+const teacherAttendance = async (req, res, next) => {
     const { status, date } = req.body;
 
     try {
@@ -220,7 +220,7 @@ const teacherAttendance = async (req, res) => {
         const result = await teacher.save();
         return res.send(result);
     } catch (error) {
-        res.status(500).json(error)
+        next(error);
     }
 };
 

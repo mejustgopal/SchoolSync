@@ -122,7 +122,7 @@ router.post('/SclassCreate', authMiddleware, requireAdmin, sclassCreateValidatio
 router.get('/SclassList/:id', authMiddleware, idParamValidation, sclassList);
 router.get("/Sclass/:id", idParamValidation, getSclassDetail)
 
-router.get("/Sclass/Students/:id", authMiddleware, requireAdmin, idParamValidation, getSclassStudents)
+router.get("/Sclass/Students/:id", authMiddleware, requireAdminOrTeacher, idParamValidation, getSclassStudents)
 
 router.delete("/Sclasses/:id", authMiddleware, requireAdmin, idParamValidation, deleteSclasses)
 router.delete("/Sclass/:id", authMiddleware, requireAdmin, idParamValidation, deleteSclass)

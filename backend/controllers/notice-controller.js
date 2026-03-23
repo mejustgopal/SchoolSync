@@ -1,6 +1,6 @@
 import Notice from '../models/noticeSchema.js';
 
-const noticeCreate = async (req, res) => {
+const noticeCreate = async (req, res, next) => {
     try {
         const notice = new Notice({
             ...req.body,
@@ -9,11 +9,11 @@ const noticeCreate = async (req, res) => {
         const result = await notice.save()
         res.send(result)
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const noticeList = async (req, res) => {
+const noticeList = async (req, res, next) => {
     try {
         let notices = await Notice.find({ school: req.params.id })
         if (notices.length > 0) {
@@ -22,31 +22,31 @@ const noticeList = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const updateNotice = async (req, res) => {
+const updateNotice = async (req, res, next) => {
     try {
         const result = await Notice.findByIdAndUpdate(req.params.id,
             { $set: req.body },
             { new: true })
         res.send(result)
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 
-const deleteNotice = async (req, res) => {
+const deleteNotice = async (req, res, next) => {
     try {
         const result = await Notice.findByIdAndDelete(req.params.id)
         res.send(result)
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 
-const deleteNotices = async (req, res) => {
+const deleteNotices = async (req, res, next) => {
     try {
         const result = await Notice.deleteMany({ school: req.params.id })
         if (result.deletedCount === 0) {
@@ -55,7 +55,7 @@ const deleteNotices = async (req, res) => {
             res.send(result)
         }
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 }
 

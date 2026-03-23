@@ -8,7 +8,7 @@ import Subject from '../models/subjectSchema.js';
 import Notice from '../models/noticeSchema.js';
 import Complain from '../models/complainSchema.js';
 
-const adminRegister = async (req, res) => {
+const adminRegister = async (req, res, next) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -34,11 +34,11 @@ const adminRegister = async (req, res) => {
             res.send({ ...result._doc, token });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const adminLogIn = async (req, res) => {
+const adminLogIn = async (req, res, next) => {
     try {
         if (req.body.email && req.body.password) {
             let admin = await Admin.findOne({ email: req.body.email });
@@ -58,11 +58,11 @@ const adminLogIn = async (req, res) => {
             return res.status(400).json({ message: "Email and password are required" });
         }
     } catch (err) {
-        res.status(500).json({ message: "Server error" });
+        next(error);
     }
 };
 
-const getAdminDetail = async (req, res) => {
+const getAdminDetail = async (req, res, next) => {
     try {
         let admin = await Admin.findById(req.params.id);
         if (admin) {
@@ -73,11 +73,11 @@ const getAdminDetail = async (req, res) => {
             return res.status(404).json({ message: "No admin found" });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
-const updateAdmin = async (req, res) => {
+const updateAdmin = async (req, res, next) => {
     try {
         if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
@@ -87,7 +87,7 @@ const updateAdmin = async (req, res) => {
         result.password = undefined;
         res.send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 

@@ -4,7 +4,7 @@ import Subject from '../models/subjectSchema.js';
 import Teacher from '../models/teacherSchema.js';
 import Complain from '../models/complainSchema.js';
 
-const sclassCreate = async (req, res) => {
+const sclassCreate = async (req, res, next) => {
     try {
         const sclass = new Sclass({
             sclassName: req.body.sclassName,
@@ -24,11 +24,11 @@ const sclassCreate = async (req, res) => {
             res.send(result);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const sclassList = async (req, res) => {
+const sclassList = async (req, res, next) => {
     try {
         let sclasses = await Sclass.find({ school: req.params.id })
         if (sclasses.length > 0) {
@@ -37,11 +37,11 @@ const sclassList = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 };
 
-const getSclassDetail = async (req, res) => {
+const getSclassDetail = async (req, res, next) => {
     try {
         let sclass = await Sclass.findById(req.params.id);
         if (sclass) {
@@ -52,11 +52,11 @@ const getSclassDetail = async (req, res) => {
             return res.status(404).json({ message: "No class found" });
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
-const getSclassStudents = async (req, res) => {
+const getSclassStudents = async (req, res, next) => {
     try {
         let students = await Student.find({ sclassName: req.params.id })
         if (students.length > 0) {
@@ -68,11 +68,11 @@ const getSclassStudents = async (req, res) => {
             res.send([]);
         }
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
-const deleteSclass = async (req, res) => {
+const deleteSclass = async (req, res, next) => {
     try {
         const deletedClass = await Sclass.findByIdAndDelete(req.params.id);
         if (!deletedClass) {
@@ -105,11 +105,11 @@ const deleteSclass = async (req, res) => {
 
         res.send(deletedClass);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        next(error);
     }
 }
 
-const deleteSclasses = async (req, res) => {
+const deleteSclasses = async (req, res, next) => {
     try {
         const deletedClasses = await Sclass.deleteMany({ school: req.params.id });
         if (deletedClasses.deletedCount === 0) {
@@ -142,7 +142,7 @@ const deleteSclasses = async (req, res) => {
 
         res.send(deletedClasses);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        next(error);
     }
 };
 
