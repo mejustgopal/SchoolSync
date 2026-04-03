@@ -2,28 +2,41 @@
     🎓 SCHOOLSYNC
 </h1>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18.2-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/MongoDB-7.0-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/Express-4.18-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
+  <img src="https://img.shields.io/badge/MUI-5.12-007FFF?style=for-the-badge&logo=mui&logoColor=white" alt="MUI" />
+</p>
+
 <h3 align="center">
 A modern, full-stack MERN application for comprehensive school management.<br>
 Streamline class organization, track attendance, assess performance, and facilitate seamless communication.<br>
-Built with security, scalability, and user experience in mind.
+Built with security, scalability, and a premium glassmorphism design.
 </h3>
 
 <p align="center">
     <a href="https://www.linkedin.com/in/mejustgopal/">LinkedIn</a> • 
-    <a href="#features">Features</a> • 
+    <a href="#-features">Features</a> • 
     <a href="#-quick-start">Quick Start</a> • 
-    <a href="#-api-endpoints">API</a>
+    <a href="#-full-api-reference">API</a> •
+    <a href="#-deployment">Deployment</a>
 </p>
 
 ---
 
 ## ✨ Highlights
 
-- 🎨 **Modern Glassmorphism UI** - Beautiful, responsive design with smooth animations
-- 🔐 **Enterprise-Grade Security** - JWT authentication, input validation, rate limiting
-- 📊 **Real-time Analytics** - Interactive charts and performance dashboards
-- 🚀 **Production-Ready** - Comprehensive error handling and logging
-- 📱 **Fully Responsive** - Optimized for desktop, tablet, and mobile devices
+| | Feature | Description |
+|---|---|---|
+| 🎨 | **Glassmorphism V3 Design** | Premium frosted‑glass cards, animated gradients, and smooth micro‑interactions |
+| 🌙 | **Dark / Light Mode** | Persistent theme toggle with fully themed components |
+| 📊 | **Report Generation** | Export data to **branded PDF** and **Excel** with one click |
+| 🔐 | **Enterprise Security** | JWT auth, bcrypt hashing, Helmet, rate limiting, input sanitization |
+| 📱 | **Fully Responsive** | Optimized layouts for desktop, tablet, and mobile |
+| ⚡ | **ES Modules** | Modern `import/export` syntax across the entire backend |
+| 🛡️ | **Centralized Error Handling** | Global Express error middleware with user‑friendly messages |
 
 ---
 
@@ -71,7 +84,7 @@ From the **root directory**:
 npm start
 ```
 
-This will start both services:
+This will start both services concurrently:
 - 🎨 **Frontend**: http://localhost:3000
 - ⚙️ **Backend**: http://localhost:5000
 
@@ -85,182 +98,162 @@ This will start both services:
 3. Log in with your credentials
 4. Use the Admin Dashboard to:
    - ➕ Create Classes
-   - 📚 Add Subjects
-   - 👨‍🏫 Register Teachers
+   - 📚 Add Subjects (with exam dates & session counts)
+   - 👨‍🏫 Register Teachers (assigned to subjects)
    - 👨‍🎓 Enroll Students
 
 ### User Roles
-- **Admin**: Full system access, manage all entities
-- **Teacher**: Manage assigned classes, mark attendance, grade students
-- **Student**: View profile, attendance, grades, and submit complaints
+
+| Role | Access |
+|------|--------|
+| **Admin** | Full system access — manage all entities, view analytics, broadcast notices, review complaints, generate reports |
+| **Teacher** | Manage assigned classes, mark attendance, grade students, view performance analytics |
+| **Student** | View profile, attendance records, exam results, submit complaints |
 
 ---
 
 # 💡 About
 
-The School Management System is a comprehensive web application built with the MERN stack, designed to digitize and streamline educational institution management. It provides role-based access control, real-time data visualization, and an intuitive interface for all stakeholders.
+SchoolSync is a comprehensive web application built with the MERN stack, designed to digitize and streamline educational institution management. It provides role-based access control, real-time data visualization, and an intuitive glassmorphism interface for all stakeholders.
 
-## Features
+---
+
+# 🎯 Features
 
 ### 🔐 Security & Authentication
-- JWT-based authentication with secure token management
-- Role-based access control (RBAC)
-- Input validation and sanitization
-- Rate limiting to prevent abuse
-- Password hashing with bcrypt
-- Protected routes and API endpoints
+- JWT-based authentication with 24-hour token expiry
+- Role-based access control (RBAC) with dedicated middleware
+- Input validation and sanitization via `express-validator` & `express-mongo-sanitize`
+- Rate limiting to prevent brute-force attacks (`express-rate-limit`)
+- HTTP security headers via `helmet`
+- Password hashing with `bcrypt` (10 salt rounds)
+- Protected API routes with `authMiddleware` and `roleMiddleware`
+- Centralized error handler with user-friendly messages for DB errors
 
 ### 👨‍💼 Admin Features
-- Complete dashboard with analytics
-- Manage students, teachers, classes, and subjects
-- Create and broadcast notices
-- View and respond to complaints
-- Generate reports and statistics
-- Bulk operations support
+- 📊 Interactive dashboard with animated count-up statistics
+- 👥 Full CRUD for Students, Teachers, Classes, and Subjects
+- 📢 Create and broadcast notices to the entire school
+- 💬 View and manage student complaints
+- 📄 **Export reports to PDF & Excel** (Teachers, Students, Subjects, Classes)
+- 🗑️ Bulk delete with cascade protection (students → complaints, classes → subjects → teachers)
+- 📈 Bar charts and pie charts for performance overview
 
 ### 👨‍🏫 Teacher Features
-- Class and subject management
-- Attendance tracking with session-based system
-- Grade submission and performance tracking
-- Student performance analytics
-- Communication with students
+- 📋 Class and subject management dashboard
+- ✅ Attendance tracking with session-based system
+- 📝 Grade submission and exam result management
+- 📊 Student performance analytics with charts
+- 👤 Profile management with secure password updates
 
 ### 👨‍🎓 Student Features
-- Personal profile management (DOB, gender, contact info)
-- View attendance records with percentage calculations
-- Check exam results and performance trends
-- Submit complaints and feedback
-- Interactive performance charts
+- 👤 Personal profile management (DOB, gender, contact info)
+- 📅 View attendance records with percentage calculations
+- 📊 Check exam results and performance trends
+- 💬 Submit complaints and feedback
+- 📈 Interactive performance charts (bar & pie)
 
-### 🎨 UI/UX Enhancements
-- Modern glassmorphism design
-- Smooth animations and transitions
-- Responsive layout for all devices
-- Consistent color scheme and typography
-- Loading states and error handling
-- Toast notifications for user feedback
+### 🎨 Design System (Glassmorphism V3)
+- **GlassCard** components with frosted-glass backdrop blur
+- **Animated gradient backgrounds** (14s infinite shift)
+- **Dark / Light mode** toggle with full theme persistence
+- **Custom button palette**: `PurpleButton`, `GreenButton`, `BlueButton`, `RedButton`, `LightPurpleButton`
+- **Styled table components** with branded header rows
+- **Smooth micro-animations**: hover effects, shake validation, fade-slide-up
+- **Typography**: Poppins (headings) + Inter (body)
+- **Consistent color system**: `#7f56da` (primary), `#06b6d4` (accent)
 
-### 📊 Data Management
+### 📊 Data & Reporting
+- One-click **PDF export** with branded headers, footers, and styled tables
+- One-click **Excel export** with auto-fitted column widths
 - Dynamic attendance system (no session limits)
 - Accurate percentage calculations
-- Data integrity with referential checks
-- Cascade delete protection
-- Optimized database queries
+- Data integrity with referential cascade deletes
+- Optimized MongoDB queries with selective population
 
-## Technologies Used
+---
+
+# 🛠️ Tech Stack
 
 ### Frontend
-- **React.js** - UI library
-- **Material-UI (MUI)** - Component library
-- **Redux Toolkit** - State management
-- **React Router** - Navigation
-- **Recharts** - Data visualization
-- **Axios** - HTTP client
-- **Styled Components** - CSS-in-JS
+| Technology | Purpose |
+|-----------|---------|
+| **React 18** | UI library with functional components & hooks |
+| **Material-UI (MUI) 5** | Component library & design system |
+| **Redux Toolkit** | Global state management |
+| **React Router 6** | Client-side routing |
+| **Recharts** | Interactive data visualization |
+| **Axios** | HTTP client |
+| **jsPDF + autoTable** | PDF report generation |
+| **SheetJS (xlsx)** | Excel report generation |
+| **Styled Components** | CSS-in-JS theming |
+| **React CountUp** | Animated statistics |
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - ODM
-- **JWT** - Authentication
-- **Bcrypt** - Password hashing
-- **Express Validator** - Input validation
-- **Express Rate Limit** - API protection
-- **Winston** - Logging
+| Technology | Purpose |
+|-----------|---------|
+| **Node.js** | Runtime environment (ES Modules) |
+| **Express.js 4** | Web framework |
+| **MongoDB + Mongoose 7** | NoSQL database & ODM |
+| **JWT** | Stateless authentication |
+| **Bcrypt** | Password hashing |
+| **Helmet** | HTTP security headers |
+| **Express Validator** | Request validation |
+| **Express Rate Limit** | API abuse prevention |
+| **Express Mongo Sanitize** | NoSQL injection prevention |
+| **Winston** | Structured logging |
 
 ---
 
 # 📁 Project Structure
 
-```bash
-├── backend/                # Server side logic
-│   ├── controllers/        # Request handlers
-│   ├── models/             # Mongoose schemas
-│   ├── routes/             # API routes
-│   └── index.js            # Entry point
-├── frontend/               # Client side logic
-│   ├── src/
-│   │   ├── pages/          # View components
-│   │   ├── redux/          # State management
-│   │   └── components/     # Shared UI components
+```
+SchoolSync/
+├── backend/
+│   ├── constants/          # Role constants & enums
+│   ├── controllers/        # Request handlers (7 controllers)
+│   │   ├── admin-controller.js
+│   │   ├── class-controller.js
+│   │   ├── complain-controller.js
+│   │   ├── notice-controller.js
+│   │   ├── student_controller.js
+│   │   ├── subject-controller.js
+│   │   └── teacher-controller.js
+│   ├── middleware/          # Express middleware
+│   │   ├── authMiddleware.js    # JWT verification
+│   │   ├── roleMiddleware.js    # RBAC enforcement
+│   │   ├── errorHandler.js      # Centralized error handling
+│   │   └── validators.js        # Input validation rules
+│   ├── models/             # Mongoose schemas (7 models)
+│   ├── routes/             # API route definitions
+│   └── index.js            # Entry point (Helmet, CORS, rate limit)
+├── frontend/
+│   └── src/
+│       ├── components/     # Shared UI components
+│       │   ├── GlassCard.js         # Glassmorphism card wrapper
+│       │   ├── ThemeToggle.js       # Dark/Light mode switch
+│       │   ├── Loading.js           # Unified loading indicator
+│       │   ├── ErrorBoundary.js     # React error boundary
+│       │   ├── CustomBarChart.js    # Themed bar charts
+│       │   ├── CustomPieChart.js    # Themed pie charts
+│       │   ├── RecentActivity.js    # Dashboard activity feed
+│       │   ├── buttonStyles.js      # Themed button components
+│       │   └── styles.js            # Styled table components
+│       ├── pages/          # Route-level page components
+│       │   ├── admin/      # Admin dashboard & management pages
+│       │   ├── student/    # Student dashboard & features
+│       │   └── teacher/    # Teacher dashboard & features
+│       ├── redux/          # Redux Toolkit slices & async thunks
+│       ├── utils/          # Utility functions
+│       │   ├── reportUtils.js   # PDF & Excel export
+│       │   └── validation.js    # Client-side validation
+│       └── constants/      # Role constants
 └── README.md
 ```
 
+---
+
 # 🔌 API Endpoints
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| **POST** | `/AdminReg` | Register a new Admin |
-| **POST** | `/AdminLogin` | Admin Login |
-| **POST** | `/TeacherReg` | Register a new Teacher |
-| **POST** | `/StudentReg` | Register a new Student |
-| **GET** | `/SclassList/:id` | Get all classes |
-| **GET** | `/NoticeList/:id` | Get all notices |
-
----
-
-# 🗄️ Database Schema
-
-### Admin
-- `name`: String (Required)
-- `email`: String (Unique, Required)
-- `password`: String (Required)
-- `role`: String (Default: "Admin")
-- `schoolName`: String (Unique, Required)
-
-### Student
-- `name`: String (Required)
-- `rollNum`: Number (Required)
-- `password`: String (Required)
-- `sclassName`: ObjectId (Ref: **Sclass**)
-- `school`: ObjectId (Ref: **Admin**)
-- `role`: String (Default: "Student")
-- `dob`: Date
-- `gender`: String
-- `email`: String (optional updateable field)
-- `phone`: String
-- `address`: String
-- `emergencyContact`: String
-- `attendance`: Array of objects { date, status, subName }
-- `examResult`: Array of objects { subName, marksObtained }
-
-### Teacher
-- `name`: String (Required)
-- `email`: String (Unique, Required)
-- `password`: String (Required)
-- `role`: String (Default: "Teacher")
-- `school`: ObjectId (Ref: **Admin**)
-- `teachSubject`: ObjectId (Ref: **Subject**)
-- `teachSclass`: ObjectId (Ref: **Sclass**)
-
-### Subject
-- `subName`: String (Required)
-- `subCode`: String (Required)
-- `sessions`: String (Required)
-- `sclassName`: ObjectId (Ref: **Sclass**)
-- `school`: ObjectId (Ref: **Admin**)
-- `teacher`: ObjectId (Ref: **Teacher**)
-
-### Sclass (Class)
-- `sclassName`: String (Required)
-- `school`: ObjectId (Ref: **Admin**)
-
-### Notice
-- `title`: String (Required)
-- `details`: String (Required)
-- `date`: Date (Required)
-- `school`: ObjectId (Ref: **Admin**)
-
-### Complain
-- `user`: ObjectId (Ref: **Student**)
-- `complaint`: String (Required)
-- `date`: Date (Required)
-- `school`: ObjectId (Ref: **Admin**)
-
----
-
-# 📡 Full API Reference
 
 ### Authentication & Admin
 | Method | Endpoint | Description |
@@ -268,6 +261,7 @@ The School Management System is a comprehensive web application built with the M
 | POST | `/AdminReg` | Register a new admin/school |
 | POST | `/AdminLogin` | Admin login |
 | GET | `/Admin/:id` | Get admin details |
+| PUT | `/Admin/:id` | Update admin profile |
 
 ### Students
 | Method | Endpoint | Description |
@@ -276,11 +270,16 @@ The School Management System is a comprehensive web application built with the M
 | POST | `/StudentLogin` | Student login |
 | GET | `/Students/:id` | Get all students for a school |
 | GET | `/Student/:id` | Get single student detail |
-| DELETE | `/Students/:id` | Delete a student |
+| DELETE | `/Students/:id` | Delete all students for a school |
+| DELETE | `/Student/:id` | Delete a student |
 | DELETE | `/StudentsClass/:id` | Delete all students in a class |
 | PUT | `/Student/:id` | Update student details |
 | PUT | `/UpdateExamResult/:id` | Update exam marks |
 | PUT | `/StudentAttendance/:id` | Update attendance |
+| PUT | `/RemoveAllStudentsSubAtten/:id` | Clear attendance by subject |
+| PUT | `/RemoveAllStudentsAtten/:id` | Clear all attendance |
+| PUT | `/RemoveStudentSubAtten/:id` | Remove student's subject attendance |
+| PUT | `/RemoveStudentAtten/:id` | Remove student's all attendance |
 
 ### Teachers
 | Method | Endpoint | Description |
@@ -289,39 +288,122 @@ The School Management System is a comprehensive web application built with the M
 | POST | `/TeacherLogin` | Teacher login |
 | GET | `/Teachers/:id` | Get all teachers for a school |
 | GET | `/Teacher/:id` | Get single teacher detail |
-| DELETE | `/Teachers/:id` | Delete a teacher |
+| DELETE | `/Teacher/:id` | Delete a teacher |
+| DELETE | `/Teachers/:id` | Delete all teachers for a school |
 | DELETE | `/TeachersClass/:id` | Delete all teachers in a class |
 | PUT | `/TeacherSubject` | Update teacher's subject |
+| PUT | `/Teacher/:id` | Update teacher profile |
+| POST | `/TeacherAttendance/:id` | Record teacher attendance |
 
-### Classes (Sclass)
+### Classes
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | POST | `/SclassCreate` | Create a new class |
 | GET | `/SclassList/:id` | Get all classes for a school |
 | GET | `/Sclass/:id` | Get single class detail |
 | GET | `/Sclass/Students/:id` | Get all students in a class |
-| DELETE | `/Sclasses/:id` | Delete a class |
+| GET | `/Sclass/Teachers/:id` | Get all teachers in a class |
+| DELETE | `/Sclass/:id` | Delete a class (cascade) |
+| DELETE | `/Sclasses/:id` | Delete all classes (cascade) |
 
 ### Subjects
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| POST | `/SubjectCreate` | Add a new subject |
+| POST | `/SubjectCreate` | Add subjects (bulk) |
 | GET | `/AllSubjects/:id` | Get all subjects for a school |
-| GET | `/ClassSubjects/:id` | Get subjects for a specific class |
-| GET | `/FreeSubjectList/:id` | Get subjects without a teacher |
+| GET | `/ClassSubjects/:id` | Get subjects for a class |
+| GET | `/FreeSubjectList/:id` | Get unassigned subjects |
 | GET | `/Subject/:id` | Get subject details |
 | DELETE | `/Subject/:id` | Delete a subject |
+| DELETE | `/Subjects/:id` | Delete all subjects |
 | DELETE | `/SubjectsClass/:id` | Delete subjects by class |
 
-### Notices & Complains
+### Notices & Complaints
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | POST | `/NoticeCreate` | Create a notice |
 | GET | `/NoticeList/:id` | Get notices for a school |
 | DELETE | `/Notices/:id` | Delete all notices |
 | DELETE | `/Notice/:id` | Delete a specific notice |
+| PUT | `/Notice/:id` | Update a notice |
 | POST | `/ComplainCreate` | Submit a complaint |
 | GET | `/ComplainList/:id` | Get complaints for a school |
+
+---
+
+# 🗄️ Database Schema
+
+### Admin
+| Field | Type | Notes |
+|-------|------|-------|
+| `name` | String | Required |
+| `email` | String | Unique, Required |
+| `password` | String | Required, bcrypt hashed |
+| `role` | String | Default: `"Admin"` |
+| `schoolName` | String | Unique, Required |
+
+### Student
+| Field | Type | Notes |
+|-------|------|-------|
+| `name` | String | Required |
+| `rollNum` | Number | Required |
+| `password` | String | Required, bcrypt hashed |
+| `sclassName` | ObjectId | Ref: **Sclass** |
+| `school` | ObjectId | Ref: **Admin** |
+| `role` | String | Default: `"Student"` |
+| `dob` | Date | Optional |
+| `gender` | String | Optional |
+| `email` | String | Optional |
+| `phone` | String | Optional |
+| `address` | String | Optional |
+| `emergencyContact` | String | Optional |
+| `attendance` | Array | `{ date, status, subName }` |
+| `examResult` | Array | `{ subName, marksObtained }` |
+
+### Teacher
+| Field | Type | Notes |
+|-------|------|-------|
+| `name` | String | Required |
+| `email` | String | Unique, Required |
+| `password` | String | Required, bcrypt hashed |
+| `role` | String | Default: `"Teacher"` |
+| `school` | ObjectId | Ref: **Admin** |
+| `teachSubject` | ObjectId | Ref: **Subject** |
+| `teachSclass` | ObjectId | Ref: **Sclass** |
+| `attendance` | Array | `{ date, status }` |
+
+### Subject
+| Field | Type | Notes |
+|-------|------|-------|
+| `subName` | String | Required |
+| `subCode` | String | Required |
+| `sessions` | String | Required |
+| `examDate` | Date | Required |
+| `sclassName` | ObjectId | Ref: **Sclass** |
+| `school` | ObjectId | Ref: **Admin** |
+| `teacher` | ObjectId | Ref: **Teacher** |
+
+### Sclass (Class)
+| Field | Type | Notes |
+|-------|------|-------|
+| `sclassName` | String | Required |
+| `school` | ObjectId | Ref: **Admin** |
+
+### Notice
+| Field | Type | Notes |
+|-------|------|-------|
+| `title` | String | Required |
+| `details` | String | Required |
+| `date` | Date | Required |
+| `school` | ObjectId | Ref: **Admin** |
+
+### Complain
+| Field | Type | Notes |
+|-------|------|-------|
+| `user` | ObjectId | Ref: **Student** |
+| `complaint` | String | Required |
+| `date` | Date | Required |
+| `school` | ObjectId | Ref: **Admin** |
 
 ---
 
@@ -342,39 +424,33 @@ The School Management System is a comprehensive web application built with the M
    - Connect your GitHub repository
 
 3. **Configure Service**
-   - **Name**: `school-management-backend`
+   - **Name**: `schoolsync-backend`
    - **Root Directory**: `backend`
    - **Environment**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `node index.js`
 
 4. **Environment Variables**
-   Add the following in the Render dashboard:
    ```
    MONGO_URL=mongodb+srv://username:password@cluster.mongodb.net/smsproject
    SECRET_KEY=your-production-secret-key
    PORT=5000
    ```
 
-5. **Deploy**
-   - Click **Create Web Service**
-   - Wait for deployment to complete
-   - Copy your backend URL (e.g., `https://your-app.onrender.com`)
+5. **Deploy** → Copy your backend URL (e.g., `https://your-app.onrender.com`)
 
 ## Frontend Deployment (Vercel)
 
-1. **Prepare Frontend**
-   - Update `frontend/.env` with your production backend URL:
+1. **Update** `frontend/.env` with your production backend URL:
    ```env
    REACT_APP_BASE_URL=https://your-backend.onrender.com
    ```
 
 2. **Deploy to Vercel**
    - Go to [Vercel Dashboard](https://vercel.com/)
-   - Click **Add New** → **Project**
-   - Import your GitHub repository
+   - Click **Add New** → **Project** → Import repo
 
-3. **Configure Project**
+3. **Configure**
    - **Framework Preset**: Create React App
    - **Root Directory**: `frontend`
    - **Build Command**: `npm run build`
@@ -385,18 +461,13 @@ The School Management System is a comprehensive web application built with the M
    REACT_APP_BASE_URL=https://your-backend.onrender.com
    ```
 
-5. **Deploy**
-   - Click **Deploy**
-   - Your app will be live at `https://your-app.vercel.app`
+5. **Deploy** → Your app will be live at `https://your-app.vercel.app`
 
-## Alternative: Netlify Deployment
+### Alternative: Netlify
 
-For frontend deployment on Netlify:
-1. Connect repository to Netlify
-2. Set **Base directory**: `frontend`
-3. Set **Build command**: `npm run build`
-4. Set **Publish directory**: `frontend/build`
-5. Add environment variable: `REACT_APP_BASE_URL`
+1. Connect repository → Set **Base directory**: `frontend`
+2. **Build command**: `npm run build` → **Publish directory**: `frontend/build`
+3. Add env variable: `REACT_APP_BASE_URL`
 
 ---
 
@@ -419,12 +490,13 @@ Contributions are welcome! Please follow these steps:
    ```
 5. **Open a Pull Request**
 
-## Development Guidelines
-- Follow existing code style and conventions
+### Development Guidelines
+- Follow existing code style (ES Modules, functional components)
+- Use the established design system (`GlassCard`, themed buttons)
 - Write meaningful commit messages
 - Test your changes thoroughly
-- Update documentation as needed
 - Ensure all validations pass
+- Update documentation as needed
 
 ---
 
@@ -445,9 +517,11 @@ This project is open source and available for educational purposes.
 # 🙏 Acknowledgments
 
 - Built with ❤️ using the MERN stack
-- UI components from Material-UI
-- Icons from Material Icons
-- Charts powered by Recharts
+- UI components from [Material-UI](https://mui.com/)
+- Icons from [Material Icons](https://fonts.google.com/icons)
+- Charts powered by [Recharts](https://recharts.org/)
+- PDF generation by [jsPDF](https://github.com/parallax/jsPDF)
+- Excel export by [SheetJS](https://sheetjs.com/)
 
 ---
 
