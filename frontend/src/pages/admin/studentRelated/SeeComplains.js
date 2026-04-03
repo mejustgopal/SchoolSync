@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Checkbox, Typography, Paper
+  Box, Typography
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import { getAllComplains } from '../../../redux/complainRelated/complainHandle';
@@ -12,10 +12,10 @@ import { useState } from 'react';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from '@mui/material';
+import Loading from '../../../components/Loading';
 
 const SeeComplains = () => {
 
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const dispatch = useDispatch();
   const { complainsList, loading, error, response } = useSelector((state) => state.complain);
   const { currentUser, error: userError } = useSelector(state => state.user)
@@ -82,7 +82,7 @@ const SeeComplains = () => {
   return (
     <>
       {loading ?
-        <div>Loading...</div>
+        <Loading />
         :
         <>
           {(response || complainsList.length === 0) ?

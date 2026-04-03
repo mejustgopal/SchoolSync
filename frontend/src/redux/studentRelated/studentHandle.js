@@ -37,11 +37,11 @@ export const updateStudentFields = (id, fields, address) => async (dispatch) => 
 
     try {
         const result = await axiosInstance.put(`/${address}/${id}`, fields);
-        if (result.data.schoolName) {
+        if (result.data._id || result.data.message === undefined) {
             dispatch(stuffDone());
         }
         else {
-            dispatch(getSuccess(result.data));
+            dispatch(getFailed(result.data.message));
         }
     } catch (error) {
         dispatch(getError(error.message));

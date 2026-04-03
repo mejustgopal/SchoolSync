@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { getTeacherDetails } from '../../../redux/teacherRelated/teacherHandle';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Container, Typography, Box, Stack } from '@mui/material';
+import { Button, Container, Typography, Box } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
+import { PurpleButton } from '../../../components/buttonStyles';
 import Popup from '../../../components/Popup';
+import Loading from '../../../components/Loading';
 import { useState } from 'react';
 
 const TeacherDetails = () => {
@@ -38,7 +40,7 @@ const TeacherDetails = () => {
     return (
         <>
             {loading ? (
-                <div>Loading...</div>
+                <Loading />
             ) : (
                 <Container sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
                     <GlassCard sx={{ padding: '2rem', maxWidth: 600, width: '100%' }}>
@@ -62,9 +64,9 @@ const TeacherDetails = () => {
                                     </Typography>
                                 </>
                             ) : (
-                                <Button variant="contained" onClick={handleAddSubject} sx={{ mt: 2 }}>
+                                <PurpleButton variant="contained" onClick={handleAddSubject} sx={{ mt: 2 }}>
                                     Add Subject
-                                </Button>
+                                </PurpleButton>
                             )}
                         </Box>
                     </GlassCard>

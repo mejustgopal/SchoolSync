@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress, Stack, TextField, Typography } from '@mui/material';
+import { Box, Stack, TextField, Typography } from '@mui/material';
 import Popup from '../../components/Popup';
-import { BlueButton } from '../../components/buttonStyles';
+import { PurpleButton } from '../../components/buttonStyles';
+import GlassCard from '../../components/GlassCard';
 import { addStuff } from '../../redux/userRelated/userHandle';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -57,11 +58,11 @@ const StudentComplain = () => {
                     justifyContent: 'center'
                 }}
             >
-                <Box
+                <GlassCard
                     sx={{
                         maxWidth: 550,
-                        px: 3,
-                        py: '100px',
+                        padding: '2rem',
+                        marginTop: '1rem',
                         width: '100%'
                     }}
                 >
@@ -94,7 +95,7 @@ const StudentComplain = () => {
                                     maxRows={4}
                                 />
                             </Stack>
-                            <BlueButton
+                            <PurpleButton
                                 fullWidth
                                 size="large"
                                 sx={{ mt: 3 }}
@@ -102,11 +103,11 @@ const StudentComplain = () => {
                                 type="submit"
                                 disabled={loader}
                             >
-                                {loader ? <CircularProgress size={24} color="inherit" /> : "Add"}
-                            </BlueButton>
+                                {loader ? "Adding..." : "Add"}
+                            </PurpleButton>
                         </form>
                     </div>
-                </Box>
+                </GlassCard>
             </Box>
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>

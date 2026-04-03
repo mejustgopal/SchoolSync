@@ -4,6 +4,7 @@ import { getSubjectList } from '../../redux/sclassRelated/sclassHandle';
 import { BottomNavigation, BottomNavigationAction, Container, Paper, Table, TableBody, TableHead, Typography } from '@mui/material';
 import { getUserDetails } from '../../redux/userRelated/userHandle';
 import CustomBarChart from '../../components/CustomBarChart'
+import GlassCard from '../../components/GlassCard';
 
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
@@ -16,8 +17,11 @@ import Popup from '../../components/Popup';
 const StudentSubjects = () => {
 
     const dispatch = useDispatch();
+    // eslint-disable-next-line no-unused-vars
     const { subjectsList, sclassDetails } = useSelector((state) => state.sclass);
-    const { userDetails, currentUser, loading, response, error } = useSelector((state) => state.user);
+    // eslint-disable-next-line no-unused-vars
+    const { response, error, statestatus, userDetails } = useSelector((state) => state.user);
+    const { currentUser, loading } = useSelector((state) => state.user);
 
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
@@ -60,29 +64,31 @@ const StudentSubjects = () => {
                 <Typography variant="h4" align="center" gutterBottom>
                     Subject Marks
                 </Typography>
-                <Table>
-                    <TableHead>
-                        <StyledTableRow>
-                            <StyledTableCell>Subject</StyledTableCell>
-                            <StyledTableCell>Marks</StyledTableCell>
-                            <StyledTableCell>Exam Date</StyledTableCell>
-                        </StyledTableRow>
-                    </TableHead>
-                    <TableBody>
-                        {Array.isArray(subjectMarks) && subjectMarks.map((result, index) => {
-                            if (!result.subName || !result.marksObtained) {
-                                return null;
-                            }
-                            return (
-                                <StyledTableRow key={index}>
-                                    <StyledTableCell>{result.subName.subName}</StyledTableCell>
-                                    <StyledTableCell>{result.marksObtained}</StyledTableCell>
-                                    <StyledTableCell>{result.subName.examDate ? new Date(result.subName.examDate).toLocaleDateString() : "N/A"}</StyledTableCell>
-                                </StyledTableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
+                <GlassCard sx={{ width: '100%', overflow: 'auto' }}>
+                    <Table>
+                        <TableHead>
+                            <StyledTableRow>
+                                <StyledTableCell>Subject</StyledTableCell>
+                                <StyledTableCell>Marks</StyledTableCell>
+                                <StyledTableCell>Exam Date</StyledTableCell>
+                            </StyledTableRow>
+                        </TableHead>
+                        <TableBody>
+                            {Array.isArray(subjectMarks) && subjectMarks.map((result, index) => {
+                                if (!result.subName || !result.marksObtained) {
+                                    return null;
+                                }
+                                return (
+                                    <StyledTableRow key={index}>
+                                        <StyledTableCell>{result.subName.subName}</StyledTableCell>
+                                        <StyledTableCell>{result.marksObtained}</StyledTableCell>
+                                        <StyledTableCell>{result.subName.examDate ? new Date(result.subName.examDate).toLocaleDateString() : "N/A"}</StyledTableCell>
+                                    </StyledTableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </GlassCard>
             </>
         );
     };
@@ -104,26 +110,28 @@ const StudentSubjects = () => {
                     And these are the subjects:
                 </Typography>
                 {Array.isArray(subjectsList) && subjectsList.length > 0 ? (
-                    <Table sx={{ mt: 2 }} aria-label="subjects table">
-                        <TableHead>
-                            <StyledTableRow>
-                                <StyledTableCell>Subject Name</StyledTableCell>
-                                <StyledTableCell>Subject Code</StyledTableCell>
-                                <StyledTableCell>Exam Date</StyledTableCell>
-                            </StyledTableRow>
-                        </TableHead>
-                        <TableBody>
-                            {subjectsList.map((subject, index) => (
-                                <StyledTableRow key={index}>
-                                    <StyledTableCell>{subject.subName}</StyledTableCell>
-                                    <StyledTableCell>{subject.subCode}</StyledTableCell>
-                                    <StyledTableCell>
-                                        {subject.examDate ? new Date(subject.examDate).toLocaleDateString() : 'N/A'}
-                                    </StyledTableCell>
+                    <GlassCard sx={{ width: '100%', overflow: 'auto' }}>
+                        <Table sx={{ mt: 2 }} aria-label="subjects table">
+                            <TableHead>
+                                <StyledTableRow>
+                                    <StyledTableCell>Subject Name</StyledTableCell>
+                                    <StyledTableCell>Subject Code</StyledTableCell>
+                                    <StyledTableCell>Exam Date</StyledTableCell>
                                 </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {subjectsList.map((subject, index) => (
+                                    <StyledTableRow key={index}>
+                                        <StyledTableCell>{subject.subName}</StyledTableCell>
+                                        <StyledTableCell>{subject.subCode}</StyledTableCell>
+                                        <StyledTableCell>
+                                            {subject.examDate ? new Date(subject.examDate).toLocaleDateString() : 'N/A'}
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </GlassCard>
                 ) : (
                     <Typography variant="subtitle1">
                         No subjects found.
@@ -145,7 +153,7 @@ const StudentSubjects = () => {
                             {selectedSection === 'table' && renderTableSection()}
                             {selectedSection === 'chart' && renderChartSection()}
 
-                            <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                            <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, borderTop: '1px solid rgba(255, 255, 255, 0.1)', bgcolor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)' }} elevation={3}>
                                 <BottomNavigation value={selectedSection} onChange={handleSectionChange} showLabels>
                                     <BottomNavigationAction
                                         label="Table"

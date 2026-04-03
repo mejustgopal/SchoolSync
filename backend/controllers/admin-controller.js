@@ -58,7 +58,7 @@ const adminLogIn = async (req, res, next) => {
             return res.status(400).json({ message: "Email and password are required" });
         }
     } catch (err) {
-        next(error);
+        next(err);
     }
 };
 

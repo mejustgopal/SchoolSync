@@ -11,8 +11,8 @@ import ChooseUser from './pages/ChooseUser';
 import { ROLE_CONSTANTS } from './constants';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import ThemeToggle from './components/ThemeToggle';
 import { GlobalStyles } from '@mui/material';
+import ThemeToggle from './components/ThemeToggle';
 
 const App = () => {
   const { currentRole } = useSelector(state => state.user);
@@ -22,42 +22,46 @@ const App = () => {
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: darkMode ? '#d8b4fe' : '#550080',
+        main: darkMode ? '#c4b5fd' : '#7f56da',
+        dark: darkMode ? '#a78bfa' : '#550080',
+        light: darkMode ? '#ddd6fe' : '#a78bfa',
       },
       secondary: {
-        main: '#7f56da',
+        main: '#06b6d4',
+        dark: '#0891b2',
+        light: '#67e8f9',
       },
       background: {
-        default: darkMode ? '#121212' : '#f0f2f5',
-        paper: darkMode ? '#1e1e1e' : '#ffffff',
+        default: darkMode ? '#0f0d1a' : '#f3f0ff',
+        paper: darkMode ? '#1a1730' : '#ffffff',
       },
       text: {
-        primary: darkMode ? '#fff' : '#2c2143',
-        secondary: darkMode ? '#a0a0a0' : '#666',
+        primary: darkMode ? '#f1f0ff' : '#1e1b2e',
+        secondary: darkMode ? '#9e9eb8' : '#6b5e8e',
       },
       action: {
         active: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.54)',
-        hover: darkMode ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)',
+        hover: darkMode ? 'rgba(127, 86, 218, 0.1)' : 'rgba(127, 86, 218, 0.06)',
       },
     },
     typography: {
        fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-       h1: { fontFamily: '"Poppins", sans-serif', fontWeight: 700 },
-       h2: { fontFamily: '"Poppins", sans-serif', fontWeight: 600 },
-       h3: { fontFamily: '"Poppins", sans-serif', fontWeight: 600 },
-       h4: { fontFamily: '"Poppins", sans-serif', fontWeight: 600 },
-       h5: { fontFamily: '"Poppins", sans-serif', fontWeight: 500 },
-       h6: { fontFamily: '"Poppins", sans-serif', fontWeight: 500 },
+       h1: { fontFamily: '"Poppins", sans-serif', fontWeight: 800 },
+       h2: { fontFamily: '"Poppins", sans-serif', fontWeight: 700 },
+       h3: { fontFamily: '"Poppins", sans-serif', fontWeight: 700 },
+       h4: { fontFamily: '"Poppins", sans-serif', fontWeight: 700 },
+       h5: { fontFamily: '"Poppins", sans-serif', fontWeight: 600 },
+       h6: { fontFamily: '"Poppins", sans-serif', fontWeight: 600 },
        button: { fontFamily: '"Poppins", sans-serif', fontWeight: 600, textTransform: 'none' },
     },
     shape: {
-      borderRadius: 12,
+      borderRadius: 14,
     },
     components: {
       MuiListItemIcon: {
         styleOverrides: {
           root: {
-             color: darkMode ? '#e0e0e0' : 'inherit',
+             color: darkMode ? '#c4b5fd' : '#7f56da',
           },
         },
       },
@@ -67,28 +71,42 @@ const App = () => {
             borderRadius: 12,
             boxShadow: 'none',
             '&:hover': {
-              boxShadow: '0px 4px 10px rgba(0,0,0,0.1)',
+              boxShadow: '0px 6px 16px rgba(127,86,218,0.25)',
             },
-            transition: 'all 0.3s ease',
+            transition: 'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',
           },
         },
       },
       MuiPaper: {
         styleOverrides: {
           root: {
-            backgroundImage: 'none', 
+            backgroundImage: 'none',
           },
         },
       },
-       MuiTextField: {
-         styleOverrides: {
-           root: {
-             '& .MuiOutlinedInput-root': {
-               borderRadius: 12,
-             },
-           },
-         },
-       },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 12,
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#7f56da',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#7f56da',
+                borderWidth: '2px',
+              },
+            },
+          },
+        },
+      },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+          },
+        },
+      },
     },
   });
 
@@ -97,7 +115,15 @@ const App = () => {
       <CssBaseline />
       <GlobalStyles
           styles={(theme) => ({
-            body: { transition: 'background-color 0.3s, color 0.3s' },
+            body: {
+              transition: 'background-color 0.4s, color 0.3s',
+              background: theme.palette.mode === 'dark'
+                ? 'linear-gradient(-45deg, #0f0d1a, #1a1730, #0c1445, #1a1730)'
+                : 'linear-gradient(-45deg, #f3f0ff, #e8e4ff, #e0f2fe, #f0fdf4)',
+              backgroundSize: '400% 400%',
+              animation: 'gradientShift 14s ease infinite',
+              minHeight: '100vh',
+            },
             'input:-webkit-autofill': {
               WebkitBoxShadow: `0 0 0 1000px ${theme.palette.background.paper} inset !important`,
               WebkitTextFillColor: `${theme.palette.text.primary} !important`,
@@ -150,6 +176,8 @@ const App = () => {
             <TeacherDashboard />
           </>
         }
+
+        {/* Global floating dark mode toggle — visible on ALL pages */}
         <ThemeToggle />
       </Router>
     </ThemeProvider>

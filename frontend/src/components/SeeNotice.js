@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllNotices } from '../redux/noticeRelated/noticeHandle';
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
+import GlassCard from './GlassCard';
 import TableViewTemplate from './TableViewTemplate';
 import { ROLE_CONSTANTS } from '../constants';
 import Popup from './Popup';
@@ -57,11 +58,11 @@ const SeeNotice = () => {
             ) : (
                 <>
                     <h3 style={{ fontSize: '30px', marginBottom: '40px' }}>Notices</h3>
-                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    <GlassCard sx={{ width: '100%', overflow: 'hidden', p: 2 }}>
                         {Array.isArray(noticesList) && noticesList.length > 0 &&
                             <TableViewTemplate columns={noticeColumns} rows={noticeRows} />
                         }
-                    </Paper>
+                    </GlassCard>
                 </>
             )}
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />

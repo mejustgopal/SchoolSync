@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, Box, Typography, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop } from '@mui/material';
+import { Grid, Box, Typography, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LightPurpleButton } from '../components/buttonStyles';
@@ -126,11 +126,23 @@ const LoginPage = ({ role }) => {
     return (
         <RootContainer>
             <CssBaseline />
-            <GlassCard sx={{ maxWidth: 500, width: '100%', mx: 2, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography variant="h4" sx={{ mb: 1, fontWeight: 'bold', color: 'primary.main' }}>
+            <GlassCard className="fade-slide-up" sx={{ maxWidth: 500, width: '100%', mx: 2, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{ mb: 2, p: 1.5, borderRadius: 2.5, background: 'linear-gradient(135deg, #7f56da22, #06b6d422)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    <Box
+                        sx={{
+                            width: 40, height: 40, borderRadius: 2,
+                            background: 'linear-gradient(135deg, #7f56da, #06b6d4)',
+                            display:'flex', alignItems:'center', justifyContent:'center',
+                            boxShadow: '0 6px 16px rgba(127,86,218,0.4)',
+                        }}
+                    >
+                        <span style={{ color:'#fff', fontWeight:800, fontSize:18, fontFamily:'Poppins' }}>S</span>
+                    </Box>
+                </Box>
+                <Typography variant="h4" sx={{ mb: 0.5, fontWeight: 800, background:'linear-gradient(135deg,#7f56da,#06b6d4)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
                     {role} Login
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', color: 'text.secondary' }}>
+                <Typography variant="body2" sx={{ mb: 3, textAlign: 'center', color: 'text.secondary' }}>
                     Please enter your details to continue
                 </Typography>
 
@@ -228,7 +240,7 @@ const LoginPage = ({ role }) => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {loader ? <CircularProgress size={24} color="inherit" /> : "Login"}
+                        {loader ? "Logging in..." : "Login"}
                     </LightPurpleButton>
 
                     {role === ROLE_CONSTANTS.ADMIN &&
@@ -256,8 +268,10 @@ const RootContainer = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     background: theme.palette.mode === 'dark'
-        ? `linear-gradient(135deg, #121212 0%, #2c2143 100%)`
-        : `linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%)`, // Light gradient
+        ? 'linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a2e)'
+        : 'linear-gradient(-45deg, #ece9f1, #d8c6f0, #c9e8f5, #ece9f1)',
+    backgroundSize: '400% 400%',
+    animation: 'gradientShift 12s ease infinite',
     padding: theme.spacing(2),
 }));
 

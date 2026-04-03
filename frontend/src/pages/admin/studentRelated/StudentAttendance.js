@@ -9,11 +9,13 @@ import {
     Box, InputLabel,
     MenuItem, Select,
     Typography, Stack,
-    TextField, CircularProgress, FormControl
+    TextField, FormControl
 } from '@mui/material';
 import { PurpleButton } from '../../../components/buttonStyles';
 import Popup from '../../../components/Popup';
 import { ROLE_CONSTANTS } from '../../../constants';
+import Loading from '../../../components/Loading';
+import GlassCard from '../../../components/GlassCard';
 
 const StudentAttendance = ({ situation }) => {
     const dispatch = useDispatch();
@@ -44,13 +46,13 @@ const StudentAttendance = ({ situation }) => {
             dispatch(getUserDetails(studentID, ROLE_CONSTANTS.STUDENT));
             setChosenSubName(subjectID);
         }
-    }, [situation, params, dispatch]);
+    }, [situation, params.id, params.studentID, params.subjectID, dispatch]);
 
     useEffect(() => {
         if (userDetails && userDetails.sclassName && situation === ROLE_CONSTANTS.STUDENT) {
             dispatch(getSubjectList(userDetails.sclassName._id, "ClassSubjects"));
         }
-    }, [dispatch, userDetails]);
+    }, [dispatch, userDetails, situation]);
 
     const changeHandler = (event) => {
         const selectedSubject = subjectsList.find(
@@ -90,9 +92,7 @@ const StudentAttendance = ({ situation }) => {
         <>
             {loading
                 ?
-                <>
-                    <div>Loading...</div>
-                </>
+                <Loading />
                 :
                 <>
                     <Box
@@ -103,11 +103,11 @@ const StudentAttendance = ({ situation }) => {
                             justifyContent: 'center'
                         }}
                     >
-                        <Box
+                        <GlassCard
                             sx={{
                                 maxWidth: 550,
-                                px: 3,
-                                py: '100px',
+                                padding: '2rem',
+                                marginTop: '1rem',
                                 width: '100%'
                             }}
                         >
@@ -183,10 +183,10 @@ const StudentAttendance = ({ situation }) => {
                                     type="submit"
                                     disabled={loader}
                                 >
-                                    {loader ? <CircularProgress size={24} color="inherit" /> : "Submit"}
+                                    {loader ? "Submitting..." : "Submit"}
                                 </PurpleButton>
                             </form>
-                        </Box>
+                        </GlassCard>
                     </Box>
                     <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
                 </>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import {
-    Box, IconButton, Typography, Paper
+    Box, IconButton, Typography
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';

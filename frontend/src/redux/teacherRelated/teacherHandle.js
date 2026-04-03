@@ -3,7 +3,8 @@ import {
     getRequest,
     getSuccess,
     getFailed,
-    getError
+    getError,
+    doneSuccess
 } from './teacherSlice';
 
 export const getAllTeachers = (id) => async (dispatch) => {
@@ -37,7 +38,7 @@ export const getTeacherDetails = (id) => async (dispatch) => {
     try {
         const result = await axiosInstance.get(`/Teacher/${id}`);
         if (result.data) {
-            dispatch(getSuccess(result.data));
+            dispatch(doneSuccess(result.data));
         }
     } catch (error) {
         dispatch(getError(error.message));

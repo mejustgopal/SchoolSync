@@ -56,7 +56,9 @@ const TeacherDashboard = () => {
                         >
                             Teacher Dashboard
                         </Typography>
-                        <AccountMenu />
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <AccountMenu />
+                        </Box>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open} sx={open ? styles.drawerStyled : styles.hideDrawer}>
@@ -80,10 +82,12 @@ const TeacherDashboard = () => {
 
 
                         <Route path="/Teacher/class" element={<TeacherClassDetails />} />
-                        <Route path="/Teacher/class/student/:id" element={<TeacherViewStudent />} />
 
+                        {/* Specific routes MUST come before the wildcard :id route */}
                         <Route path="/Teacher/class/student/attendance/:studentID/:subjectID" element={<StudentAttendance situation="Subject" />} />
                         <Route path="/Teacher/class/student/marks/:studentID/:subjectID" element={<StudentExamMarks situation="Subject" />} />
+
+                        <Route path="/Teacher/class/student/:id" element={<TeacherViewStudent />} />
 
                         <Route path="/logout" element={<Logout />} />
                     </Routes>

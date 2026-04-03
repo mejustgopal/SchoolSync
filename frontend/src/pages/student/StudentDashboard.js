@@ -54,7 +54,9 @@ const StudentDashboard = () => {
                         >
                             Student Dashboard
                         </Typography>
-                        <AccountMenu />
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <AccountMenu />
+                        </Box>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open} sx={open ? styles.drawerStyled : styles.hideDrawer}>

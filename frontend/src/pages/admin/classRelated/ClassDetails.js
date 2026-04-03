@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
-import { getClassDetails, getClassStudents, getSubjectList } from "../../../redux/sclassRelated/sclassHandle";
+import { getClassDetails, getClassStudents, getClassTeachers, getSubjectList } from "../../../redux/sclassRelated/sclassHandle";
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import {
     Box, Container, Typography, Tab, IconButton
@@ -9,6 +9,7 @@ import {
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import Loading from "../../../components/Loading";
 import { resetSubjects } from "../../../redux/sclassRelated/sclassSlice";
 import { BlueButton, GreenButton, PurpleButton } from "../../../components/buttonStyles";
 import TableTemplate from "../../../components/TableTemplate";
@@ -25,7 +26,7 @@ const ClassDetails = () => {
     const params = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const { subjectsList, sclassStudents, sclassDetails, loading, error, response, getresponse } = useSelector((state) => state.sclass);
+    const { subjectsList, sclassStudents, sclassTeachers, sclassDetails, loading, error, response, getresponse } = useSelector((state) => state.sclass);
 
     const classID = params.id
 
@@ -33,6 +34,7 @@ const ClassDetails = () => {
         dispatch(getClassDetails(classID, "Sclass"));
         dispatch(getSubjectList(classID, "ClassSubjects"))
         dispatch(getClassStudents(classID));
+        dispatch(getClassTeachers(classID));
     }, [dispatch, classID])
 
     if (error) {
@@ -46,6 +48,7 @@ const ClassDetails = () => {
     };
 
     const [showPopup, setShowPopup] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [message, setMessage] = useState("");
 
     const deleteHandler = (deleteID, address) => {
@@ -201,10 +204,53 @@ const ClassDetails = () => {
         )
     }
 
+    const teacherColumns = [
+        { id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'subject', label: 'Subject', minWidth: 100 },
+    ]
+
+    const teacherRows = sclassTeachers.map((teacher) => {
+        return {
+            name: teacher.name,
+            subject: teacher.teachSubject?.subName || 'No Subject Assigned',
+            id: teacher._id,
+        };
+    })
+
+    const TeachersButtonHaver = ({ row }) => {
+        return (
+            <>
+                <BlueButton
+                    variant="contained"
+                    onClick={() => navigate("/Admin/teachers/teacher/" + row.id)}
+                >
+                    View
+                </BlueButton>
+            </>
+        );
+    };
+
     const ClassTeachersSection = () => {
         return (
             <>
-                Teachers
+                {sclassTeachers.length === 0 ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '16px' }}>
+                        <GreenButton
+                            variant="contained"
+                            onClick={() => navigate("/Admin/teachers/chooseclass")}
+                        >
+                            Assign Teachers
+                        </GreenButton>
+                    </Box>
+                ) : (
+                    <>
+                        <Typography variant="h5" gutterBottom>
+                            Teachers List:
+                        </Typography>
+
+                        <TableTemplate buttonHaver={TeachersButtonHaver} columns={teacherColumns} rows={teacherRows} />
+                    </>
+                )}
             </>
         )
     }
@@ -254,7 +300,7 @@ const ClassDetails = () => {
     return (
         <>
             {loading ? (
-                <div>Loading...</div>
+                <Loading />
             ) : (
                 <>
                     <Box sx={{ width: '100%', typography: 'body1', }} >

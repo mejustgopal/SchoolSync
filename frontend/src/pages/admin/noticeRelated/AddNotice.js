@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addStuff } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
-import { CircularProgress, Box, Typography, TextField, Button, Stack } from '@mui/material';
+import { Box, Typography, TextField, Button, Stack } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
+import { PurpleButton } from '../../../components/buttonStyles';
 import Popup from '../../../components/Popup';
 
 const AddNotice = () => {
@@ -100,7 +101,7 @@ const AddNotice = () => {
                     InputLabelProps={{ shrink: true }}
                   />
 
-                  <Button
+                  <PurpleButton
                     fullWidth
                     size="large"
                     variant="contained"
@@ -109,18 +110,10 @@ const AddNotice = () => {
                     sx={{
                         mt: 2,
                         height: 50,
-                        backgroundColor: '#550080', // Using the primary color I saw in App.js
-                        '&:hover': {
-                            backgroundColor: '#3e0061',
-                        }
                     }}
                   >
-                    {loader ? (
-                      <CircularProgress size={24} color="inherit" />
-                    ) : (
-                      'Add Notice'
-                    )}
-                  </Button>
+                    {loader ? 'Adding...' : 'Add Notice'}
+                  </PurpleButton>
               </Stack>
             </form>
         </GlassCard>

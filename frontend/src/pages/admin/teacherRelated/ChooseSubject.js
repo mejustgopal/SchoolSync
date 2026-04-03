@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Table, TableBody, TableContainer, TableHead, Typography, Paper } from '@mui/material'
+import { Box, Table, TableBody, TableContainer, TableHead, Typography } from '@mui/material'
+import GlassCard from '../../../components/GlassCard';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getTeacherFreeClassSubjects } from '../../../redux/sclassRelated/sclassHandle';
 import { updateTeachSubject } from '../../../redux/teacherRelated/teacherHandle';
 import { GreenButton, PurpleButton } from '../../../components/buttonStyles';
 import { StyledTableCell, StyledTableRow } from '../../../components/styles';
 import { ROLE_CONSTANTS } from '../../../constants';
+import Loading from '../../../components/Loading';
 
 const ChooseSubject = ({ situation }) => {
     const params = useParams();
@@ -40,17 +42,21 @@ const ChooseSubject = ({ situation }) => {
     }, [situation, params, dispatch]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else if (response) {
-        return <div>
-            <h1>Sorry all subjects have teachers assigned already</h1>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                <PurpleButton variant="contained"
-                    onClick={() => navigate("/Admin/addsubject/" + classID)}>
-                    Add Subjects
-                </PurpleButton>
-            </Box>
-        </div>;
+        return (
+            <GlassCard sx={{ p: 4, textAlign: 'center' }}>
+                <Typography variant="h5" gutterBottom color="primary">
+                    Sorry, all subjects have teachers assigned already
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '16px' }}>
+                    <PurpleButton variant="contained"
+                        onClick={() => navigate("/Admin/addsubject/" + classID)}>
+                        Add Subjects
+                    </PurpleButton>
+                </Box>
+            </GlassCard>
+        );
     } else if (error) {
         // Removed console.log for production
     }
@@ -62,7 +68,7 @@ const ChooseSubject = ({ situation }) => {
     }
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: 2 }}>
             <Typography variant="h6" gutterBottom component="div">
                 Choose a subject
             </Typography>
@@ -107,7 +113,7 @@ const ChooseSubject = ({ situation }) => {
                     </Table>
                 </TableContainer>
             </>
-        </Paper >
+        </GlassCard >
     );
 };
 

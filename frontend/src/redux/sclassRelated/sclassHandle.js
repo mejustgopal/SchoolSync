@@ -8,6 +8,7 @@ import {
     detailsSuccess,
     getFailedTwo,
     getSubjectsSuccess,
+    getTeachersSuccess,
     getSubDetailsSuccess,
     getSubDetailsRequest
 } from './sclassSlice';
@@ -46,6 +47,26 @@ export const getClassStudents = (id) => async (dispatch) => {
             dispatch(getFailedTwo(result.data.message));
         } else {
             dispatch(getStudentsSuccess(result.data));
+        }
+    } catch (error) {
+        dispatch(getError(error.message));
+    }
+}
+
+export const getClassTeachers = (id) => async (dispatch) => {
+    dispatch(getRequest());
+
+    if (!id) {
+        dispatch(getError({ message: 'Missing class ID' }));
+        return;
+    }
+
+    try {
+        const result = await axiosInstance.get(`/Sclass/Teachers/${id}`);
+        if (result.data.message) {
+            dispatch(getFailedTwo(result.data.message));
+        } else {
+            dispatch(getTeachersSuccess(result.data));
         }
     } catch (error) {
         dispatch(getError(error.message));

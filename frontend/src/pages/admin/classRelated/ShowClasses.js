@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import Popup from '../../../components/Popup';
 import GlassCard from '../../../components/GlassCard';
+import Loading from '../../../components/Loading';
 
 const ShowClasses = () => {
   const navigate = useNavigate()
@@ -153,7 +154,7 @@ const ShowClasses = () => {
   return (
     <>
       {loading ?
-        <div>Loading...</div>
+        <Loading />
         :
         <>
           {(getresponse || sclassesList.length === 0) ?

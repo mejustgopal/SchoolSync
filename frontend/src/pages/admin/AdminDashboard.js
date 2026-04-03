@@ -44,7 +44,7 @@ import AccountMenu from '../../components/AccountMenu';
 import { ROLE_CONSTANTS } from '../../constants';
 
 const AdminDashboard = () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -53,7 +53,12 @@ const AdminDashboard = () => {
         <>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <AppBar open={open} position='absolute'>
+                <AppBar open={open} position='absolute'
+                    sx={{
+                        background: 'linear-gradient(135deg, #7f56da 0%, #550080 100%)',
+                        boxShadow: '0 4px 20px rgba(85, 0, 128, 0.3)',
+                    }}
+                >
                     <Toolbar sx={{ pr: '24px' }}>
                         <IconButton
                             edge="start"
@@ -76,7 +81,9 @@ const AdminDashboard = () => {
                         >
                             Admin Dashboard
                         </Typography>
-                        <AccountMenu />
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <AccountMenu />
+                        </Box>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open} sx={open ? styles.drawerStyled : styles.hideDrawer}>
@@ -87,7 +94,7 @@ const AdminDashboard = () => {
                     </Toolbar>
                     <Divider />
                     <List component="nav">
-                        <SideBar />
+                        <SideBar open={open} />
                     </List>
                 </Drawer>
                 <Box component="main" sx={styles.boxStyled}>
@@ -147,7 +154,7 @@ export default AdminDashboard
 
 const styles = {
     boxStyled: {
-        backgroundColor: 'transparent', // Let global gradient show through
+        backgroundColor: 'transparent',
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
@@ -161,13 +168,30 @@ const styles = {
     drawerStyled: {
         display: "flex",
         '& .MuiDrawer-paper': {
-            backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(30, 30, 30, 0.6)' : 'rgba(255, 255, 255, 0.6)',
-            backdropFilter: 'blur(10px)',
-            borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+            backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(15, 12, 41, 0.85)'
+                : 'rgba(255, 255, 255, 0.92)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderRight: (theme) => theme.palette.mode === 'dark'
+                ? '1px solid rgba(127, 86, 218, 0.18)'
+                : '1px solid rgba(127, 86, 218, 0.12)',
+            boxShadow: '4px 0 24px rgba(127, 86, 218, 0.08)',
         }
     },
     hideDrawer: {
         display: 'flex',
+        '& .MuiDrawer-paper': {
+            backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(15, 12, 41, 0.85)'
+                : 'rgba(255, 255, 255, 0.92)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderRight: (theme) => theme.palette.mode === 'dark'
+                ? '1px solid rgba(127, 86, 218, 0.18)'
+                : '1px solid rgba(127, 86, 218, 0.12)',
+            boxShadow: '4px 0 24px rgba(127, 86, 218, 0.08)',
+        },
         '@media (max-width: 600px)': {
             display: 'none',
         },

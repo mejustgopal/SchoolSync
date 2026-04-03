@@ -5,7 +5,7 @@ import { getSubjectList } from '../../../redux/sclassRelated/sclassHandle';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
-    Box, IconButton, Typography, Paper
+    Box, IconButton, Typography
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,6 +13,7 @@ import TableTemplate from '../../../components/TableTemplate';
 import { BlueButton, GreenButton } from '../../../components/buttonStyles';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import Popup from '../../../components/Popup';
+import Loading from '../../../components/Loading';
 
 const ShowSubjects = () => {
     const navigate = useNavigate()
@@ -97,7 +98,7 @@ const ShowSubjects = () => {
     return (
         <>
             {loading ?
-                <div>Loading...</div>
+                <Loading />
                 :
                 <>
                     {(response || subjectsList.length === 0) ?

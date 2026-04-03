@@ -5,8 +5,9 @@ import { getSubjectDetails } from '../../../redux/sclassRelated/sclassHandle';
 import Popup from '../../../components/Popup';
 import { registerUser } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
-import { CircularProgress, Box, Typography, TextField, Button, Stack, InputAdornment, IconButton } from '@mui/material';
+import { Box, Typography, TextField, Stack, InputAdornment, IconButton } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
+import { PurpleButton } from '../../../components/buttonStyles';
 import { ROLE_CONSTANTS } from '../../../constants';
 import { validatePassword, validateEmail } from '../../../utils/validation';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -175,26 +176,16 @@ const AddTeacher = () => {
                 }}
               />
 
-              <Button
+              <PurpleButton
                 fullWidth
                 size="large"
                 variant="contained"
                 type="submit"
                 disabled={loader}
-                sx={{
-                  mt: 2,
-                  backgroundColor: '#550080',
-                  '&:hover': {
-                    backgroundColor: '#3e0061',
-                  }
-                }}
+                sx={{ mt: 2 }}
               >
-                {loader ? (
-                  <CircularProgress size={24} color="inherit" />
-                ) : (
-                  'Register'
-                )}
-              </Button>
+                {loader ? 'Registering...' : 'Register'}
+              </PurpleButton>
             </Stack>
           </form>
         </GlassCard>

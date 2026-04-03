@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     teachersList: [],
-    teacherDetails: [],
+    teacherDetails: null,
     loading: false,
     error: null,
     response: null,

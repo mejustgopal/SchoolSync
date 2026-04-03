@@ -27,7 +27,10 @@ const ViewStdAttendance = () => {
         }));
     };
 
-    const { userDetails, currentUser, loading, response, error } = useSelector((state) => state.user);
+    // eslint-disable-next-line no-unused-vars
+    const { sclassDetails } = useSelector((state) => state.sclass);
+    // eslint-disable-next-line no-unused-vars
+    const { response, error, userDetails, currentUser, loading } = useSelector((state) => state.user);
 
     useEffect(() => {
         if (currentUser?._id) {
@@ -180,12 +183,12 @@ const ViewStdAttendance = () => {
                             {selectedSection === 'table' && renderTableSection()}
                             {selectedSection === 'chart' && renderChartSection()}
 
-                            <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, borderTop: '1px solid rgba(255,255,255,0.1)' }} elevation={3}>
+                            <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, borderTop: '1px solid rgba(255,255,255,0.1)', bgcolor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)' }} elevation={3}>
                                 <BottomNavigation
                                     value={selectedSection}
                                     onChange={handleSectionChange}
                                     showLabels
-                                    sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(30,30,30,0.9)' : 'white' }}
+                                    sx={{ bgcolor: 'transparent' }}
                                 >
                                     <BottomNavigationAction
                                         label="Table"

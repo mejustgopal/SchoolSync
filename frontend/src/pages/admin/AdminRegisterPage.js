@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, Box, Typography, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress } from '@mui/material';
+import { Grid, Box, Typography, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LightPurpleButton } from '../../components/buttonStyles';
@@ -180,7 +180,7 @@ const AdminRegisterPage = () => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {loader ? <CircularProgress size={24} color="inherit" /> : "Register"}
+                        {loader ? "Registering..." : "Register"}
                     </LightPurpleButton>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>

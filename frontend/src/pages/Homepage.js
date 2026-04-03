@@ -12,19 +12,33 @@ const Homepage = () => {
                 
                 {/* Text Content */}
                 <Grid item xs={12} md={6}>
-                    <Box sx={{ p: { xs: 2, md: 4 } }}>
+                    <Box sx={{ p: { xs: 2, md: 4 }, animation: 'fadeSlideUp 0.8s ease both' }}>
                         <Typography 
                             variant="h2" 
                             gutterBottom 
                             sx={{ 
                                 fontWeight: 800, 
-                                background: 'linear-gradient(45deg, #7f56da, #550080)', 
+                                background: 'linear-gradient(135deg, #7f56da 0%, #06b6d4 100%)', 
                                 WebkitBackgroundClip: 'text', 
                                 WebkitTextFillColor: 'transparent',
-                                fontSize: { xs: '2.5rem', md: '3.75rem' } // Responsive font size
+                                backgroundClip: 'text',
+                                fontSize: { xs: '2.5rem', md: '3.75rem' },
                             }}
                         >
                             SchoolSync
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{ 
+                                fontWeight: 400,
+                                mb: 1,
+                                background: 'linear-gradient(90deg, #550080, #06b6d4)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text',
+                            }}
+                        >
+                            Smart School Management
                         </Typography>
                         <StyledText>
                             Streamline your school's operations with our all-in-one platform. 
@@ -33,7 +47,7 @@ const Homepage = () => {
                         
                         <Box sx={{ mt: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
                             <StyledLink to="/choose">
-                                <LightPurpleButton fullWidth sx={{ fontSize: '1.1rem' }}>
+                                <LightPurpleButton fullWidth sx={{ fontSize: '1.1rem', py: 1.5 }}>
                                     Login to Portal
                                 </LightPurpleButton>
                             </StyledLink>
@@ -72,13 +86,13 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 }));
 
 const StyledText = styled(Typography)(({ theme }) => ({
-  fontSize: '1.2rem',
+  fontSize: '1.15rem',
   color: theme.palette.text.secondary,
-  lineHeight: 1.6,
+  lineHeight: 1.7,
   marginBottom: theme.spacing(4),
 }));
 
-const StyledLink = styled(Link)(({ theme }) => ({
+const StyledLink = styled(Link)(() => ({
   textDecoration: 'none',
 }));
 
@@ -86,9 +100,8 @@ const StyledImage = styled('img')(({ theme }) => ({
   width: '100%',
   maxWidth: '500px',
   height: 'auto',
-  filter: theme.palette.mode === 'dark' ? 'invert(0.9) hue-rotate(180deg)' : 'drop-shadow(0px 10px 20px rgba(0,0,0,0.1))',
-  transition: 'transform 0.3s ease',
-  '&:hover': {
-      transform: 'scale(1.02)',
-  }
+  filter: theme.palette.mode === 'dark' 
+    ? 'invert(0.9) hue-rotate(180deg) drop-shadow(0 10px 30px rgba(127,86,218,0.3))' 
+    : 'drop-shadow(0 10px 30px rgba(85, 0, 128, 0.2))',
+  animation: 'float 5s ease-in-out infinite',
 }));

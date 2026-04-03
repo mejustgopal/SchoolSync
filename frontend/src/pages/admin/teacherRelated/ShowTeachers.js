@@ -4,17 +4,21 @@ import { useNavigate } from 'react-router-dom'
 import { getAllTeachers } from '../../../redux/teacherRelated/teacherHandle';
 import {
     Table, TableBody, TableContainer,
-    TableHead, TablePagination, Button, Box, IconButton, Typography, Paper
+    TableHead, TablePagination, Button, Box, IconButton, Typography, Tooltip, Divider
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { StyledTableCell, StyledTableRow } from '../../../components/styles';
-import { BlueButton, GreenButton } from '../../../components/buttonStyles';
+import { BlueButton, GreenButton, RedButton } from '../../../components/buttonStyles';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import Popup from '../../../components/Popup';
 import { ROLE_CONSTANTS } from '../../../constants';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import TableChartIcon from '@mui/icons-material/TableChart';
+import { exportToPdf, exportToExcel } from '../../../utils/reportUtils';
+import Loading from '../../../components/Loading';
 
 const ShowTeachers = () => {
     const [page, setPage] = useState(0);
@@ -30,11 +34,11 @@ const ShowTeachers = () => {
     }, [currentUser._id, dispatch]);
 
     const [showPopup, setShowPopup] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [message, setMessage] = useState("");
-    if (message) { }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else if (response || teachersList.length === 0) {
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
@@ -87,6 +91,35 @@ const ShowTeachers = () => {
 
     return (
         <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
+            {/* Export Toolbar */}
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: 'text.primary' }}>
+                    👩‍🏫 Teachers List
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Tooltip title="Export to PDF">
+                        <RedButton
+                            variant="contained"
+                            size="small"
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => exportToPdf('Teachers Report', columns, rows)}
+                        >
+                            PDF
+                        </RedButton>
+                    </Tooltip>
+                    <Tooltip title="Export to Excel">
+                        <GreenButton
+                            variant="contained"
+                            size="small"
+                            startIcon={<TableChartIcon />}
+                            onClick={() => exportToExcel('Teachers Report', columns, rows)}
+                        >
+                            Excel
+                        </GreenButton>
+                    </Tooltip>
+                </Box>
+            </Box>
+            <Divider sx={{ mb: 1, borderColor: 'rgba(127,86,218,0.12)' }} />
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -158,7 +191,7 @@ const ShowTeachers = () => {
                 page={page}
                 onPageChange={(event, newPage) => setPage(newPage)}
                 onRowsPerPageChange={(event) => {
-                    setRowsPerPage(parseInt(event.target.value, 5));
+                    setRowsPerPage(parseInt(event.target.value, 10));
                     setPage(0);
                 }}
             />

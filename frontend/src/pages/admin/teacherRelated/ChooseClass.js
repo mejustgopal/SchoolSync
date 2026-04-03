@@ -4,9 +4,11 @@ import { Box, Button, Typography } from '@mui/material'
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
 import { useNavigate } from 'react-router-dom';
 import { PurpleButton } from '../../../components/buttonStyles';
+import GlassCard from '../../../components/GlassCard';
 import TableTemplate from '../../../components/TableTemplate';
 import { ROLE_CONSTANTS } from '../../../constants';
 import Popup from '../../../components/Popup';
+import Loading from '../../../components/Loading';
 import { useState } from 'react';
 
 const ChooseClass = ({ situation }) => {
@@ -70,7 +72,7 @@ const ChooseClass = ({ situation }) => {
     return (
         <>
             {loading ?
-                <div>Loading...</div>
+                <Loading />
                 :
                 <>
                     {getresponse ?
@@ -80,14 +82,14 @@ const ChooseClass = ({ situation }) => {
                             </Button>
                         </Box>
                         :
-                        <>
+                        <GlassCard sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <Typography variant="h6" gutterBottom component="div">
                                 Choose a class
                             </Typography>
                             {Array.isArray(sclassesList) && sclassesList.length > 0 &&
                                 <TableTemplate buttonHaver={SclassButtonHaver} columns={sclassColumns} rows={sclassRows} />
                             }
-                        </>}
+                        </GlassCard>}
                 </>
             }
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />

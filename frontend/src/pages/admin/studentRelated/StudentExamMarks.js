@@ -6,13 +6,16 @@ import { getSubjectList } from '../../../redux/sclassRelated/sclassHandle';
 import { updateStudentFields } from '../../../redux/studentRelated/studentHandle';
 
 import Popup from '../../../components/Popup';
-import { BlueButton } from '../../../components/buttonStyles';
+import { PurpleButton } from '../../../components/buttonStyles';
 import { ROLE_CONSTANTS } from '../../../constants';
+import Loading from '../../../components/Loading';
+import GlassCard from '../../../components/GlassCard';
+
 import {
     Box, InputLabel,
     MenuItem, Select,
     Typography, Stack,
-    TextField, CircularProgress, FormControl
+    TextField, FormControl
 } from '@mui/material';
 
 const StudentExamMarks = ({ situation }) => {
@@ -49,7 +52,7 @@ const StudentExamMarks = ({ situation }) => {
         if (userDetails && userDetails.sclassName && situation === ROLE_CONSTANTS.STUDENT) {
             dispatch(getSubjectList(userDetails.sclassName._id, "ClassSubjects"));
         }
-    }, [dispatch, userDetails]);
+    }, [dispatch, userDetails, situation]);
 
     const changeHandler = (event) => {
         const selectedSubject = subjectsList.find(
@@ -89,9 +92,7 @@ const StudentExamMarks = ({ situation }) => {
         <>
             {loading
                 ?
-                <>
-                    <div>Loading...</div>
-                </>
+                <Loading />
                 :
                 <>
                     <Box
@@ -102,11 +103,11 @@ const StudentExamMarks = ({ situation }) => {
                             justifyContent: 'center'
                         }}
                     >
-                        <Box
+                        <GlassCard
                             sx={{
                                 maxWidth: 550,
-                                px: 3,
-                                py: '100px',
+                                padding: '2rem',
+                                marginTop: '1rem',
                                 width: '100%'
                             }}
                         >
@@ -159,7 +160,7 @@ const StudentExamMarks = ({ situation }) => {
                                         />
                                     </FormControl>
                                 </Stack>
-                                <BlueButton
+                                <PurpleButton
                                     fullWidth
                                     size="large"
                                     sx={{ mt: 3 }}
@@ -167,10 +168,10 @@ const StudentExamMarks = ({ situation }) => {
                                     type="submit"
                                     disabled={loader}
                                 >
-                                    {loader ? <CircularProgress size={24} color="inherit" /> : "Submit"}
-                                </BlueButton>
+                                    {loader ? "Submitting..." : "Submit"}
+                                </PurpleButton>
                             </form>
-                        </Box>
+                        </GlassCard>
                     </Box>
                 </>
             }

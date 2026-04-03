@@ -7,27 +7,35 @@ import {
     AppBar as MuiAppBar,
 } from "@mui/material";
 
-const drawerWidth = 240
+const drawerWidth = 260;
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
+        background: 'linear-gradient(135deg, #7f56da 0%, #550080 100%)',
         color: theme.palette.common.white,
+        fontWeight: 700,
+        letterSpacing: '0.5px',
+        fontSize: 13,
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
+        color: theme.palette.text.primary,
     },
 }));
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: 'transparent',
+    transition: 'background 0.18s ease',
     '&:nth-of-type(odd)': {
-        backgroundColor: 'rgba(255, 255, 255, 0.05)', // Even lighter for glass effect
+        backgroundColor: theme.palette.mode === 'dark'
+            ? 'rgba(127,86,218,0.05)'
+            : 'rgba(127,86,218,0.03)',
     },
     '&:hover': {
-        backgroundColor: 'rgba(255, 255, 255, 0.1) !important',
+        backgroundColor: theme.palette.mode === 'dark'
+            ? 'rgba(127,86,218,0.14) !important'
+            : 'rgba(127,86,218,0.08) !important',
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
@@ -37,6 +45,9 @@ export const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
+    background: 'linear-gradient(135deg, #7f56da 0%, #4f46e5 60%, #06b6d4 100%)',
+    backdropFilter: 'blur(10px)',
+    boxShadow: '0 4px 20px rgba(127,86,218,0.35)',
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -57,6 +68,13 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 
             position: 'relative',
             whiteSpace: 'nowrap',
             width: drawerWidth,
+            background: theme.palette.mode === 'dark'
+                ? 'linear-gradient(180deg, rgba(22,20,40,0.98) 0%, rgba(30,27,60,0.98) 100%)'
+                : 'linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(245,243,255,0.97) 100%)',
+            backdropFilter: 'blur(20px)',
+            borderRight: theme.palette.mode === 'dark'
+                ? '1px solid rgba(127,86,218,0.2)'
+                : '1px solid rgba(127,86,218,0.12)',
             transition: theme.transitions.create('width', {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,

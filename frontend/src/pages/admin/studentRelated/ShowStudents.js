@@ -4,14 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { getAllStudents } from '../../../redux/studentRelated/studentHandle';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import {
-    Box, IconButton, Paper, Typography
+    Box, IconButton, Paper, Typography, Tooltip
 } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import { BlackButton, BlueButton, GreenButton } from '../../../components/buttonStyles';
+import { BlackButton, BlueButton, GreenButton, PurpleButton } from '../../../components/buttonStyles';
 import TableTemplate from '../../../components/TableTemplate';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import GridOnIcon from '@mui/icons-material/GridOn';
+import { exportToPdf, exportToExcel } from '../../../utils/reportUtils';
+import Loading from '../../../components/Loading';
 
 import * as React from 'react';
 import Button from '@mui/material/Button';
@@ -191,7 +195,7 @@ const ShowStudents = () => {
     return (
         <>
             {loading ?
-                <div>Loading...</div>
+                <Loading />
                 :
                 <>
                     {(response || studentsList.length === 0) ?
@@ -205,6 +209,29 @@ const ShowStudents = () => {
                         </Box>
                         :
                         <GlassCard sx={{ width: '100%', overflow: 'hidden', padding: '1rem' }}>
+                            {/* Export Toolbar */}
+                            <Box sx={{ display: 'flex', gap: 1.5, mb: 2, justifyContent: 'flex-end' }}>
+                                <Tooltip title="Export as PDF">
+                                    <PurpleButton
+                                        id="export-students-pdf"
+                                        size="small"
+                                        startIcon={<PictureAsPdfIcon />}
+                                        onClick={() => exportToPdf('Students Report', studentColumns, studentRows)}
+                                    >
+                                        PDF
+                                    </PurpleButton>
+                                </Tooltip>
+                                <Tooltip title="Export as Excel">
+                                    <GreenButton
+                                        id="export-students-excel"
+                                        size="small"
+                                        startIcon={<GridOnIcon />}
+                                        onClick={() => exportToExcel('Students Report', studentColumns, studentRows)}
+                                    >
+                                        Excel
+                                    </GreenButton>
+                                </Tooltip>
+                            </Box>
                             {Array.isArray(studentsList) && studentsList.length > 0 &&
                                 <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} />
                             }

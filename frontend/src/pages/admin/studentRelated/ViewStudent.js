@@ -21,6 +21,8 @@ import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import Popup from '../../../components/Popup';
 import { ROLE_CONSTANTS } from '../../../constants';
 import GlassCard from '../../../components/GlassCard';
+import { PurpleButton, GreenButton, RedButton } from '../../../components/buttonStyles';
+import Loading from '../../../components/Loading';
 
 const ViewStudent = () => {
     const [showTab, setShowTab] = useState(false);
@@ -59,8 +61,8 @@ const ViewStudent = () => {
     const [openStates, setOpenStates] = useState({});
 
     const [showPopup, setShowPopup] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [message, setMessage] = useState("");
-    if (message) { } // Silence unused var warning
 
     const handleOpen = (subId) => {
         setOpenStates((prevState) => ({
@@ -95,8 +97,8 @@ const ViewStudent = () => {
         }
     }, [userDetails]);
 
+    // eslint-disable-next-line no-unused-vars
     const submitHandler = (event) => {
-        if (submitHandler) { } // Silence unused var warning
         event.preventDefault()
         dispatch(updateUser(fields, studentID, address))
             .then(() => {
@@ -149,8 +151,10 @@ const ViewStudent = () => {
     const StudentAttendanceSection = () => {
         const renderTableSection = () => {
             return (
-                <>
-                    <h3>Attendance:</h3>
+                <GlassCard sx={{ p: 3, mb: 3 }}>
+                    <Typography variant="h5" gutterBottom>
+                        Attendance Details
+                    </Typography>
                     <Table>
                         <TableHead>
                             <StyledTableRow>
@@ -178,10 +182,10 @@ const ViewStudent = () => {
                                             <IconButton onClick={() => removeSubAttendance(subId)}>
                                                 <DeleteIcon color="error" />
                                             </IconButton>
-                                            <Button variant="contained" sx={styles.attendanceButton}
+                                            <PurpleButton sx={{ ml: 2 }}
                                                 onClick={() => navigate(`/Admin/subject/student/attendance/${studentID}/${subId}`)}>
                                                 Change
-                                            </Button>
+                                            </PurpleButton>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                     <StyledTableRow>
@@ -223,13 +227,17 @@ const ViewStudent = () => {
                         )}
                     </Table>
                     <div>
-                        Overall Attendance Percentage: {overallAttendancePercentage.toFixed(2)}%
+                        <Typography variant="h6" sx={{ mt: 2 }}>
+                            Overall Attendance Percentage: {overallAttendancePercentage.toFixed(2)}%
+                        </Typography>
                     </div>
-                    <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => removeHandler(studentID, "RemoveStudentAtten")}>Delete All</Button>
-                    <Button variant="contained" sx={styles.styledButton} onClick={() => navigate("/Admin/students/student/attendance/" + studentID)}>
-                        Add Attendance
-                    </Button>
-                </>
+                    <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
+                        <RedButton startIcon={<DeleteIcon />} onClick={() => removeHandler(studentID, "RemoveStudentAtten")}>Delete All</RedButton>
+                        <GreenButton onClick={() => navigate("/Admin/students/student/attendance/" + studentID)}>
+                            Add Attendance
+                        </GreenButton>
+                    </Box>
+                </GlassCard>
             )
         }
         const renderChartSection = () => {
@@ -247,7 +255,7 @@ const ViewStudent = () => {
                         {selectedSection === 'table' && renderTableSection()}
                         {selectedSection === 'chart' && renderChartSection()}
 
-                        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, borderTop: '1px solid rgba(255, 255, 255, 0.1)', bgcolor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)' }} elevation={3}>
                             <BottomNavigation value={selectedSection} onChange={handleSectionChange} showLabels>
                                 <BottomNavigationAction
                                     label="Table"
@@ -263,9 +271,9 @@ const ViewStudent = () => {
                         </Paper>
                     </>
                     :
-                    <Button variant="contained" sx={styles.styledButton} onClick={() => navigate("/Admin/students/student/attendance/" + studentID)}>
+                    <GreenButton sx={{ m: 2 }} onClick={() => navigate("/Admin/students/student/attendance/" + studentID)}>
                         Add Attendance
-                    </Button>
+                    </GreenButton>
                 }
             </>
         )
@@ -274,8 +282,10 @@ const ViewStudent = () => {
     const StudentMarksSection = () => {
         const renderTableSection = () => {
             return (
-                <>
-                    <h3>Subject Marks:</h3>
+                <GlassCard sx={{ p: 3, mb: 3 }}>
+                    <Typography variant="h5" gutterBottom>
+                        Subject Marks
+                    </Typography>
                     <Table>
                         <TableHead>
                             <StyledTableRow>
@@ -297,10 +307,10 @@ const ViewStudent = () => {
                             })}
                         </TableBody>
                     </Table>
-                    <Button variant="contained" sx={styles.styledButton} onClick={() => navigate("/Admin/students/student/marks/" + studentID)}>
+                    <GreenButton sx={{ mt: 3 }} onClick={() => navigate("/Admin/students/student/marks/" + studentID)}>
                         Add Marks
-                    </Button>
-                </>
+                    </GreenButton>
+                </GlassCard>
             )
         }
         const renderChartSection = () => {
@@ -318,7 +328,7 @@ const ViewStudent = () => {
                         {selectedSection === 'table' && renderTableSection()}
                         {selectedSection === 'chart' && renderChartSection()}
 
-                        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, borderTop: '1px solid rgba(255, 255, 255, 0.1)', bgcolor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)' }} elevation={3}>
                             <BottomNavigation value={selectedSection} onChange={handleSectionChange} showLabels>
                                 <BottomNavigationAction
                                     label="Table"
@@ -334,9 +344,9 @@ const ViewStudent = () => {
                         </Paper>
                     </>
                     :
-                    <Button variant="contained" sx={styles.styledButton} onClick={() => navigate("/Admin/students/student/marks/" + studentID)}>
+                    <GreenButton sx={{ m: 2 }} onClick={() => navigate("/Admin/students/student/marks/" + studentID)}>
                         Add Marks
-                    </Button>
+                    </GreenButton>
                 }
             </>
         )
@@ -371,9 +381,9 @@ const ViewStudent = () => {
                         )
                     }
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                        <Button variant="contained" sx={styles.styledButton} onClick={deleteHandler}>
+                        <RedButton sx={{ m: 2 }} onClick={deleteHandler}>
                             Delete
-                        </Button>
+                        </RedButton>
                     </Box>
                 </GlassCard>
             </Box>
@@ -384,9 +394,7 @@ const ViewStudent = () => {
         <>
             {loading
                 ?
-                <>
-                    <div>Loading...</div>
-                </>
+                <Loading />
                 :
                 <>
                     <Box sx={{ width: '100%', typography: 'body1', }} >
@@ -420,20 +428,3 @@ const ViewStudent = () => {
 }
 
 export default ViewStudent
-
-const styles = {
-    attendanceButton: {
-        marginLeft: "20px",
-        backgroundColor: "#270843",
-        "&:hover": {
-            backgroundColor: "#3f1068",
-        }
-    },
-    styledButton: {
-        margin: "20px",
-        backgroundColor: "#02250b",
-        "&:hover": {
-            backgroundColor: "#106312",
-        }
-    }
-}

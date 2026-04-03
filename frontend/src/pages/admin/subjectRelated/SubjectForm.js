@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, TextField, Grid, Box, Typography, CircularProgress } from "@mui/material";
+import { Button, TextField, Grid, Box, Typography } from "@mui/material";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addStuff } from '../../../redux/userRelated/userHandle';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import Popup from '../../../components/Popup';
 import GlassCard from '../../../components/GlassCard';
+import { PurpleButton, BlueButton, RedButton } from '../../../components/buttonStyles';
 
 const SubjectForm = () => {
     const [subjects, setSubjects] = useState([{ subName: "", subCode: "", sessions: "", examDate: "" }]);
@@ -171,21 +172,19 @@ const SubjectForm = () => {
                                 <Grid item xs={6}>
                                     <Box display="flex" alignItems="flex-end">
                                         {index === 0 ? (
-                                            <Button
+                                            <BlueButton
                                                 variant="outlined"
-                                                color="primary"
                                                 onClick={handleAddSubject}
                                             >
                                                 Add Subject
-                                            </Button>
+                                            </BlueButton>
                                         ) : (
-                                            <Button
+                                            <RedButton
                                                 variant="outlined"
-                                                color="error"
                                                 onClick={handleRemoveSubject(index)}
                                             >
                                                 Remove
-                                            </Button>
+                                            </RedButton>
                                         )}
                                     </Box>
                                 </Grid>
@@ -193,13 +192,9 @@ const SubjectForm = () => {
                         ))}
                         <Grid item xs={12}>
                             <Box display="flex" justifyContent="flex-end">
-                                <Button variant="contained" color="primary" type="submit" disabled={loader}>
-                                    {loader ? (
-                                        <CircularProgress size={24} color="inherit" />
-                                    ) : (
-                                        'Save'
-                                    )}
-                                </Button>
+                                <PurpleButton variant="contained" type="submit" disabled={loader}>
+                                    {loader ? 'Saving...' : 'Save'}
+                                </PurpleButton>
                             </Box>
                         </Grid>
                         <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />

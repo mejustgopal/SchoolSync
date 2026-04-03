@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { Divider, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Box, Tooltip } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
 import HomeIcon from "@mui/icons-material/Home";
@@ -10,98 +10,171 @@ import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined';
 import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 import ReportIcon from '@mui/icons-material/Report';
+
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+const navItems = [
+    { path: "/",                label: "Home",      Icon: HomeIcon,                      color: "#7f56da" },
+    { path: "/Admin/classes",   label: "Classes",   Icon: ClassOutlinedIcon,             color: "#4f46e5" },
+    { path: "/Admin/subjects",  label: "Subjects",  Icon: AssignmentIcon,                color: "#06b6d4" },
+    { path: "/Admin/teachers",  label: "Teachers",  Icon: SupervisorAccountOutlinedIcon, color: "#10b981" },
+    { path: "/Admin/students",  label: "Students",  Icon: PersonOutlineIcon,             color: "#f59e0b" },
+    { path: "/Admin/notices",   label: "Notices",   Icon: AnnouncementOutlinedIcon,      color: "#ef4444" },
+    { path: "/Admin/complains", label: "Complains", Icon: ReportIcon,                    color: "#ec4899" },
+];
 
-const SideBar = () => {
+const userItems = [
+    { path: "/Admin/profile", label: "Profile", Icon: AccountCircleOutlinedIcon, color: "#7f56da" },
+    { path: "/logout",        label: "Logout",  Icon: ExitToAppIcon,             color: "#ef4444" },
+];
+
+const SideBar = ({ open = true }) => {
     const location = useLocation();
-    
-    // Helper to check active path
+
     const isActive = (path) => {
         if (path === "/") return location.pathname === "/" || location.pathname === "/Admin/dashboard";
         return location.pathname.startsWith(path);
-    }
+    };
 
-    const itemStyles = (path) => ({
-        my: 0.5,
-        mx: 1,
-        borderRadius: 2,
-        backgroundColor: isActive(path) ? 'primary.main' : 'transparent',
-        color: isActive(path) ? 'white' : 'inherit',
-        '&:hover': {
-            backgroundColor: isActive(path) ? 'primary.dark' : 'rgba(0, 0, 0, 0.08)',
-        },
-        '& .MuiListItemIcon-root': {
-            color: isActive(path) ? 'white' : 'inherit',
-        }
-    });
+    const renderItem = ({ path, label, Icon, color }) => {
+        const active = isActive(path);
+
+        const button = (
+            <ListItemButton
+                key={path}
+                component={Link}
+                to={path}
+                sx={{
+                    my: 0.4,
+                    mx: 1,
+                    borderRadius: 3,
+                    minHeight: 44,
+                    justifyContent: open ? 'initial' : 'center',
+                    background: active
+                        ? `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`
+                        : 'transparent',
+                    color: active ? 'white' : 'inherit',
+                    boxShadow: active ? `0 4px 14px ${color}44` : 'none',
+                    transition: 'all 0.18s ease',
+                    '&:hover': {
+                        background: active
+                            ? `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`
+                            : `${color}18`,
+                        color: active ? 'white' : color,
+                        transform: 'translateX(2px)',
+                        '& .MuiListItemIcon-root': { color: active ? 'white' : color },
+                    },
+                    '& .MuiListItemIcon-root': {
+                        color: active ? 'white' : color,
+                        minWidth: open ? 38 : 'unset',
+                        mr: open ? 0 : 'auto',
+                        transition: 'all 0.18s ease',
+                    },
+                    '& .MuiListItemText-primary': {
+                        fontWeight: active ? 700 : 500,
+                        fontSize: '0.875rem',
+                    },
+                }}
+            >
+                <ListItemIcon>
+                    <Icon fontSize="small" />
+                </ListItemIcon>
+                {open && (
+                    <>
+                        <ListItemText primary={label} />
+                        {active && (
+                            <Box sx={{
+                                width: 6, height: 6, borderRadius: '50%',
+                                backgroundColor: 'white',
+                                boxShadow: `0 0 6px white`,
+                                flexShrink: 0,
+                                ml: 0.5,
+                            }} />
+                        )}
+                    </>
+                )}
+            </ListItemButton>
+        );
+
+        // Wrap with Tooltip showing label when collapsed
+        return open ? button : (
+            <Tooltip key={path} title={label} placement="right" arrow>
+                {button}
+            </Tooltip>
+        );
+    };
 
     return (
         <>
+            {/* Brand */}
+            <Box sx={{
+                px: open ? 2.5 : 1,
+                py: 1.5,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: open ? 'flex-start' : 'center',
+                gap: 1,
+                overflow: 'hidden',
+            }}>
+                <Box sx={{
+                    width: 32, height: 32,
+                    borderRadius: 2,
+                    background: 'linear-gradient(135deg, #7f56da, #06b6d4)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(127,86,218,0.4)',
+                    flexShrink: 0,
+                }}>
+                    <span style={{ color: '#fff', fontWeight: 800, fontSize: 14, fontFamily: 'Poppins' }}>S</span>
+                </Box>
+                {open && (
+                    <span style={{
+                        fontWeight: 700, fontSize: '1rem', fontFamily: 'Poppins',
+                        background: 'linear-gradient(135deg,#7f56da,#06b6d4)',
+                        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                        whiteSpace: 'nowrap',
+                    }}>
+                        SchoolSync
+                    </span>
+                )}
+            </Box>
+
+            <Divider sx={{ mx: open ? 2 : 1, my: 0.5, borderColor: 'rgba(127,86,218,0.15)' }} />
+
             <React.Fragment>
-                <ListItemButton component={Link} to="/" sx={itemStyles("/")}>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Home" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/classes" sx={itemStyles("/Admin/classes")}>
-                    <ListItemIcon>
-                        <ClassOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Classes" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/subjects" sx={itemStyles("/Admin/subjects")}>
-                    <ListItemIcon>
-                        <AssignmentIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Subjects" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/teachers" sx={itemStyles("/Admin/teachers")}>
-                    <ListItemIcon>
-                        <SupervisorAccountOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Teachers" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/students" sx={itemStyles("/Admin/students")}>
-                    <ListItemIcon>
-                        <PersonOutlineIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Students" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/notices" sx={itemStyles("/Admin/notices")}>
-                    <ListItemIcon>
-                        <AnnouncementOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Notices" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/complains" sx={itemStyles("/Admin/complains")}>
-                    <ListItemIcon>
-                        <ReportIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Complains" />
-                </ListItemButton>
+                {open && (
+                    <ListSubheader
+                        component="div"
+                        sx={{
+                            background: 'transparent', color: 'text.secondary',
+                            fontSize: '0.65rem', fontWeight: 700, letterSpacing: '1.2px',
+                            textTransform: 'uppercase', lineHeight: '28px', px: 2.5, mt: 0.5,
+                        }}
+                    >
+                        Navigation
+                    </ListSubheader>
+                )}
+                {navItems.map(renderItem)}
             </React.Fragment>
-            <Divider sx={{ my: 1 }} />
+
+            <Divider sx={{ mx: open ? 2 : 1, my: 1, borderColor: 'rgba(127,86,218,0.15)' }} />
+
             <React.Fragment>
-                <ListSubheader component="div" inset>
-                    User
-                </ListSubheader>
-                <ListItemButton component={Link} to="/Admin/profile" sx={itemStyles("/Admin/profile")}>
-                    <ListItemIcon>
-                        <AccountCircleOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Profile" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/logout" sx={itemStyles("/logout")}>
-                    <ListItemIcon>
-                        <ExitToAppIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                </ListItemButton>
+                {open && (
+                    <ListSubheader
+                        component="div"
+                        sx={{
+                            background: 'transparent', color: 'text.secondary',
+                            fontSize: '0.65rem', fontWeight: 700, letterSpacing: '1.2px',
+                            textTransform: 'uppercase', lineHeight: '28px', px: 2.5,
+                        }}
+                    >
+                        Account
+                    </ListSubheader>
+                )}
+                {userItems.map(renderItem)}
             </React.Fragment>
         </>
-    )
-}
+    );
+};
 
-export default SideBar
+export default SideBar;

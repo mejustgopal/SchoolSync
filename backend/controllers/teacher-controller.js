@@ -224,6 +224,44 @@ const teacherAttendance = async (req, res, next) => {
     }
 };
 
+const updateTeacher = async (req, res, next) => {
+    try {
+        const { name, email, password } = req.body;
+        
+        if (email) {
+            const existing = await Teacher.findOne({ email, _id: { $ne: req.params.id } });
+            if (existing) {
+                return res.status(400).json({ message: "Email already in use." });
+            }
+        }
+
+        const updateData = { name, email };
+
+        if (password && password.trim().length > 0) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(password, salt);
+        }
+
+        const updatedTeacher = await Teacher.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            { new: true }
+        )
+        .populate("teachSubject", "subName sessions")
+        .populate("school", "schoolName")
+        .populate("teachSclass", "sclassName");
+
+        if (updatedTeacher) {
+            updatedTeacher.password = undefined;
+            return res.send(updatedTeacher);
+        } else {
+            return res.status(404).json({ message: "Teacher not found" });
+        }
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     teacherRegister,
     teacherLogIn,
@@ -233,5 +271,6 @@ export {
     deleteTeacher,
     deleteTeachers,
     deleteTeachersByClass,
-    teacherAttendance
+    teacherAttendance,
+    updateTeacher
 };

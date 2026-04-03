@@ -32,7 +32,7 @@ const subjectCreate = async (req, res, next) => {
         const result = await Subject.insertMany(newSubjects);
         res.send(result);
     } catch (err) {
-        next(error);
+        next(err);
     }
 };
 

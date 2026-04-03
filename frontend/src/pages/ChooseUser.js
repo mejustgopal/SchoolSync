@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Paper, Box, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography } from '@mui/material';
 import { AccountCircle, School, Group } from '@mui/icons-material';
 import { styled as muiStyled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';

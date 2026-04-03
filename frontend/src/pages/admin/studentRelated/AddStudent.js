@@ -5,8 +5,9 @@ import { registerUser } from '../../../redux/userRelated/userHandle';
 import Popup from '../../../components/Popup';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
-import { CircularProgress, Box, Typography, TextField, Button, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, IconButton } from '@mui/material';
+import { Box, Typography, TextField, Button, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, IconButton } from '@mui/material';
 import GlassCard from '../../../components/GlassCard';
+import { PurpleButton } from '../../../components/buttonStyles';
 import { ROLE_CONSTANTS } from '../../../constants';
 import { validatePassword } from '../../../utils/validation';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -184,26 +185,16 @@ const AddStudent = ({ situation }) => {
                                 }}
                             />
 
-                            <Button
+                            <PurpleButton
                                 fullWidth
                                 size="large"
                                 variant="contained"
                                 type="submit"
                                 disabled={loader}
-                                sx={{
-                                    mt: 2,
-                                    backgroundColor: '#550080',
-                                    '&:hover': {
-                                        backgroundColor: '#3e0061',
-                                    }
-                                }}
+                                sx={{ mt: 2 }}
                             >
-                                {loader ? (
-                                    <CircularProgress size={24} color="inherit" />
-                                ) : (
-                                    'Add'
-                                )}
-                            </Button>
+                                {loader ? 'Adding...' : 'Add'}
+                            </PurpleButton>
                         </Stack>
                     </form>
                 </GlassCard>

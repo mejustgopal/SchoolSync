@@ -11,6 +11,8 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-size: 300% 300%;
+  animation: gradientShift 18s ease infinite;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -22,34 +24,68 @@ a {
   color: inherit;
 }
 
+/* Animated gradient body */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating hero animation */
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-14px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Slide-up entrance animation */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Pulse glow for CTA buttons */
+@keyframes pulseBorder {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(127, 86, 218, 0.4); }
+  50%       { box-shadow: 0 0 0 10px rgba(127, 86, 218, 0); }
+}
+
+/* Subtle pulse ring on hover */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(127, 86, 218, 0.5); }
+  70%  { box-shadow: 0 0 0 12px rgba(127, 86, 218, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(127, 86, 218, 0); }
+}
+
 /* Modern Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(127, 86, 218, 0.05);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: linear-gradient(180deg, #7f56da, #550080);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: linear-gradient(180deg, #9b6fe8, #6a0099);
 }
 
-/* Shake Animation */
+/* Shake Animation (form validation) */
 @keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-5px); }
+  50%  { transform: translateX(5px); }
+  75%  { transform: translateX(-5px); }
   100% { transform: translateX(0); }
 }
 
 .shake {
   animation: shake 0.5s ease-in-out;
-  border-color: #d32f2f !important; /* Material UI Error Red */
+  border-color: #d32f2f !important;
 }

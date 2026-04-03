@@ -17,7 +17,7 @@ import {
 } from '../middleware/validators.js';
 
 import { adminRegister, adminLogIn, getAdminDetail, updateAdmin } from '../controllers/admin-controller.js';
-import { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } from '../controllers/class-controller.js';
+import { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents, getSclassTeachers } from '../controllers/class-controller.js';
 import { complainCreate, complainList, deleteComplain, deleteComplains } from '../controllers/complain-controller.js';
 import { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } from '../controllers/notice-controller.js';
 import {
@@ -37,7 +37,7 @@ import {
     removeStudentAttendance
 } from '../controllers/student_controller.js';
 import { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } from '../controllers/subject-controller.js';
-import { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } from '../controllers/teacher-controller.js';
+import { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance, updateTeacher } from '../controllers/teacher-controller.js';
 
 const router = express.Router();
 
@@ -92,6 +92,8 @@ router.delete("/Teachers/:id", authMiddleware, requireAdmin, idParamValidation, 
 router.delete("/TeachersClass/:id", authMiddleware, requireAdmin, idParamValidation, deleteTeachersByClass)
 router.delete("/Teacher/:id", authMiddleware, requireAdmin, idParamValidation, deleteTeacher)
 
+router.put("/Teacher/:id", authMiddleware, updateTeacher)
+
 router.put("/TeacherSubject", authMiddleware, requireAdmin, updateTeacherSubject)
 
 router.post('/TeacherAttendance/:id', authMiddleware, requireAdmin, teacherAttendance)
@@ -122,6 +124,7 @@ router.post('/SclassCreate', authMiddleware, requireAdmin, sclassCreateValidatio
 router.get('/SclassList/:id', authMiddleware, idParamValidation, sclassList);
 router.get("/Sclass/:id", idParamValidation, getSclassDetail)
 
+router.get("/Sclass/Teachers/:id", authMiddleware, requireAdminOrTeacher, idParamValidation, getSclassTeachers)
 router.get("/Sclass/Students/:id", authMiddleware, requireAdminOrTeacher, idParamValidation, getSclassStudents)
 
 router.delete("/Sclasses/:id", authMiddleware, requireAdmin, idParamValidation, deleteSclasses)

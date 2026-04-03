@@ -147,4 +147,21 @@ const deleteSclasses = async (req, res, next) => {
 };
 
 
-export { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents };
+const getSclassTeachers = async (req, res, next) => {
+    try {
+        let teachers = await Teacher.find({ teachSclass: req.params.id })
+            .populate("teachSubject", "subName")
+        if (teachers.length > 0) {
+            let modifiedTeachers = teachers.map((teacher) => {
+                return { ...teacher._doc, password: undefined };
+            });
+            res.send(modifiedTeachers);
+        } else {
+            res.send([]);
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
+export { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents, getSclassTeachers };
