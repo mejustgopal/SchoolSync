@@ -32,8 +32,8 @@ Built with security, scalability, and a premium glassmorphism design.
 |---|---|---|
 | 🎨 | **Glassmorphism V3 Design** | Premium frosted‑glass cards, animated gradients, and smooth micro‑interactions |
 | 🌙 | **Dark / Light Mode** | Persistent theme toggle with fully themed components |
-| 📊 | **Report Generation** | Export data to **branded PDF** and **Excel** with one click |
-| 🔐 | **Enterprise Security** | JWT auth, bcrypt hashing, Helmet, rate limiting, input sanitization |
+| 📊 | **Attendance Reporting** | Comprehensive subject‑wise attendance analysis with PDF/Excel export |
+| 🔐 | **Enterprise Security** | JWT auth, bcrypt hashing, Helmet, rate limiting, and robust input validation |
 | 📱 | **Fully Responsive** | Optimized layouts for desktop, tablet, and mobile |
 | ⚡ | **ES Modules** | Modern `import/export` syntax across the entire backend |
 | 🛡️ | **Centralized Error Handling** | Global Express error middleware with user‑friendly messages |
@@ -136,6 +136,7 @@ SchoolSync is a comprehensive web application built with the MERN stack, designe
 - 📢 Create and broadcast notices to the entire school
 - 💬 View and manage student complaints
 - 📄 **Export reports to PDF & Excel** (Teachers, Students, Subjects, Classes)
+- 📈 **Subject-wise Attendance Analysis** — Detailed student attendance reports with percentage tracking
 - 🗑️ Bulk delete with cascade protection (students → complaints, classes → subjects → teachers)
 - 📈 Bar charts and pie charts for performance overview
 
@@ -169,7 +170,8 @@ SchoolSync is a comprehensive web application built with the MERN stack, designe
 - Dynamic attendance system (no session limits)
 - Accurate percentage calculations
 - Data integrity with referential cascade deletes
-- Optimized MongoDB queries with selective population
+- **Optimized MongoDB queries** with selective population and compound indexes
+- Optimized performance for large datasets
 
 ---
 
@@ -280,6 +282,7 @@ SchoolSync/
 | PUT | `/RemoveAllStudentsAtten/:id` | Clear all attendance |
 | PUT | `/RemoveStudentSubAtten/:id` | Remove student's subject attendance |
 | PUT | `/RemoveStudentAtten/:id` | Remove student's all attendance |
+| GET | `/AttendanceReport/:id` | **Generate subject-wise attendance report** |
 
 ### Teachers
 | Method | Endpoint | Description |
