@@ -311,6 +311,69 @@ const removeStudentAttendance = async (req, res, next) => {
 };
 
 
+/**
+ * GET /AttendanceReport/:id
+ * Returns all students in a school with their subject-wise attendance summary.
+ */
+const getAttendanceReport = async (req, res, next) => {
+    try {
+        const students = await Student.find({ school: req.params.id })
+            .populate('sclassName', 'sclassName')
+            .populate('attendance.subName', 'subName sessions');
+
+        if (!students || students.length === 0) {
+            return res.status(404).json({ message: 'No students found' });
+        }
+
+        const report = students.map((student) => {
+            // Group attendance by subject
+            const subjectMap = {};
+            (student.attendance || []).forEach((record) => {
+                if (!record.subName) return;
+                const subId = record.subName._id?.toString();
+                const subName = record.subName.subName || 'Unknown';
+                const sessions = parseInt(record.subName.sessions) || 0;
+
+                if (!subjectMap[subId]) {
+                    subjectMap[subId] = { subName, sessions, present: 0, absent: 0 };
+                }
+                if (record.status === 'Present') subjectMap[subId].present++;
+                else subjectMap[subId].absent++;
+            });
+
+            const subjects = Object.values(subjectMap).map((s) => ({
+                subName: s.subName,
+                sessions: s.sessions,
+                present: s.present,
+                absent: s.absent,
+                percentage: s.sessions > 0 ? ((s.present / s.sessions) * 100).toFixed(2) : '0.00',
+            }));
+
+            // Overall
+            const totalSessions = subjects.reduce((acc, s) => acc + s.sessions, 0);
+            const totalPresent = subjects.reduce((acc, s) => acc + s.present, 0);
+            const overallPercentage = totalSessions > 0
+                ? ((totalPresent / totalSessions) * 100).toFixed(2)
+                : '0.00';
+
+            return {
+                _id: student._id,
+                name: student.name,
+                rollNum: student.rollNum,
+                className: student.sclassName?.sclassName || 'N/A',
+                subjects,
+                totalSessions,
+                totalPresent,
+                overallPercentage,
+            };
+        });
+
+        res.json(report);
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     studentRegister,
     studentLogIn,
@@ -327,4 +390,5 @@ export {
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
     removeStudentAttendance,
+    getAttendanceReport,
 };

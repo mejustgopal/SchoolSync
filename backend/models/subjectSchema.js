@@ -37,6 +37,6 @@ const subjectSchema = new mongoose.Schema({
 subjectSchema.index({ sclassName: 1 });
 subjectSchema.index({ school: 1 });
 subjectSchema.index({ teacher: 1 });
-subjectSchema.index({ subCode: 1 }, { unique: true });
+subjectSchema.index({ subCode: 1, school: 1 }, { unique: true });
 
 export default mongoose.model("subject", subjectSchema);

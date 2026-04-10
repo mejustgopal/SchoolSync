@@ -23,6 +23,7 @@ import ShowStudents from './studentRelated/ShowStudents';
 import StudentAttendance from './studentRelated/StudentAttendance';
 import StudentExamMarks from './studentRelated/StudentExamMarks';
 import ViewStudent from './studentRelated/ViewStudent';
+import AttendanceReport from './studentRelated/AttendanceReport';
 
 import AddNotice from './noticeRelated/AddNotice';
 import ShowNotices from './noticeRelated/ShowNotices';
@@ -133,6 +134,7 @@ const AdminDashboard = () => {
                         <Route path="/Admin/students/student/:id" element={<ViewStudent />} />
                         <Route path="/Admin/students/student/attendance/:id" element={<StudentAttendance situation={ROLE_CONSTANTS.STUDENT} />} />
                         <Route path="/Admin/students/student/marks/:id" element={<StudentExamMarks situation={ROLE_CONSTANTS.STUDENT} />} />
+                        <Route path="/Admin/attendance-report" element={<AttendanceReport />} />
 
                         {/* Teacher */}
                         <Route path="/Admin/teachers" element={<ShowTeachers />} />

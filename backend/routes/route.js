@@ -11,9 +11,13 @@ import {
     adminLoginValidation,
     subjectCreateValidation,
     noticeCreateValidation,
+    noticeUpdateValidation,
     complainCreateValidation,
     sclassCreateValidation,
-    idParamValidation
+    idParamValidation,
+    studentAttendanceValidation,
+    examResultValidation,
+    studentUpdateValidation,
 } from '../middleware/validators.js';
 
 import { adminRegister, adminLogIn, getAdminDetail, updateAdmin } from '../controllers/admin-controller.js';
@@ -34,7 +38,8 @@ import {
     clearAllStudentsAttendanceBySubject,
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
-    removeStudentAttendance
+    removeStudentAttendance,
+    getAttendanceReport
 } from '../controllers/student_controller.js';
 import { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } from '../controllers/subject-controller.js';
 import { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance, updateTeacher } from '../controllers/teacher-controller.js';
@@ -68,17 +73,19 @@ router.delete("/Students/:id", authMiddleware, requireAdmin, idParamValidation, 
 router.delete("/StudentsClass/:id", authMiddleware, requireAdmin, idParamValidation, deleteStudentsByClass)
 router.delete("/Student/:id", authMiddleware, requireAdmin, idParamValidation, deleteStudent)
 
-router.put("/Student/:id", authMiddleware, updateStudent)
+router.put("/Student/:id", authMiddleware, studentUpdateValidation, updateStudent)
 
-router.put('/UpdateExamResult/:id', authMiddleware, requireAdminOrTeacher, updateExamResult)
+router.put('/UpdateExamResult/:id', authMiddleware, requireAdminOrTeacher, examResultValidation, updateExamResult)
 
-router.put('/StudentAttendance/:id', authMiddleware, requireAdminOrTeacher, studentAttendance)
+router.put('/StudentAttendance/:id', authMiddleware, requireAdminOrTeacher, studentAttendanceValidation, studentAttendance)
 
 router.put('/RemoveAllStudentsSubAtten/:id', authMiddleware, requireAdmin, clearAllStudentsAttendanceBySubject);
 router.put('/RemoveAllStudentsAtten/:id', authMiddleware, requireAdmin, clearAllStudentsAttendance);
 
 router.put('/RemoveStudentSubAtten/:id', authMiddleware, requireAdmin, removeStudentAttendanceBySubject);
 router.put('/RemoveStudentAtten/:id', authMiddleware, requireAdmin, removeStudentAttendance)
+
+router.get('/AttendanceReport/:id', authMiddleware, requireAdmin, idParamValidation, getAttendanceReport);
 
 // Teacher
 
@@ -107,7 +114,7 @@ router.get('/NoticeList/:id', authMiddleware, idParamValidation, noticeList);
 router.delete("/Notices/:id", authMiddleware, requireAdmin, idParamValidation, deleteNotices)
 router.delete("/Notice/:id", authMiddleware, requireAdmin, idParamValidation, deleteNotice)
 
-router.put("/Notice/:id", authMiddleware, requireAdmin, updateNotice)
+router.put("/Notice/:id", authMiddleware, requireAdmin, noticeUpdateValidation, updateNotice)
 
 // Complain
 

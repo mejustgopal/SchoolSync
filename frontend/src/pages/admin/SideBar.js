@@ -12,15 +12,17 @@ import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccount
 import ReportIcon from '@mui/icons-material/Report';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 const navItems = [
-    { path: "/",                label: "Home",      Icon: HomeIcon,                      color: "#7f56da" },
-    { path: "/Admin/classes",   label: "Classes",   Icon: ClassOutlinedIcon,             color: "#4f46e5" },
-    { path: "/Admin/subjects",  label: "Subjects",  Icon: AssignmentIcon,                color: "#06b6d4" },
-    { path: "/Admin/teachers",  label: "Teachers",  Icon: SupervisorAccountOutlinedIcon, color: "#10b981" },
-    { path: "/Admin/students",  label: "Students",  Icon: PersonOutlineIcon,             color: "#f59e0b" },
-    { path: "/Admin/notices",   label: "Notices",   Icon: AnnouncementOutlinedIcon,      color: "#ef4444" },
-    { path: "/Admin/complains", label: "Complains", Icon: ReportIcon,                    color: "#ec4899" },
+    { path: "/",                        label: "Home",               Icon: HomeIcon,                      color: "#7f56da" },
+    { path: "/Admin/classes",           label: "Classes",            Icon: ClassOutlinedIcon,             color: "#4f46e5" },
+    { path: "/Admin/subjects",          label: "Subjects",           Icon: AssignmentIcon,                color: "#06b6d4" },
+    { path: "/Admin/teachers",          label: "Teachers",           Icon: SupervisorAccountOutlinedIcon, color: "#10b981" },
+    { path: "/Admin/students",          label: "Students",           Icon: PersonOutlineIcon,             color: "#f59e0b" },
+    { path: "/Admin/attendance-report", label: "Attendance Report",  Icon: AssessmentIcon,                color: "#8b5cf6" },
+    { path: "/Admin/notices",           label: "Notices",            Icon: AnnouncementOutlinedIcon,      color: "#ef4444" },
+    { path: "/Admin/complains",         label: "Complains",          Icon: ReportIcon,                    color: "#ec4899" },
 ];
 
 const userItems = [

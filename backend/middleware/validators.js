@@ -63,10 +63,10 @@ const adminLoginValidation = [
 
 // Subject validation
 const subjectCreateValidation = [
-    body('subjects').isArray().withMessage('Subjects must be an array'),
+    body('subjects').isArray({ min: 1 }).withMessage('Subjects must be a non-empty array'),
     body('subjects.*.subName').trim().notEmpty().withMessage('Subject name is required'),
     body('subjects.*.subCode').trim().notEmpty().withMessage('Subject code is required'),
-    body('subjects.*.sessions').notEmpty().withMessage('Sessions is required'),
+    body('subjects.*.sessions').isInt({ min: 1 }).withMessage('Sessions must be a positive integer'),
     body('sclassName').notEmpty().withMessage('Class is required'),
     body('adminID').notEmpty().withMessage('Admin ID is required'),
     validate
@@ -77,6 +77,14 @@ const noticeCreateValidation = [
     body('title').trim().notEmpty().withMessage('Title is required'),
     body('details').trim().notEmpty().withMessage('Details are required'),
     body('date').isISO8601().withMessage('Invalid date format'),
+    validate
+];
+
+// Notice update validation
+const noticeUpdateValidation = [
+    body('title').optional().trim().notEmpty().withMessage('Title cannot be empty'),
+    body('details').optional().trim().notEmpty().withMessage('Details cannot be empty'),
+    body('date').optional().isISO8601().withMessage('Invalid date format'),
     validate
 ];
 
@@ -95,6 +103,29 @@ const sclassCreateValidation = [
     validate
 ];
 
+// Student attendance validation
+const studentAttendanceValidation = [
+    body('subName').notEmpty().withMessage('Subject ID is required'),
+    body('status').isIn(['Present', 'Absent']).withMessage('Status must be "Present" or "Absent"'),
+    body('date').isISO8601().withMessage('Valid date is required'),
+    validate
+];
+
+// Exam result validation
+const examResultValidation = [
+    body('subName').notEmpty().withMessage('Subject ID is required'),
+    body('marksObtained').isFloat({ min: 0, max: 100 }).withMessage('Marks must be between 0 and 100'),
+    validate
+];
+
+// Student profile update validation (all fields optional)
+const studentUpdateValidation = [
+    body('name').optional().trim().notEmpty().withMessage('Name cannot be empty'),
+    body('rollNum').optional().isInt({ min: 1 }).withMessage('Roll number must be a positive integer'),
+    body('password').optional().isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    validate
+];
+
 // ID parameter validation
 const idParamValidation = [
     param('id').isMongoId().withMessage('Invalid ID format'),
@@ -110,8 +141,12 @@ export {
     adminLoginValidation,
     subjectCreateValidation,
     noticeCreateValidation,
+    noticeUpdateValidation,
     complainCreateValidation,
     sclassCreateValidation,
     idParamValidation,
+    studentAttendanceValidation,
+    examResultValidation,
+    studentUpdateValidation,
     validate
 };
