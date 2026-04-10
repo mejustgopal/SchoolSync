@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import axiosInstance from '../../../api/axiosInstance';
 import {
     Box, Typography, Table, TableBody, TableHead, Tooltip,
     Chip, MenuItem, Select, FormControl, InputLabel,
@@ -71,10 +71,8 @@ const AttendanceReport = () => {
     /* Fetch report */
     useEffect(() => {
         const token = currentUser?.token;
-        axios
-            .get(`${process.env.REACT_APP_BASE_URL}/AttendanceReport/${currentUser._id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
+        axiosInstance
+            .get(`/AttendanceReport/${currentUser._id}`)
             .then((res) => { setReportData(res.data); setLoading(false); })
             .catch((err) => {
                 setError(err.response?.data?.message || 'Failed to load attendance report.');
