@@ -37,6 +37,7 @@ const sclassList = async (req, res, next) => {
             res.send([]);
         }
     } catch (err) {
+        console.error("Error in sclassList:", err);
         next(err);
     }
 };

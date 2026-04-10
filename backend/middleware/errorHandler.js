@@ -33,10 +33,10 @@ const errorHandler = (err, req, res, next) => {
         statusCode = 400;
     }
 
-    // Don't expose internal errors in production
-    if (process.env.NODE_ENV === 'production' && statusCode === 500) {
+    // Don't expose internal errors in production - TEMPORARILY DISABLED FOR DEBUGGING
+    /* if (process.env.NODE_ENV === 'production' && statusCode === 500) {
         message = 'Internal server error';
-    }
+    } */
 
     // Send error response
     res.status(statusCode).json({
