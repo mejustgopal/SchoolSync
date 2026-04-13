@@ -7,7 +7,7 @@ This document provides the structured content for your Level-1 PPT presentation.
 ## Slide 1: Project Title
 **Project Title:** SchoolSync  
 **Subtitle:** The Complete Digital Solution for Modern Education  
-**Presented by:** [Your Name]  
+**Presented by:** [GOPAL KUMAR SINGH]  
 **Technology Stack:** MongoDB, Express.js, React.js, Node.js
 
 ---
